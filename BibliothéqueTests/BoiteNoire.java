@@ -1,5 +1,5 @@
 package BibliothéqueTests;
 
-public class BoiteNoire {
+public class BoiteNoire extends Test {
     
 }
