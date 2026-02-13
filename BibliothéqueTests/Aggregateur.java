@@ -1,5 +1,5 @@
 package BibliothéqueTests;
 
-public class Aggregation {
+public class Aggregateur {
     
 }
