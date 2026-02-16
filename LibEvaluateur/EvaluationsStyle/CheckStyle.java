@@ -18,5 +18,5 @@ public class CheckStyle extends EvaluateurStyle {
     protected void ResultsToTAP(){
     }
 
-    public abstract void run(String[] args);
+    public abstract void run();
 }
