@@ -95,6 +95,7 @@ public class CheckStyle extends EvaluateurStyle {
     protected void ResultsToTAP(){
     }
 
+<<<<<<< HEAD
     /**
      * Launch the test and add the results to testResults
      * and resultat
@@ -136,4 +137,7 @@ public class CheckStyle extends EvaluateurStyle {
         //destroying the checker so that the listener won't remain
         checker.destroy();
     }
+=======
+    public abstract void run();
+>>>>>>> 6f7cbef (mie à jour avec main et suppression de LibEvaluateur/EvaluationsStyle/asupprimer)
 }
