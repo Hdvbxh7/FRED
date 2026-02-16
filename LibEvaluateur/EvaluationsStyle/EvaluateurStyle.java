@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package LibEvaluateur.EvaluationsStyle;
 
 import LibEvaluateur.Evaluateur;
@@ -19,4 +20,10 @@ public abstract class EvaluateurStyle extends Evaluateur {
 
  public abstract void run();
 
+=======
+package LibEvaluateur;
+
+public class EvaluateurStyle extends Evaluateur {
+    
+>>>>>>> daa3d7c (Classes Abstraites de la lib bougée dans leur fichier respectifs)
 }
