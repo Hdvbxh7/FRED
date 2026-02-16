@@ -1,0 +1,13 @@
+{
+    "java.project.sourcePaths": [
+        ".",
+        "TP01"
+    ],
+    "java.project.referencedLibraries": [
+        "libs/junit-platform-launcher-1.6.0.jar",
+        "libs/junit-platform-commons-1.6.0.jar",
+        "/home/gutierrez/FRED/FRED/libs/junit4.jar",
+        "/home/gutierrez/FRED/FRED/libs/junit-platform-engine-1.6.0.jar"
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
+}

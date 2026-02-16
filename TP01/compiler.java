@@ -5,6 +5,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
 
+import org.junit.platform.commons.util.PreconditionViolationException;
+import org.junit.platform.engine.discovery.DiscoverySelectors;
+import org.junit.platform.engine.discovery.FileSelector;
+import org.junit.platform.launcher.*;
+import org.junit.platform.launcher.core.*;
+import org.junit.platform.launcher.listeners.*;
+
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
@@ -54,12 +61,33 @@ public class compiler {
             String warning = "Warning.java";
             String noCompile = "NoCompile.java";
             String pointTest = "PointTest.java";
-            BufferedWriter out=new BufferedWriter(new FileWriter("log"));    
+            BufferedWriter out=new BufferedWriter(new FileWriter("log"));   
             ourJCompiler(out,warning,null);   
             ourJCompiler(out,noCompile,null);  
-            ourJCompiler(out,pointTest,"junit4.jar:.");     
+            ourJCompiler(out,pointTest,"junit4.jar:."); 
+            FileSelector File = null;
+            try {
+                File = DiscoverySelectors.selectFile("/home/gutierrez/FRED/FRED/TP01/Tests/PointTest.class");
+            } catch (PreconditionViolationException e) {
+                e.printStackTrace();
+            }
+            LauncherDiscoveryRequest request =
+            LauncherDiscoveryRequestBuilder.request().selectors(File).build();
+
+            Launcher launcher = LauncherFactory.create();
+
+            TestExecutionListener listener = new SummaryGeneratingListener();
+            launcher.registerTestExecutionListeners(listener);
+
+            launcher.execute(request);
+
+            TestExecutionSummary summary =
+                ((SummaryGeneratingListener) listener).getSummary();
+     
             commande(RunCheckStyle,out);
-            commande(runJunitTest,out);
+            out.write("Tests trouvés : " + summary.getTestsFoundCount());
+            out.write("Tests réussis : " + summary.getTestsSucceededCount());
+            out.write("Tests échoués : " + summary.getTestsFailedCount());
             out.flush();
             out.close();
          } catch (Exception e) {

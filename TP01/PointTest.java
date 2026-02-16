@@ -1,5 +1,5 @@
 import java.awt.Color;
-import org.junit.*;
+import org.junit.jupiter.*;
 import static org.junit.Assert.*;
 
 /** Programme de test de la classe Point.
