@@ -16,7 +16,7 @@ public abstract class Evaluateur {
 
  protected abstract void ResultsToTAP();
 
- public abstract void run(String[] args);
+ public abstract void run();
 
     
 }
