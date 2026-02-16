@@ -62,6 +62,7 @@ public class CheckStyle extends EvaluateurStyle {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     public void run(){
     Checker checker = new Checker();
     checker.setModuleClassLoader(Checker.class.getClassLoader());
@@ -92,4 +93,9 @@ public class CheckStyle extends EvaluateurStyle {
 =======
     public abstract void run();
 >>>>>>> 5df73ba (mie à jour avec main et suppression de LibEvaluateur/EvaluationsStyle/asupprimer)
+=======
+    public void run(){
+        
+    }
+>>>>>>> 9ada0f2 (fin du setup)
 }
