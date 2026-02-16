@@ -96,6 +96,7 @@ public class CheckStyle extends EvaluateurStyle {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     /**
      * Launch the test and add the results to testResults
      * and resultat
@@ -140,4 +141,9 @@ public class CheckStyle extends EvaluateurStyle {
 =======
     public abstract void run();
 >>>>>>> 6f7cbef (mie à jour avec main et suppression de LibEvaluateur/EvaluationsStyle/asupprimer)
+=======
+    public void run(){
+        
+    }
+>>>>>>> b268ee3 (fin du setup)
 }
