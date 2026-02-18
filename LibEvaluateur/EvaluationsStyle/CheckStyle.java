@@ -1,9 +1,13 @@
 package LibEvaluateur.EvaluationsStyle;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -95,8 +99,6 @@ public class CheckStyle extends EvaluateurStyle {
     protected void ResultsToTAP(){
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     /**
      * Launch the test and add the results to testResults
      * and resultat
@@ -118,14 +120,40 @@ public class CheckStyle extends EvaluateurStyle {
                 e.printStackTrace();
         }
 
-        //disable the hakt on exception
+        //disable the halt on exception
         checker.setHaltOnException(false);
 
-        // logger vers la console
-        DefaultLogger logger =
-            new DefaultLogger(System.out, com.puppycrawl.tools.checkstyle.api.AutomaticBean.OutputStreamOptions.NONE);
+        // logger vers le fichier logCheckstyle.txt
+        File checkstyleLog = new File("logCheckstyle.txt");
+        try {
+            PrintStream resultPrintStream = new PrintStream(checkstyleLog);
+            DefaultLogger logger =
+                new DefaultLogger(resultPrintStream, com.puppycrawl.tools.checkstyle.api.AutomaticBean.OutputStreamOptions.CLOSE);
+            checker.addListener(logger);
+        } catch (FileNotFoundException e) {
+           System.out.println("error during log creation");
+        }
 
-        checker.addListener(logger);
+        //écriture de logCheckstyle.txt
+        try {
+            InputStream is = new FileInputStream(checkstyleLog);
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader buffer = new BufferedReader(isr);
+
+            String line = buffer.readLine();
+            StringBuilder builder = new StringBuilder();
+        
+            while(line != null){
+                builder.append(line).append("\n");
+                line = buffer.readLine();
+            }
+            resultat = builder.toString();
+            buffer.close();
+            isr.close();
+            is.close();
+        } catch (IOException e) {
+            System.out.println("error during the writing of log in resultat");
+        }
 
         //launching test
         try {
