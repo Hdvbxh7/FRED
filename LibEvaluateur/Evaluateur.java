@@ -14,9 +14,9 @@ public abstract class Evaluateur {
     return testsResultat;
     }
 
- protected abstract void ResutltatVersTAP();
+ protected abstract void ResultatVersTAP(String SortieTest);
 
- public abstract void evaluer();
+ public abstract void evaluer() throws Exception;
 
     
 }
