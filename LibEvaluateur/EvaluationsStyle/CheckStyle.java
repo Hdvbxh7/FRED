@@ -96,14 +96,14 @@ public class CheckStyle extends EvaluateurStyle {
         return testsResults;
     }
 
-    protected void ResultsToTAP(){
+    protected void ResultatVersTAP(){
     }
 
     /**
      * Launch the test and add the results to testResults
      * and resultat
      */
-    public void run(){
+    public void evaluer(){
 
         //creating checker
         Checker checker = new Checker();
@@ -111,9 +111,16 @@ public class CheckStyle extends EvaluateurStyle {
 
         //creating configuration file
         try {
-            Configuration config = ConfigurationLoader.loadConfiguration(
+            Configuration config = null;
+            if (PropertiesToUse==null) {
+                config = ConfigurationLoader.loadConfiguration(
+                CheckstyleToUse.getAbsolutePath(),
+                new PropertiesExpander(new Properties()));
+            } else {
+                config = ConfigurationLoader.loadConfiguration(
                 CheckstyleToUse.getAbsolutePath(),
                 new PropertiesExpander(PropertiesToUse));
+            }
             checker.configure(config);
         } catch (CheckstyleException e) {
                 System.out.println("error during the creation of configuration");
@@ -132,6 +139,14 @@ public class CheckStyle extends EvaluateurStyle {
             checker.addListener(logger);
         } catch (FileNotFoundException e) {
            System.out.println("error during log creation");
+        }
+
+        //launching test
+        try {
+            checker.process(FilesToCheck);
+        } catch (CheckstyleException e) {
+            System.out.print("error during the Tests");
+            e.printStackTrace();
         }
 
         //écriture de logCheckstyle.txt
@@ -153,14 +168,6 @@ public class CheckStyle extends EvaluateurStyle {
             is.close();
         } catch (IOException e) {
             System.out.println("error during the writing of log in resultat");
-        }
-
-        //launching test
-        try {
-            checker.process(FilesToCheck);
-        } catch (CheckstyleException e) {
-            System.out.print("error during the Tests");
-            e.printStackTrace();
         }
 
         //destroying the checker so that the listener won't remain
