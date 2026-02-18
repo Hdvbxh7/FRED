@@ -1,4 +1,4 @@
-public class superviseur {
+public class Superviseur {
 
     private void scenario(){
         //Test Scenario
