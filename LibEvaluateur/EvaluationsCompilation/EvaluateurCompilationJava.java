@@ -14,7 +14,7 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
 
     protected List<File> fichiers = new ArrayList<File>();
 
-    public EvaluateurCompilationJava() {
+    public EvaluateurCompilationJava() { 
         super();
     }
 
