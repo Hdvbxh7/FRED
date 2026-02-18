@@ -2,21 +2,21 @@ package LibEvaluateur;
 
 public abstract class Evaluateur {
     
- private String result;
+ private String resultat;
 
- public String getResult() {
-    return result;
+ public String getResultat() {
+    return resultat;
     }
 
- private Boolean[] testsResults;
+ private Boolean[] testsResultat;
 
- public Boolean[] getTestsResults() {
+ public Boolean[] getTestsResultat() {
     return testsResults;
     }
 
- protected abstract void ResultsToTAP();
+ protected abstract void ResutlatVersTAP();
 
- public abstract void run();
+ public abstract void evaluate();
 
     
 }
