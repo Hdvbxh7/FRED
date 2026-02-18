@@ -8,15 +8,15 @@ public abstract class Evaluateur {
     return resultat;
     }
 
- private Boolean[] testsResults;
+ private Boolean[] testsResultat;
 
- public Boolean[] getTestsResults() {
+ public Boolean[] getTestsResultat() {
     return testsResults;
     }
 
- protected abstract void ResultsToTAP();
+ protected abstract void ResutltatVersTAP();
 
- public abstract void run();
+ public abstract void evaluer();
 
     
 }
