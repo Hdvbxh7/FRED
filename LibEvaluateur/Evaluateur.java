@@ -14,7 +14,7 @@ public abstract class Evaluateur {
     return testsResults;
     }
 
- protected abstract void ResutlatVersTAP();
+ protected abstract void ResutltatVersTAP();
 
  public abstract void evaluer();
 
