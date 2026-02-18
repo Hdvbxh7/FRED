@@ -2,10 +2,10 @@ package LibEvaluateur;
 
 public abstract class Evaluateur {
     
- private String resultat;
+ private String result;
 
- public String getResultat() {
-    return resultat;
+ public String getResult() {
+    return result;
     }
 
  private Boolean[] testsResults;
