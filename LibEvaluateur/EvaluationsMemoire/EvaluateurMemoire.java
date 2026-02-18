@@ -1,8 +1,14 @@
 package LibEvaluateur.EvaluationsMemoire;
 
+import java.io.File;
+import java.util.List;
+import java.util.ArrayList;
+
 import LibEvaluateur.Evaluateur;
 
-public class EvaluateurMemoire extends Evaluateur {
+public abstract class EvaluateurMemoire extends Evaluateur {
+
+    protected List<File> fichiers = new ArrayList<File>();
 
     public EvaluateurMemoire() {
         super();
@@ -16,13 +22,11 @@ public class EvaluateurMemoire extends Evaluateur {
         return testsResultat;
     }
 
-    protected void ResutltatVersTAP() {
+    protected abstract void resultatVersTAP(String SortieTest);
 
-    }
+    public abstract void evaluer() throws Exception;
 
-    public void evaluer() {
-
-    }
+}
 
     
-}
+
