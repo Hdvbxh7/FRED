@@ -16,7 +16,7 @@ public abstract class Evaluateur {
 
  protected abstract void ResutlatVersTAP();
 
- public abstract void evaluate();
+ public abstract void evaluer();
 
     
 }
