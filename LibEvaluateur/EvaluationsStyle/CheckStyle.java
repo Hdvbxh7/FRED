@@ -96,14 +96,14 @@ public class CheckStyle extends EvaluateurStyle {
         return testsResults;
     }
 
-    protected void ResultsToTAP(){
+    protected void ResultatVersTAP(){
     }
 
     /**
      * Launch the test and add the results to testResults
      * and resultat
      */
-    public void run(){
+    public void evaluer(){
 
         //creating checker
         Checker checker = new Checker();
