@@ -2,16 +2,16 @@ package LibEvaluateur;
 
 public abstract class Evaluateur {
     
- private String resultat;
+ protected String resultat;
 
  public String getResultat() {
     return resultat;
     }
 
- private Boolean[] testsResultat;
+ protected Boolean[] testsResultat;
 
  public Boolean[] getTestsResultat() {
-    return testsResults;
+    return testsResultat;
     }
 
  protected abstract void ResutltatVersTAP();
