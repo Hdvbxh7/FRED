@@ -1,5 +1,5 @@
 package LibEvaluateur;
 
-public class EvaluateurCompilation extends Evaluateur {
+public class EvaluateurUnitaire extends Evaluateur {
     
 }
