@@ -138,12 +138,5 @@ public class CheckStyle extends EvaluateurStyle {
         //destroying the checker so that the listener won't remain
         checker.destroy();
     }
-=======
-    public abstract void run();
->>>>>>> 6f7cbef (mie à jour avec main et suppression de LibEvaluateur/EvaluationsStyle/asupprimer)
-=======
-    public void run(){
-        
-    }
->>>>>>> b268ee3 (fin du setup)
+
 }
