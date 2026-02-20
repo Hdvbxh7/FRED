@@ -3,8 +3,7 @@ import java.util.GregorianCalendar;
 
 public class Superviseur {
 
-    private static final String gitPath = "https://github.com/Hdvbxh7/testJGit.git";
-    private static final Integer waitTiming = 1000;
+    private static final String gitPath = "https://hudson.inp-toulouse.fr/projects_group/2023-1sn-tob/1sn-e/tgz8009/tp.git";
     private static final GregorianCalendar endOfEvaluation = new GregorianCalendar(2026,GregorianCalendar.FEBRUARY,19,21,54);
     private static void scenario(File dossierEtudiant){
         //Test Scenario
@@ -12,11 +11,11 @@ public class Superviseur {
     
     public static void main(String[] args) {
         //création du repo Git
-        //AppelGit Git = new AppelGit(gitPath);
+        AppelGit Git = new AppelGit(gitPath);
 
         //récupération des dossiers étudiants
         File repoEleve = new File("studentRepo");
-        File[] dossierEleves = repoEleve.listFiles(new DossFilter());
+        File[] dossierEleves = repoEleve.listFiles(new DossFilter("TP01"));
         for(File dossier:dossierEleves){
                 scenario(dossier);
         }

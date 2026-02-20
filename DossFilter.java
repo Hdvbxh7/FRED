@@ -4,6 +4,12 @@ import java.io.FileFilter;
 
 public class DossFilter implements FileFilter{
 
+    String dossName;
+
+    DossFilter(String name){
+        dossName = name;
+    }
+
     /**
      * Tests whether or not the specified abstract pathname should be
      * included in a pathname list.
@@ -13,7 +19,7 @@ public class DossFilter implements FileFilter{
      *          should be included
      */
     public boolean accept(File pathname){
-        return pathname.isDirectory() && !(pathname.getName().equals(".git"));
+        return pathname.isDirectory() && (pathname.getName().equals(dossName));
     }
 }
 

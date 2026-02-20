@@ -1,5 +1,9 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
@@ -8,6 +12,7 @@ import org.eclipse.jgit.api.RebaseResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 
 public class AppelGit {
@@ -19,6 +24,41 @@ public class AppelGit {
     Git studentGit;
     /** Dossier Local qui contiient les repos */
     final File localDir = new File("studentRepo");
+
+    private String content(File file){
+        try {
+            InputStream is = new FileInputStream(file);
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader buffer = new BufferedReader(isr);
+
+            String line = buffer.readLine();
+            StringBuilder builder = new StringBuilder();
+        
+            while(line != null){
+                builder.append(line).append("\n");
+                line = buffer.readLine();
+            }
+            buffer.close();
+            isr.close();
+            is.close();
+            return builder.toString();
+        } catch (IOException e) {
+            System.out.println("error during the reading of log in resultat");
+            return null;
+        }
+    }
+
+    private void destroyFile(File file){
+        if(file.isDirectory()){
+            File[] fichierASupprimer = file.listFiles();
+            for(File fichier:fichierASupprimer){
+                destroyFile(fichier);
+            }
+            file.delete();
+        } else{
+            file.delete();
+        }
+    }
     
     //constructeur
     /**
@@ -29,14 +69,21 @@ public class AppelGit {
     AppelGit(String gitUrl){
         try {
             // vérifie si le dossier local existe et le supprime sinon
-            if (!localDir.exists()) {
+            if (localDir.exists()) {
+                destroyFile(localDir);
+                localDir.mkdirs();
+            } else{
                 localDir.mkdirs();
             }
+            String usermdp = content(new File("mdpGitlab.txt"));
+            String[] info = usermdp.split(":");          
 
             //clonage du repository
+            File studentDir = new File(localDir.getCanonicalPath()+"/student1");
+            studentDir.mkdirs();
             studentGit = Git.cloneRepository()
-                    .setURI(gitUrl)
-                    .setDirectory(localDir)
+                    .setURI(gitUrl).setCredentialsProvider(new UsernamePasswordCredentialsProvider(info[0], info[1]))
+                    .setDirectory(studentDir)
                     .call();
             
             //récupération du repository local dans la classe
@@ -45,7 +92,9 @@ public class AppelGit {
         } catch (GitAPIException e) {
             System.out.println("erreur lié au clonage du git");
             e.printStackTrace();
-        } 
+        } catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -53,7 +102,7 @@ public class AppelGit {
      */
     public void destroy(){
         studentRepos.close();
-        localDir.mkdirs();
+        localDir.delete();
     }
 
     /**
