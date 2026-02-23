@@ -6,15 +6,18 @@ import java.io.File;
  */
 public class SuperviseurGit {
 
-    /** Dossier Local qui contiient les repos */
+    /** Dossier Local qui contient les repos */
     final static File localDir = new File("studentRepo");
+     /** Dossier Local qui contient les résultats */
+    final static File resultDir = new File("resultats");
 
     public static void main(String[] args) {
         //création du dossier qui contient le repo
-        if (localDir.exists()) {
-            AppelGit.destroyFile(localDir);
+        if (!localDir.exists()) {
             localDir.mkdirs();
-        } else{
+        }
+        //création du dossier qui contient les résultats
+        if (!localDir.exists()) {
             localDir.mkdirs();
         }
 

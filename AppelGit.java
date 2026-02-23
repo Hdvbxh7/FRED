@@ -5,11 +5,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.eclipse.jgit.api.AddCommand;
+import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.LogCommand;
+import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.PullResult;
-import org.eclipse.jgit.api.RebaseResult;
+import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
@@ -54,7 +58,7 @@ public class AppelGit {
             String[] info = usermdp.split(":");
             utilisateur = info[0];
             motDePasse = info[1];
-            if(!(new File(doss.getCanonicalPath()+"/"+Scenario.projet)).exists()){
+            if(!(new File(doss.getCanonicalPath()+Scenario.projet)).exists()){
                 try {    
                     //clonage du repository
                     studentGit = Git.cloneRepository()
@@ -86,7 +90,7 @@ public class AppelGit {
                 //Il y a des conflits
                 if(statut == pullStatut.CONFLIT){
                     //suppression du dossier de l'éléve
-                    doss.delete();
+                    destroyFile(doss);
 
                     //clonage du Git
                     studentGit = Git.cloneRepository()
@@ -182,18 +186,28 @@ public class AppelGit {
     */
     public boolean needTesting(long dateDernierTest){
         try {
+            //récupére le chemin du projet
+            String logPath = Scenario.projet;
 
+            //enléve le slash d'ouverture de dossier
+            if(logPath.charAt(0)=='/'){
+                logPath = logPath.substring(1);
+            }
             //a commande log de Git
-            LogCommand logs = studentGit.log().addPath(Scenario.projet);
+            LogCommand logs = studentGit.log().addPath(logPath);
             //On appellle la commande log
             Iterable<RevCommit> lastCommits = logs.call();
             //On récupére le premier commit et on vérifie la date
             for (RevCommit revCommit : lastCommits) {
-                System.out.println(revCommit.getAuthorIdent());
-                //vérifie si le commit a eu lieu après le dernier test
-                return (((long)revCommit.getCommitTime())*1000)>dateDernierTest;
+                System.out.println(revCommit.getCommitTime());
+                System.out.println(revCommit.getAuthorIdent().getName());
+                //vérifie que le dernier push n'est pas réalisé par l"évaluateur
+                if(!revCommit.getAuthorIdent().getName().equals("évaluateur")){
+                    //vérifie si le commit a eu lieu après le dernier test
+                    return (((long)revCommit.getCommitTime())*1000)>dateDernierTest;
+                }
             }
-            //pas de commit précédent donc besoin de tester
+            //pas de commit précédent donc pas besoin de tester
             return false;
 
         //erreur sur la commande log
@@ -212,13 +226,16 @@ public class AppelGit {
             PullResult pullRes = studentGit.pull().setCredentialsProvider(new UsernamePasswordCredentialsProvider(utilisateur, motDePasse)).call();
 
             //vérifie les résultats de rebasage
-            RebaseResult rebRes = pullRes.getRebaseResult();
+            MergeResult mergeRes = pullRes.getMergeResult();
+
+            //TODO : à supprimer
+            System.out.println(mergeRes.getMergeStatus().toString());
 
             //statut du pull
-            if(rebRes.getStatus()==org.eclipse.jgit.api.RebaseResult.Status.UP_TO_DATE){
+            if(mergeRes.getMergeStatus()==org.eclipse.jgit.api.MergeResult.MergeStatus.ALREADY_UP_TO_DATE){
                 //aucun changement sur le git
                 return pullStatut.UP_TO_DATE;
-            } else if((rebRes.getStatus()==org.eclipse.jgit.api.RebaseResult.Status.OK)&&(pullRes.isSuccessful())){
+            } else if(((mergeRes.getMergeStatus()==org.eclipse.jgit.api.MergeResult.MergeStatus.MERGED)||(mergeRes.getMergeStatus()==org.eclipse.jgit.api.MergeResult.MergeStatus.FAST_FORWARD))&&(pullRes.isSuccessful())){
                 //Des changements et la fusion a réussi
                 return pullStatut.MAJ;
             } else{
@@ -235,9 +252,47 @@ public class AppelGit {
     }
 
     /**
-     * 
+     * Push le dossier donner en paramétre dans le dossier du projet
+     * @param aPush, dossier à push dans le dossier du projet du repository
      */
-    public void push(){
+    public void push(File aPush){
+        try {
+            //récupére le chemin du projet
+            String projetPath = Scenario.projet;
+
+            //enléve le slash d'ouverture de dossier
+            if(projetPath.charAt(0)=='/'){
+                projetPath = projetPath.substring(1);
+            }
+
+            //Construction de la commande add
+            AddCommand add = studentGit.add().addFilepattern(projetPath+"/"+aPush.getName()+"/");
+            //appel de la commande add
+            add.call();
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+            System.out.println("erreur lors de l'appel de la commande add");
+        }
+        try {
+            //création de l'identité de l'évaluateur
+            PersonIdent evaluateurIdentité = new PersonIdent("évaluateur",Scenario.mail);
+            //construction de la commande commit
+            CommitCommand commit = studentGit.commit().setAuthor(evaluateurIdentité).setMessage("evaluation");
+            //appel de la commande commit
+            commit.call();
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+            System.out.println("erreur lors de l'appel de la commande commit");
+        }
+        try {
+            //Construction de la commande push
+            PushCommand push = studentGit.push().setCredentialsProvider(new UsernamePasswordCredentialsProvider(utilisateur, motDePasse));
+            //appel de la commande push
+            push.call();
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+            System.out.println("erreur lors de l'appel de la commande push");
+        }
 
     }
 }

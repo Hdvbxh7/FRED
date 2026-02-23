@@ -79,10 +79,10 @@ public class Evaluation implements Runnable{
      * ajoute un test dans le dossier Git avant qu'il soit push
      * @param dossier, dossier de l'éléve
      */
-    private void ajoutTest(File dossierGit){
+    private File ajoutTest(File dossierGit){
         try {
             //dossier dans lequel les évaluations seront copiés
-            File dossierResultat = new File(dossierGit.getCanonicalPath()+"/"+projetATester+"/evaluation");
+            File dossierResultat = new File(dossierGit.getCanonicalPath()+projetATester+"/evaluation");
 
             //fichier qui contient les informations d'évaluations
             File resultatCalcule = new File("resultats/"+identifiantEleve+"/evaluation_"+identifiantEleve+".txt");
@@ -100,9 +100,12 @@ public class Evaluation implements Runnable{
             //copie le fichier de test contenu dans dossier dans resultat
             copyPaste(resultatCalcule, fichierResultat);
 
+            return dossierResultat;
+
         //récupére les différentes erreur d'écriture de fichier
         } catch (IOException e) {
             System.out.println("erreur d'écriture en ajoutant les résultats");
+            return null;
         }
     }
 
@@ -112,7 +115,7 @@ public class Evaluation implements Runnable{
      */
     private void majDateDernierTest() throws IOException{
         //fichier qui contient la date du dernier test
-        File dateDernierTest = new File("resultat/"+identifiantEleve+"/dateDernierTest.txt");
+        File dateDernierTest = new File("resultats/"+identifiantEleve+"/dateDernierTest.txt");
 
         //créer le fichier s'il n'existe pas
         if (!dateDernierTest.exists()) {
@@ -141,10 +144,10 @@ public class Evaluation implements Runnable{
     private long dateDernierTest() throws IOException{
         try {
             //fichier qui contient la date de dernier commit
-            File dateDernierTest = new File("resultat/"+identifiantEleve+"/dateDernierTest.txt");
+            File fichierDateDernierTest = new File("resultats/"+identifiantEleve+"/dateDernierTest.txt");
 
             //ouverture des canaux de données
-            InputStream is = new FileInputStream(dateDernierTest);
+            InputStream is = new FileInputStream(fichierDateDernierTest);
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader buffer = new BufferedReader(isr);
             
@@ -168,7 +171,7 @@ public class Evaluation implements Runnable{
         } catch (FileNotFoundException e) {
             //pas de test précédent
             return 0;
-        }
+        } 
     }
 
     /**
@@ -182,7 +185,7 @@ public class Evaluation implements Runnable{
                 //le dossier git de l'éléve
                 File dossierGit = new File("studentRepo/"+identifiantEleve);
                 //le dossier de résultat de l'éléve
-                File resultDoss = new File("result/"+identifiantEleve);
+                File resultDoss = new File("resultats/"+identifiantEleve);
 
                 //créer les dossiers s'ils n'existent pas (surtout valable pour le test après clonage)
                 if(!dossierGit.exists()){
@@ -202,15 +205,13 @@ public class Evaluation implements Runnable{
                 if(gitEleve.needTesting(dateDernierTestMillis)){
                     //Lancement des tests sur le dossier de l'éléve
                     Scenario.scenario(dossierGit);
-                    //TODO pas encore tésté
                     //pull le dossier de l'éléve
                     gitEleve.maj();
                     if(gitEleve.statut == AppelGit.pullStatut.UP_TO_DATE){
                         //ajoute le test au dossier Git
-                        ajoutTest(dossierGit);
-                        //TODO pas encore tésté
+                        File aPush = ajoutTest(dossierGit);
                         //envoi le résultat du test sur le git
-                        gitEleve.push();
+                        gitEleve.push(aPush);
                     }
                     //TODO : relancer les tests si conflit ou maj
                 }
