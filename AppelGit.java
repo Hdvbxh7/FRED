@@ -5,123 +5,239 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.LogCommand;
 import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.RebaseResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
-
+/**
+ * Bibliothéque de fonctions 
+ * qui permettent de gérer le git
+ */
 public class AppelGit {
 
     //attributs
+
     /** Repo Local qui contient les dossiers */
     Repository studentRepos;
     /** Git qui contient les dossiers */
     Git studentGit;
-    /** Dossier Local qui contiient les repos */
-    final File localDir = new File("studentRepo");
+    /** Statut du dernier pull */
+    pullStatut statut;
+    /** nom d'utilisateur */
+    String utilisateur;
+    /** mots de passe */
+    String motDePasse;
 
-    private String content(File file){
-        try {
-            InputStream is = new FileInputStream(file);
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader buffer = new BufferedReader(isr);
-
-            String line = buffer.readLine();
-            StringBuilder builder = new StringBuilder();
-        
-            while(line != null){
-                builder.append(line).append("\n");
-                line = buffer.readLine();
-            }
-            buffer.close();
-            isr.close();
-            is.close();
-            return builder.toString();
-        } catch (IOException e) {
-            System.out.println("error during the reading of log in resultat");
-            return null;
-        }
+    /** Statut du pull */
+    static enum pullStatut {
+        UP_TO_DATE,
+        MAJ,
+        CONFLIT;
     }
 
-    private void destroyFile(File file){
-        if(file.isDirectory()){
-            File[] fichierASupprimer = file.listFiles();
-            for(File fichier:fichierASupprimer){
-                destroyFile(fichier);
-            }
-            file.delete();
-        } else{
-            file.delete();
-        }
-    }
-    
     //constructeur
+    
     /**
      * Clone le répértoire Git spécifié par GitUrl
      * dans un dossier studentRepos
      * @param gitUrl Url du git a cloné
      */
-    AppelGit(String gitUrl){
+    AppelGit(String gitUrl,File doss){
         try {
             // vérifie si le dossier local existe et le supprime sinon
-            if (localDir.exists()) {
-                destroyFile(localDir);
-                localDir.mkdirs();
-            } else{
-                localDir.mkdirs();
-            }
             String usermdp = content(new File("mdpGitlab.txt"));
-            String[] info = usermdp.split(":");          
+            String[] info = usermdp.split(":");
+            utilisateur = info[0];
+            motDePasse = info[1];
+            if(!(new File(doss.getCanonicalPath()+"/"+Scenario.projet)).exists()){
+                try {    
+                    //clonage du repository
+                    studentGit = Git.cloneRepository()
+                        .setURI(gitUrl).setCredentialsProvider(new UsernamePasswordCredentialsProvider(utilisateur, motDePasse))
+                        .setDirectory(doss)
+                        .call();
+                
+                    //récupération du repository local dans la classe
+                    studentRepos = studentGit.getRepository(); 
 
-            //clonage du repository
-            File studentDir = new File(localDir.getCanonicalPath()+"/student1");
-            studentDir.mkdirs();
-            studentGit = Git.cloneRepository()
-                    .setURI(gitUrl).setCredentialsProvider(new UsernamePasswordCredentialsProvider(info[0], info[1]))
-                    .setDirectory(studentDir)
-                    .call();
-            
-            //récupération du repository local dans la classe
-            studentRepos = studentGit.getRepository();
-        //Erreur de la part de l'APIGit JGit
+                    //mise à jour du dernier statut de pull
+                    statut = pullStatut.MAJ;
+
+                //Erreur de la part de l'APIGit JGit
+                } catch (GitAPIException e) {
+                    System.out.println("erreur lié au clonage du git");
+                    e.printStackTrace();
+                }
+            } else {
+                //Récupération du Git
+                studentGit = Git.open(doss);
+
+                //récupération du repository local dans la classe
+                studentRepos = studentGit.getRepository();  
+                
+                //mise à jour du dernier statut de pull
+                statut = maj();
+
+                //Il y a des conflits
+                if(statut == pullStatut.CONFLIT){
+                    //suppression du dossier de l'éléve
+                    doss.delete();
+
+                    //clonage du Git
+                    studentGit = Git.cloneRepository()
+                        .setURI(gitUrl).setCredentialsProvider(new UsernamePasswordCredentialsProvider(utilisateur, motDePasse))
+                        .setDirectory(doss)
+                        .call();
+
+                    //récupération du repository local dans la classe
+                    studentRepos = studentGit.getRepository(); 
+                }
+            }
+        
+        //Erreur de lecture du fichier
+        } catch (IOException e) {
+            System.out.println("erreur lié au à l'existence du fichier "+doss.getName());
+            e.printStackTrace();
         } catch (GitAPIException e) {
             System.out.println("erreur lié au clonage du git");
             e.printStackTrace();
-        } catch(IOException e){
-            e.printStackTrace();
+        }
+    }
+    
+    //methodes
+
+    /**
+     * Renvoi le contenu d'un fichier sous forme de String
+     * @param file, fichier à transformer en string
+     * @return le fichier sous forme de String, null si erreur
+     */
+    public static String content(File file){
+        try {
+            //ouverture des canaux d'entrée
+            InputStream is = new FileInputStream(file);
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader buffer = new BufferedReader(isr);
+
+            //lis la premiére ligne du fichier
+            String line = buffer.readLine();
+
+            //Construit la string final
+            StringBuilder builder = new StringBuilder();
+        
+            //rajoute les lignes à la string 
+            while(line != null){
+                builder.append(line).append("\n");
+                line = buffer.readLine();
+            }
+
+            //fermeture des canaux
+            buffer.close();
+            isr.close();
+            is.close();
+
+            //renvoi de la string final
+            return builder.toString();
+
+        //erreur de lecture du fichier
+        } catch (IOException e) {
+            System.out.println("erreur de lecture du fichier");
+            return null;
         }
     }
 
     /**
-     * Détruit le dossier local contenant le repository et les git
+     * Détruit le fichier/dossier et 
+     * tout ce qu'il contient
+     * @param file, fichier/dossier à détruire
      */
-    public void destroy(){
-        studentRepos.close();
-        localDir.delete();
+    public static void destroyFile(File file){
+        if(file.isDirectory()){
+            //suppression du dossier
+
+            //liste les sous fichiers du dossier
+            File[] fichierASupprimer = file.listFiles();
+
+            //parcours les fichiers et dossiers et les supprimes
+            for(File fichier:fichierASupprimer){
+                destroyFile(fichier);
+            }
+
+            //supprime le dossier maintenant qu'il est vide
+            file.delete();
+        } else{
+            //suppression du fichier
+            file.delete();
+        }
+    }
+    
+   /**
+    * Vérifie si il y a eu un commit depuis le dernier test
+    * @param LastPull, date du dernier test
+    * @return true : il faut relancer le test, false : on ne relance pas
+    */
+    public boolean needTesting(long dateDernierTest){
+        try {
+
+            //a commande log de Git
+            LogCommand logs = studentGit.log().addPath(Scenario.projet);
+            //On appellle la commande log
+            Iterable<RevCommit> lastCommits = logs.call();
+            //On récupére le premier commit et on vérifie la date
+            for (RevCommit revCommit : lastCommits) {
+                System.out.println(revCommit.getAuthorIdent());
+                //vérifie si le commit a eu lieu après le dernier test
+                return (((long)revCommit.getCommitTime())*1000)>dateDernierTest;
+            }
+            //pas de commit précédent donc besoin de tester
+            return false;
+
+        //erreur sur la commande log
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**
      * mets à jour le repo git  local
      */
-    public boolean maj(){
+    public pullStatut maj(){
         try {
-            PullResult pullRes = studentGit.pull().call();
+            //appelle la commande Pull
+            PullResult pullRes = studentGit.pull().setCredentialsProvider(new UsernamePasswordCredentialsProvider(utilisateur, motDePasse)).call();
+
+            //vérifie les résultats de rebasage
             RebaseResult rebRes = pullRes.getRebaseResult();
+
+            //statut du pull
             if(rebRes.getStatus()==org.eclipse.jgit.api.RebaseResult.Status.UP_TO_DATE){
-                return false;
+                //aucun changement sur le git
+                return pullStatut.UP_TO_DATE;
             } else if((rebRes.getStatus()==org.eclipse.jgit.api.RebaseResult.Status.OK)&&(pullRes.isSuccessful())){
-                return true;
+                //Des changements et la fusion a réussi
+                return pullStatut.MAJ;
             } else{
-                return false;
+                //il y a eu un conflit
+                return pullStatut.CONFLIT;
             }
-        } catch (Exception e) {
+
+        //erreur de commande JGit
+        } catch (GitAPIException e) {
+            System.out.println("erreur sur la commande pull");
             e.printStackTrace();
-            return false;
+            return pullStatut.CONFLIT;
         }
+    }
+
+    /**
+     * 
+     */
+    public void push(){
+
     }
 }
