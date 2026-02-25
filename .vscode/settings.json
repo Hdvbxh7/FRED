@@ -3,14 +3,17 @@
         "."
     ],
     "java.project.referencedLibraries": [
-        "libs/commons-logging-1.3.5.jar",
-        "libs/commons-collections-3.2.1.jar",
-        "libs/commons-beanutils-1.11.0.jar",
-        "libs/checkstyle-13.2.0.jar",
-        "libs/antlr4-runtime-4.13.2.jar",
+        "libs/slf4j-simple-2.0.17.jar",
+        "libs/slf4j-api-2.0.17.jar",
         "/home/gutierrez/FRED/FRED/libs/junit4.jar",
+        "/home/gutierrez/FRED/FRED/libs/commons-beanutils-1.11.0.jar",
+        "/home/gutierrez/FRED/FRED/libs/org.eclipse.jgit-7.5.0.202512021534-r.jar",
         "/home/gutierrez/FRED/FRED/libs/junit-platform-engine-1.6.0.jar",
         "/home/gutierrez/FRED/FRED/libs/junit-platform-launcher-1.6.0.jar",
+        "/home/gutierrez/FRED/FRED/libs/commons-logging-1.3.5.jar",
+        "/home/gutierrez/FRED/FRED/libs/commons-collections-3.2.1.jar",
+        "/home/gutierrez/FRED/FRED/libs/checkstyle-13.2.0.jar",
+        "/home/gutierrez/FRED/FRED/libs/antlr4-runtime-4.13.2.jar",
         "/home/gutierrez/FRED/FRED/libs/junit-platform-commons-1.6.0.jar"
     ],
     "java.configuration.updateBuildConfiguration": "interactive"
