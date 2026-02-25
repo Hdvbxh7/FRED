@@ -69,7 +69,7 @@ public class EvaluateurValgrind extends EvaluateurMemoire {
     protected void resultatVersTAP(String SortieTest) {
         System.out.println(SortieTest);
         testsResultat = new Boolean[1];
-		ensembleTest.setPlan( new Plan( 1) );
+		ensembleTest.setPlan( new Plan(1) );
 		TestResult presenceFuite;
 		if (!(SortieTest.contains(" All heap blocks were freed -- no leaks are possible")) ){
 			presenceFuite = new TestResult( StatusValues.NOT_OK, 1 );
