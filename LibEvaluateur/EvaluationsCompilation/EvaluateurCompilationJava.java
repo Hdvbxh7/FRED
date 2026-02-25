@@ -36,7 +36,7 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
 
     protected void resultatVersTAP(String SortieTest) {
 
-        System.out.println("Salut +" + SortieTest);
+        System.out.println("SortieTest");
 
     }
 
