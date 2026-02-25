@@ -1,17 +1,26 @@
 package LibEvaluateur;
 
-public abstract class Evaluateur {
-    
- protected String resultat;
+import org.tap4j.producer.TapProducer;
+import org.tap4j.producer.TapProducerFactory;
 
- public String getResultat() {
-    return resultat;
+public abstract class Evaluateur {
+	
+	protected TapProducer producteur;
+
+	public void Evaluateur() {
+		this.producteur = TapProducerFactory.makeTap13Producer();
+	}
+    
+	protected String resultat;
+
+	public String getResultat() {
+		return resultat;
     }
 
- protected Boolean[] testsResultat;
+	protected Boolean[] testsResultat;
 
- public Boolean[] getTestsResultat() {
-    return testsResultat;
+	public Boolean[] getTestsResultat() {
+		return testsResultat;
     }
 
  protected abstract void resultatVersTAP(String SortieTest);
