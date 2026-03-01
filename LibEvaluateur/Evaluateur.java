@@ -7,7 +7,7 @@ public abstract class Evaluateur {
 	
 	protected TapProducer producteur;
 
-	public void Evaluateur() {
+	public Evaluateur() {
 		this.producteur = TapProducerFactory.makeTap13Producer();
 	}
     
