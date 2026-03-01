@@ -8,10 +8,11 @@
         "libs/commons-beanutils-1.11.0.jar",
         "libs/checkstyle-13.2.0.jar",
         "libs/antlr4-runtime-4.13.2.jar",
-        "/home/gutierrez/FRED/FRED/libs/junit4.jar",
-        "/home/gutierrez/FRED/FRED/libs/junit-platform-engine-1.6.0.jar",
-        "/home/gutierrez/FRED/FRED/libs/junit-platform-launcher-1.6.0.jar",
-        "/home/gutierrez/FRED/FRED/libs/junit-platform-commons-1.6.0.jar"
+        "libs/junit4.jar",
+        "libs/junit-jupiter-api-6.1.0-M1.jar",
+        "libs/junit-platform-engine-1.6.0.jar",
+        "libs/junit-platform-launcher-1.6.0.jar",
+        "libs/junit-platform-commons-1.6.0.jar"
     ],
     "java.configuration.updateBuildConfiguration": "interactive"
 }
