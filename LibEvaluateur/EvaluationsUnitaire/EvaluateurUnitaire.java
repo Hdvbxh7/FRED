@@ -1,5 +1,7 @@
-package LibEvaluateur;
+package LibEvaluateur.EvaluationsUnitaire;
 
-public class EvaluateurUnitaire extends Evaluateur {
+import LibEvaluateur.Evaluateur;
+
+public abstract class EvaluateurUnitaire extends Evaluateur {
     
 }
