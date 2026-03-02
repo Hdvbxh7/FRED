@@ -23,6 +23,17 @@ public abstract class Evaluateur {
 		return testsResultat;
     }
 
+	protected String nomEvaluateur;
+
+	public String getNomEvaluateur() {
+		return this.nomEvaluateur;
+	}
+
+	public void setNomEvaluateur(String nomEvaluateur) {
+		this.nomEvaluateur = nomEvaluateur;
+	}
+	
+
  protected abstract void resultatVersTAP(String SortieTest);
 
  public abstract void evaluer() throws Exception;
