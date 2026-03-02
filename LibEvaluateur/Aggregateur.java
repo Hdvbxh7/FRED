@@ -16,38 +16,89 @@ public class Aggregateur {
 
     private ArrayList<Evaluateur> listeEvaluateur = new ArrayList<Evaluateur>();
 
+    private File resultats;
+
+    public Aggregateur(File resultats) {
+
+        this.resultats = resultats;
+    }
+
 
     public void add(Evaluateur eval) {
         listeEvaluateur.add(eval);
     }
 
     public void aggreger() {
+        String outputStringProfesseurs = "";
+        String outputStringEleve = "";
+
         for (int i = 0; i < listeEvaluateur.size(); i++) {
-            Boolean[] temp = listeEvaluateur.get(i).getTestsResultat();
+            Evaluateur evaltemp = listeEvaluateur.get(i);
+            Boolean[] temp = evaltemp.getTestsResultat();
+            
+            // Count passed and failed tests
+            int passed = 0;
+            int failed = 0;
             for (int j = 0; j < temp.length; j++) {
-                outputScore += (temp[j] ? 1 : 0);
+                if (temp[j]) {
+                    passed++;
+                } else {
+                    failed++;
+                }
             }
-            outputString += "\n" + listeEvaluateur.get(i).getResultat();
+            
+            // Add to professeurs overview
+            outputStringProfesseurs += evaltemp.getNomEvaluateur() + " : " + passed + " réussis, " + failed + " échoués\n";
+            
+            // Add to élève details
+            outputStringEleve += evaltemp.getNomEvaluateur() + " : \n" + evaltemp.getResultat() + "\n";
+            
+            // Update totals
+            outputScore += passed;
             totalScore += temp.length;
         }
-        System.out.println(outputString);
 
+        // Add total score to professeurs file
+        outputStringProfesseurs += "\nScore total : " + outputScore + " / " + totalScore;
+        
+        // Write both files
+        File professeurFile = new File(resultats.getParent(), "Résultats professeurs.txt");
+        File eleveFile = new File(resultats.getParent(), "Résultat élève.txt");
+        
+        try {
+            java.nio.file.Files.write(professeurFile.toPath(), outputStringProfesseurs.getBytes());
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+        
+        try {
+            java.nio.file.Files.write(eleveFile.toPath(), outputStringEleve.getBytes());
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
 
         try {
-            File aTester = new File("Tests/CompilationTest.java");
+            File aTester = new File("Tests/Test.java");
+            File aTester2 = new File("Tests/Test2.java");
 
-            File aTesterFail = new File("Tests/CompilationTestFail.java");
-
-            Aggregateur aggreg = new Aggregateur();
+            Aggregateur aggreg = new Aggregateur(new File("Tests/result.txt"));
 
             EvaluateurValgrind eval1 = new EvaluateurValgrind(aTester);
 
-            EvaluateurValgrind eval2 = new EvaluateurValgrind(aTesterFail);
+            EvaluateurCompilationJava eval2 = new EvaluateurCompilationJava(aTester2);
+
+            eval1.setNomEvaluateur("FeurTest");
+
+            eval2.setNomEvaluateur("Feur2Test");
+
+            aggreg.add(eval1);
 
             aggreg.add(eval2);
+
+            eval1.evaluer();
 
             eval2.evaluer();
 
