@@ -62,8 +62,8 @@ public class Aggregateur {
         outputStringProfesseurs += "\nScore total : " + outputScore + " / " + totalScore;
         
         // Write both files
-        File professeurFile = new File(resultats.getParent(), "Résultats professeurs.txt");
-        File eleveFile = new File(resultats.getParent(), "Résultat élève.txt");
+        File professeurFile = new File(resultats.getParent(), "Resultats_professeur.txt");
+        File eleveFile = new File(resultats.getParent(), "Resultat_eleve.txt");
         
         try {
             java.nio.file.Files.write(professeurFile.toPath(), outputStringProfesseurs.getBytes());
