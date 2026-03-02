@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.tools.*;
 
+import org.tap4j.model.TestResult;
+
 public class EvaluateurCompilationJava extends EvaluateurCompilation {
 
     private TestSet ensembleTest;
@@ -106,7 +108,6 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
         try{
             out.write(cout.toString());
             out.write(cerr.toString());
-            out.write("--------------------------------------------------------------------------------------------------\n");
         }catch(Exception e){
             System.out.println("erreur"+e);
         }

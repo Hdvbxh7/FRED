@@ -1,5 +1,10 @@
-.class
-.jar
-/BacATest/*
-/bin/
+*.class
+*.jar
+.classpath
 .project
+/BacATest/*
+.github
+studentRepo/
+mdpGit.txt
+GitPaths.csv
+resultats/

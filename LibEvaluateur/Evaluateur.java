@@ -7,7 +7,7 @@ public abstract class Evaluateur {
 	
 	protected TapProducer producteur;
 
-	public void Evaluateur() {
+	public Evaluateur() {
 		this.producteur = TapProducerFactory.makeTap13Producer();
 	}
     
@@ -23,7 +23,7 @@ public abstract class Evaluateur {
 		return testsResultat;
     }
 
-	protected abstract void resultatVersTAP(String SortieTest);
+  protected abstract void resultatVersTAP(String SortieTest);
 
 	public abstract void evaluer() throws Exception;
 }

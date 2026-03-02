@@ -2,8 +2,11 @@ package LibEvaluateur.EvaluationsMemoire;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import org.tap4j.model.Plan;
 import org.tap4j.model.TestResult;
 import org.tap4j.model.TestSet;
@@ -67,9 +70,8 @@ public class EvaluateurValgrind extends EvaluateurMemoire {
      * @param SortieTest la sortie brute produite par Valgrind
      */
     protected void resultatVersTAP(String SortieTest) {
-        System.out.println(SortieTest);
         testsResultat = new Boolean[1];
-		ensembleTest.setPlan( new Plan( 1) );
+		ensembleTest.setPlan( new Plan(1) );
 		TestResult presenceFuite;
 		if (!(SortieTest.contains(" All heap blocks were freed -- no leaks are possible")) ){
 			presenceFuite = new TestResult( StatusValues.NOT_OK, 1 );
@@ -88,10 +90,40 @@ public class EvaluateurValgrind extends EvaluateurMemoire {
      * Exécute Valgrind sur le fichier binaire spécifié et capture sa sortie.
      */
     public void evaluer() throws Exception {
-
+        File javaFile = fichiers.get(0);
+        String javaFilePath = javaFile.getAbsolutePath();
+        String directory = javaFile.getParent();
+        String fileName = javaFile.getName();
+        String className = fileName.substring(0, fileName.lastIndexOf('.'));
+        
+        // Compile the Java file
+        Process compileProcess = new ProcessBuilder(
+                "javac",
+                javaFilePath
+        ).start();
+        
+        compileProcess.waitFor();
+        
+        // Create a wrapper shell script that executes the Java class
+        String wrapperPath = directory + File.separator + className + ".sh";
+        String wrapperScript = "#!/bin/bash\n" +
+                              "cd " + directory + "\n" +
+                              "java " + className + "\n";
+        
+        try (FileWriter writer = new FileWriter(wrapperPath)) {
+            writer.write(wrapperScript);
+        }
+        
+        // Make the wrapper script executable
+        Files.setPosixFilePermissions(
+                Paths.get(wrapperPath),
+                java.nio.file.attribute.PosixFilePermissions.fromString("rwxr-xr-x")
+        );
+        
+        // Run Valgrind on the wrapper script
         Process process = new ProcessBuilder(
                 "valgrind",
-                fichiers.get(0).getAbsolutePath()
+                wrapperPath
         ).start();
 
         BufferedReader errorReader = new BufferedReader(
