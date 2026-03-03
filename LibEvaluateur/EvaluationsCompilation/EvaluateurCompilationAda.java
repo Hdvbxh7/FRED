@@ -34,9 +34,13 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
 
         if (SortieTest.isEmpty()) {
             testsResultat = new Boolean[]{true};
+            resultat = "Test réussi";
         } else {
             testsResultat = new Boolean[]{false};
+            resultat = "Test raté";
         }
+
+
     }
 
     public void evaluer() throws Exception {
@@ -52,13 +56,11 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
 
     private static void compileAda(BufferedWriter out, String file) {
         try {
-            // Create output directory if it doesn't exist
             File outputDir = new File("LibEvaluateur/EvaluationsCompilation/Compiled_Code");
             if (!outputDir.exists()) {
                 outputDir.mkdirs();
             }
 
-            // Build the gnatmake command
             ProcessBuilder pb = new ProcessBuilder(
                 "gnatmake",
                 "-D", "LibEvaluateur/EvaluationsCompilation/Compiled_Code",
@@ -70,7 +72,6 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
             pb.redirectErrorStream(true);
             Process process = pb.start();
             
-            // Read output
             java.io.BufferedReader reader = new java.io.BufferedReader(
                 new java.io.InputStreamReader(process.getInputStream())
             );
