@@ -1,0 +1,11 @@
+{
+  "editor:insert-wikilink": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "L"
+    }
+  ],
+  "editor:toggle-bold": []
+}

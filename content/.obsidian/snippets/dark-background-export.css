@@ -1,0 +1,26 @@
+/* Custom Background Snippet */
+
+@media print {
+    /* Set the actual page background */
+    @page {
+        background-color: #000000;
+        margin: 0;
+    }
+    
+    /* Force browsers to print background colors */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    /* Custom block for PDF export */
+    html, body, .markdown-preview-view {
+        background-color: #000000 !important;
+        color: white !important;
+    }
+    
+    /* Ensure all containers have dark background - but not blockquote children */
+    div:not(blockquote *), article, section, main {
+        background-color: #000000 !important;
+    }
+}

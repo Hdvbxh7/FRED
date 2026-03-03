@@ -1,0 +1,11 @@
+{
+  "accentColor": "#aa00ff",
+  "cssTheme": "Encore",
+  "textFontFamily": "",
+  "monospaceFontFamily": "VCR OSD Mono",
+  "theme": "obsidian",
+  "enabledCssSnippets": [
+    "custom-fonts",
+    "dark-background-export"
+  ]
+}

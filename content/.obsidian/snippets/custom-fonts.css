@@ -1,0 +1,52 @@
+/* Custom Font Snippet - Stardom for headings, Touche for body text */
+
+/* Apply Stardom font to all headings including main title */
+.inline-title,
+.view-header-title,
+.markdown-preview-view h1,
+.markdown-preview-view h2,
+.markdown-preview-view h3,
+.markdown-preview-view h4,
+.markdown-preview-view h5,
+.markdown-preview-view h6,
+.cm-header,
+.cm-header-1,
+.cm-header-2,
+.cm-header-3,
+.cm-header-4,
+.cm-header-5,
+.cm-header-6 {
+    font-family: "Ruigslay","Stardom", serif !important;
+}
+
+.markdown-preview-view h3,
+.markdown-preview-view h4,
+.markdown-preview-view h5,
+.markdown-preview-view h6,
+.cm-header-3,
+.cm-header-4,
+.cm-header-5,
+.cm-header-6 {
+    font-family: "Stardom", serif !important;
+}
+
+/* Apply Touche font to regular text */
+body {
+    --font-text: "Touche", sans-serif;
+    --font-interface: "Touche", sans-serif;
+}
+
+/* Ensure body text uses Touche in preview mode */
+.markdown-preview-view {
+    font-family: "Touche", sans-serif;
+}
+
+/* Ensure body text uses Touche in edit mode */
+.cm-s-obsidian {
+    font-family: "Touche", sans-serif;
+}
+
+/* Keep headings as Stardom in edit mode */
+.cm-s-obsidian .cm-header {
+    font-family: "Ruigslay", "Stardom", serif;
+}
