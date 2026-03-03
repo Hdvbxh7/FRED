@@ -3,8 +3,9 @@ package LibEvaluateur;
 import java.io.File;
 import java.util.ArrayList;
 
-import LibEvaluateur.EvaluationsCompilation.EvaluateurCompilationJava;
-import LibEvaluateur.EvaluationsMemoire.EvaluateurValgrind;
+import LibEvaluateur.EvaluationsCompilation.*;
+import LibEvaluateur.EvaluationsMemoire.*;
+
 
 public class Aggregateur {
 
@@ -62,8 +63,8 @@ public class Aggregateur {
         outputStringProfesseurs += "\nScore total : " + outputScore + " / " + totalScore;
         
         // Write both files
-        File professeurFile = new File(resultats.getParent(), "Résultats professeurs.txt");
-        File eleveFile = new File(resultats.getParent(), "Résultat élève.txt");
+        File professeurFile = new File(resultats.getParent(), "Resultats_professeur.txt");
+        File eleveFile = new File(resultats.getParent(), "Resultat_eleve.txt");
         
         try {
             java.nio.file.Files.write(professeurFile.toPath(), outputStringProfesseurs.getBytes());
@@ -82,13 +83,13 @@ public class Aggregateur {
 
         try {
             File aTester = new File("Tests/Test.java");
-            File aTester2 = new File("Tests/Test2.java");
+            File aTester2 = new File("BacATest/chiffre_significatif.adb");
 
             Aggregateur aggreg = new Aggregateur(new File("Tests/result.txt"));
 
-            EvaluateurValgrind eval1 = new EvaluateurValgrind(aTester);
+            EvaluateurMemoire eval1 = new EvaluateurValgrind(aTester);
 
-            EvaluateurCompilationJava eval2 = new EvaluateurCompilationJava(aTester2);
+            EvaluateurCompilation eval2 = new EvaluateurCompilationAda(aTester2);
 
             eval1.setNomEvaluateur("FeurTest");
 
