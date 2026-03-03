@@ -14,17 +14,20 @@ import org.tap4j.model.TestResult;
 
 public class EvaluateurCompilationJava extends EvaluateurCompilation {
 
+    private TestSet ensembleTest;
 
     protected List<File> fichiers = new ArrayList<File>();
 
     public EvaluateurCompilationJava(File binaire) { 
         super();
+        this.ensembleTest = new TestSet();
         fichiers.add(binaire);
     }
 
     public EvaluateurCompilationJava(File binaire, ArrayList<File> dependences) { 
         super();
         fichiers.add(binaire);
+        this.ensembleTest = new TestSet();
         fichiers.addAll(dependences);
     }
 
@@ -37,16 +40,21 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
     }
 
     protected void resultatVersTAP(String SortieTest) {
-
-        System.out.println("Voici la sortie +++++ " + SortieTest + " +++++");
-
-        if (SortieTest.isEmpty()) {
-            testsResultat = new Boolean[]{true};
-        } else {
-            testsResultat = new Boolean[]{false};
-        }
-
-    }
+        System.out.println(SortieTest);
+        testsResultat = new Boolean[1];
+		ensembleTest.setPlan( new Plan(2) );
+		TestResult presenceErreur;
+		if (SortieTest.contains(": error:")){
+			presenceErreur = new TestResult( StatusValues.NOT_OK, 1 );
+            testsResultat[0] = false;
+            presenceFuite.setDescription(derniereLigne(SortieTest)));
+			}else {
+			presenceErreur = new TestResult( StatusValues.OK, 1 );
+            testsResultat[0] = true;
+		}
+		ensembleTest.addTestResult( presenceErreur );
+		this.resultat = producteur.dump( ensembleTest );
+	}
 
     public void evaluer() throws Exception {
 
@@ -132,6 +140,10 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
             e.printStackTrace();
         }
 
+    }
+    
+    public static String derniereLigne(String text) {
+    	return text.substring(text.lastIndexOf('\n'));
     }
     
 }
