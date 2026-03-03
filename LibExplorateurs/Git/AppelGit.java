@@ -140,6 +140,10 @@ public class AppelGit {
             .call();
         }
     }
+
+    public String lastCommit(){
+        return "";
+    }
     
    /**
     * Vérifie si il y a eu un commit depuis le dernier test

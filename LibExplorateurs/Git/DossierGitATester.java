@@ -64,7 +64,7 @@ public class DossierGitATester implements Runnable{
      * @return la date du dernier Test réalisé
      * @throws IOException erreur dans la lecture du fichier
      */
-    private long dateDernierTest() throws IOException{
+    private String dateDernierTest() throws IOException{
         try {
             //fichier qui contient la date de dernier commit
             File fichierDateDernierTest = new File("resultats/"+identifiantEleve+"/dateDernierTest.txt");
@@ -81,19 +81,14 @@ public class DossierGitATester implements Runnable{
             buffer.close();
             isr.close();
             is.close();
+            
+            //date du dernier test en millisecondes
+            return line;
 
-            //Vérification de la valeur retournée
-            if(Objects.isNull(Long.getLong(line))){
-                //pas de test précédent
-                return 0;
-            }else{
-                //date du dernier test en millisecondes
-                return Long.getLong(line);
-            }
 
         } catch (FileNotFoundException e) {
             //pas de test précédent
-            return 0;
+            return "";
         } 
     }
 
@@ -112,11 +107,11 @@ public class DossierGitATester implements Runnable{
         if(!resultDoss.exists()){
             resultDoss.mkdirs();
         }
-        long dateDernierTestMillis = 0;
+        String dernierCommit = "";
 
         try {
             //Récupération de la date du dernier test et mise à jour
-            dateDernierTestMillis = dateDernierTest();
+            dernierCommit = dateDernierTest();
             majDateDernierTest();
 
         } catch (Exception e) {
@@ -128,16 +123,16 @@ public class DossierGitATester implements Runnable{
         AppelGit gitEleve = new AppelGit(urlEleve,dossierGit,identifiantEleve);
 
         //vérifie si le dossier à besoin d'être tester
-        if(gitEleve.needTesting(dateDernierTestMillis)){
+        if(gitEleve.needTesting(dernierCommit)){
             try {
                 //création du dossier à tester
                 File projetATester = new File(dossierGit.getCanonicalPath()+Scenario.projet);
 
                 //ajout à l'explorateur
-                explo.ArrayList.lock();
+                explo.lockPartage.lock();
                 explo.gitsEleve.add(gitEleve);
                 explo.dossiersATester.add(projetATester);
-                explo.ArrayList.unlock();
+                explo.lockPartage.unlock();
             //erreur de dossiers
             } catch (IOException e) {
                 System.out.println("erreur sur la lecture du dossier"+dossierGit.getName());

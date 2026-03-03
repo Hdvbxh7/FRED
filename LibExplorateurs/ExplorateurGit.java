@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import LibExplorateurs.Git.AppelGit;
 import LibExplorateurs.Git.DossierGitATester;
@@ -22,7 +23,7 @@ public class ExplorateurGit extends Explorateur{
     /**liste des AppelsGits */
     public ArrayList<AppelGit> gitsEleve;
     /** TODO : chercher l'implémentation dans les cours */
-    public Lock ArrayList;
+    public Lock lockPartage;
     /** email du professeur pour identité de commit */
     private String mailCommit;
     /** CSV pour les gits à évaluer
@@ -47,6 +48,7 @@ public class ExplorateurGit extends Explorateur{
     public ExplorateurGit(String mail,File csv){
         mailCommit = mail;
         csvGits = csv;
+        lockPartage  = new ReentrantLock();
     }
     
     /** Dossier Local qui contient les repos */

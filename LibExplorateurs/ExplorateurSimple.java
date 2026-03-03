@@ -10,6 +10,7 @@ public class ExplorateurSimple extends Explorateur{
     public ExplorateurSimple(File source){
         dossierSource = source;
     }
+    
     //methode
     public ArrayList<File> listeDossier(){
         File[] dossierEleves = dossierSource.listFiles(new DossFilter());
