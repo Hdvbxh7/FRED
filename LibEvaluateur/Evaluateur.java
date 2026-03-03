@@ -36,7 +36,5 @@ public abstract class Evaluateur {
 
  protected abstract void resultatVersTAP(String SortieTest);
 
- public abstract void evaluer() throws Exception;
-
-    
+	public abstract void evaluer() throws Exception;
 }

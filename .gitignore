@@ -1,5 +1,7 @@
 *.class
 *.jar
+.classpath
+.project
 /BacATest/*
 .github
 studentRepo/
