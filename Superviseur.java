@@ -1,30 +1,29 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import configuration.Scenario;
 
 public class Superviseur {
 
     static ArrayList<File> dossiersATester;
-    static ArrayList<Thread> tList;
+    static ExecutorService threadPool= Executors.newFixedThreadPool(Scenario.nbThread);
     
     public static void main(String[] args) {
-        tList = new ArrayList<>();
 
         //récupére les dossiers
         dossiersATester = Scenario.explorateur.listeDossier();
 
         //lance le scénario sur chacun en multi threading
         for(File doss : dossiersATester){
-            Thread t = Thread.startVirtualThread(new Scenario(doss));
-            tList.add(t);
+            threadPool.execute(new Scenario(doss));
         }
 
         try {
-            //Attend la fin de tout les threads
-            for(Thread t : tList){
-                t.join();
-            }
+            threadPool.shutdown();
+            threadPool.awaitTermination(Scenario.waitingTimeBeforeCrash, Scenario.timeUnit);
+            threadPool.shutdownNow();
         } catch (InterruptedException e) {
             System.out.println("thread de Dossier git a Tester interrompu");
         }

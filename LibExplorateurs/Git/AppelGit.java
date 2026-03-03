@@ -49,6 +49,12 @@ public class AppelGit {
     private String motDePasse;
     /** il y a besoin de s'authentifier */
     private boolean authentification = false;
+    /** chemin du dossier du projet dans le git*/
+    private String cheminProjetGit;
+
+    public String getCheminProjetGit() {
+        return cheminProjetGit;
+    }
 
     /** Statut du pull */
     public static enum pullStatut {
@@ -64,9 +70,10 @@ public class AppelGit {
      * dans un dossier studentRepos
      * @param gitUrl Url du git a cloné
      */
-    public AppelGit(String gitUrl,File doss,String identifiantEleve){
+    public AppelGit(String gitUrl,File doss,String identifiantEleve,String cheminProjet){
         identifiant = identifiantEleve;
         try {
+            cheminProjetGit = cheminProjet;
             // vérifie si le dossier local existe et le supprime sinon
             File usermdp = new File("mdpGit.txt");
             if(usermdp.exists()){
@@ -141,45 +148,42 @@ public class AppelGit {
         }
     }
 
-    public String lastCommit(){
+    /**
+     * renvoi le dernier commit réalisé en dehors
+     * du dossier évaluation dans le projet
+     * @return le nom du dernier commit
+     * @throws GitAPIException
+     */
+    public String lastCommit() throws GitAPIException{
+        if(cheminProjetGit.isBlank()){
+            //La commande log de Git
+            LogCommand logs = studentGit.log().excludePath("evaluation");
+            Iterable<RevCommit> lastCommits = logs.call();
+            for (RevCommit revCommit : lastCommits) {         
+                //vérifie si le commit a eu lieu après le dernier test
+                return revCommit.getName();       
+            }
+        } else {
+            //La commande log de Git
+            LogCommand logs = studentGit.log().addPath(cheminProjetGit).excludePath(cheminProjetGit+"/evaluation");
+            Iterable<RevCommit> lastCommits = logs.call();
+            for (RevCommit revCommit : lastCommits) {         
+                //vérifie si le commit a eu lieu après le dernier test
+                return revCommit.getName();       
+            }
+        }
+        //aucun commit réalisé
         return "";
     }
     
    /**
     * Vérifie si il y a eu un commit depuis le dernier test
-    * @param dateDernierTest date du dernier test
+    * @param dernierCommit valeur du dernier commit
     * @return true : il faut relancer le test, false : on ne relance pas
     */
-    public boolean needTesting(long dateDernierTest){
+    public boolean needTesting(String dernierCommit){
         try {
-            //récupére le chemin du projet
-            String logPath = Scenario.projet;
-
-            //enléve le slash d'ouverture de dossier
-            if(logPath.charAt(0)=='/'){
-                logPath = logPath.substring(1);
-            }
-            //a commande log de Git
-            LogCommand logs = studentGit.log().addPath(logPath);
-
-            //On appellle la commande log
-            Iterable<RevCommit> lastCommits = logs.call();
-
-            //On récupére le premier commit et on vérifie la date
-            for (RevCommit revCommit : lastCommits) {
-                System.out.println(revCommit.getCommitTime());
-                System.out.println(revCommit.getAuthorIdent().getName());
-
-                //vérifie que le dernier push n'est pas réalisé par l"évaluateur
-                if(!revCommit.getAuthorIdent().getName().equals("évaluateur")){
-                    //vérifie si le commit a eu lieu après le dernier test
-                    return (((long)revCommit.getCommitTime())*1000)>dateDernierTest;
-                }
-            }
-
-            //pas de commit précédent donc pas besoin de tester
-            return false;
-
+            return lastCommit().matches(dernierCommit);
         //erreur sur la commande log
         } catch (GitAPIException e) {
             e.printStackTrace();

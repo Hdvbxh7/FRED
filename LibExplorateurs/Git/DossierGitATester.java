@@ -7,8 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.GregorianCalendar;
-import java.util.Objects;
+
+import org.eclipse.jgit.api.errors.GitAPIException;
 
 import LibExplorateurs.ExplorateurGit;
 import configuration.Scenario;
@@ -16,10 +16,13 @@ import configuration.Scenario;
 public class DossierGitATester implements Runnable{
     
     File dossierEleve;
+    /** chemin du dossier sous git */
+    String cheminProjet;
     String urlEleve;
     String identifiantEleve;
     ExplorateurGit explo;
 
+    //constructeurs
     /**
      * 
      * @param url
@@ -30,15 +33,31 @@ public class DossierGitATester implements Runnable{
         urlEleve = url;
         identifiantEleve = identifiant;
         explo =explorateur;
+        cheminProjet = null;
+    }
+
+    /**
+     * Constructeur où l'on doit rajouter un chemin 
+     * vers le dossier du projet
+     * @param url url du git à tester
+     * @param identifiant identifiant de l'éléve
+     * @param explorateur explorateur utilisé
+     * @param chemin chemin vers le dossier du projet
+     */
+    public DossierGitATester(String url,String identifiant,ExplorateurGit explorateur,String chemin){
+        urlEleve = url;
+        identifiantEleve = identifiant;
+        explo =explorateur;
+        cheminProjet = chemin;
     }
 
     /**
      * Mets à jour la date du dernier test
      * @throws IOException, renvoi une erreur si le fichier n'arrive pas à écrire dans dateDernierTest.txt
      */
-    private void majDateDernierTest() throws IOException{
+    private void majDateDernierTest(AppelGit git) throws IOException{
         //fichier qui contient la date du dernier test
-        File dateDernierTest = new File("resultats/"+identifiantEleve+"/dateDernierTest.txt");
+        File dateDernierTest = new File("resultats/"+identifiantEleve+git.getCheminProjetGit()+"/dateDernierTest.txt");
 
         //créer le fichier s'il n'existe pas
         if (!dateDernierTest.exists()) {
@@ -50,9 +69,13 @@ public class DossierGitATester implements Runnable{
 
         //flux d'écriture du fichier
         FileWriter dateDernierTestWriter = new FileWriter(dateDernierTest);
-
-        //écriture de la date à la milliseconde près dans dateDernierTest.txt
-        dateDernierTestWriter.write(Long.toString(new GregorianCalendar().getTimeInMillis()));
+        try {
+            //écriture de la date à la milliseconde près dans dateDernierTest.txt
+            dateDernierTestWriter.write(git.lastCommit());
+        } catch (GitAPIException e) {
+            System.out.println("erreur lors de la récupération du dernier commit");
+            e.printStackTrace();
+        }
 
         //fermeture du canal
         dateDernierTestWriter.close();
@@ -108,19 +131,19 @@ public class DossierGitATester implements Runnable{
             resultDoss.mkdirs();
         }
         String dernierCommit = "";
+        
+        //récupération du Git
+        AppelGit gitEleve = new AppelGit(urlEleve,dossierGit,identifiantEleve,cheminProjet);
 
         try {
             //Récupération de la date du dernier test et mise à jour
             dernierCommit = dateDernierTest();
-            majDateDernierTest();
+            majDateDernierTest(gitEleve);
 
         } catch (Exception e) {
             System.out.println("erreur lors de la mise à jour de la date de test");
             e.printStackTrace();
         }
-        
-        //récupération du Git
-        AppelGit gitEleve = new AppelGit(urlEleve,dossierGit,identifiantEleve);
 
         //vérifie si le dossier à besoin d'être tester
         if(gitEleve.needTesting(dernierCommit)){

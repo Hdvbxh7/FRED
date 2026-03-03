@@ -110,6 +110,9 @@ public class ExplorateurGit extends Explorateur{
         String content = Utiles.content(csvGits);
         String[] lines = content.split("\n");
 
+        //initie la threadPool
+        initiationThreadPool();
+
         //lancement des tests et vérification des mises à jour par dossier
         //depuis les informations du csv
         for(int ind=1;ind<lines.length;ind++){
@@ -118,19 +121,10 @@ public class ExplorateurGit extends Explorateur{
             String[] values = lines[ind].split(",");
             
             //création du Thread
-            Thread t = Thread.startVirtualThread(new DossierGitATester(values[0], values[1], this));
-            tList.add(t);
+            threadPool.execute(new DossierGitATester(values[0], values[1], this));
         }
+        shutdownAndWaitForTermination();
 
-        try {
-            //Attend la fin de tout les threads
-            for(Thread t : tList){
-                t.join();
-            }
-        } catch (InterruptedException e) {
-            System.out.println("thread de Dossier git a Tester interrompu");
-        }
-        
         //renvoi les dossiers à tester
         return dossiersATester;
     }

@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
 
 import LibExplorateurs.Explorateur;
 import LibExplorateurs.ExplorateurGit;
@@ -15,6 +16,13 @@ public class Scenario implements Runnable{
 
     /** le chemin du projet (/<cheminDossProjet>) ou "" si il n'y a pas de sous dossier */
     public static final String projet = "/mini-projet";
+
+    /** nombre de thread */
+    public static int nbThread = 15;
+
+    /** temps attendu avant le crash d'un thread avec son unité de temps*/
+    public static int waitingTimeBeforeCrash = 1;
+    public static TimeUnit timeUnit = TimeUnit.HOURS; 
 
     /** Explorateur à utiliser 
      * @see ExplorateurGit ExplorateurGit
