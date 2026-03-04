@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fr"><head><title>EvaluateurJUnit.java - F.R.E.D</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM Plex Mono&amp;family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;display=swap"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta property="og:title" content="EvaluateurJUnit.java - F.R.E.D"/><meta property="og:description" content="EvaluateurJUnit.java Package LibEvaluateur.EvaluationsUnitaire Description Concrete implementation of EvaluateurUnitaire that executes JUnit 4 tests and collects detailed ..."/><meta property="og:image" content="https://https://github.com/Hdvbxh7/FRED/static/og-image.png"/><meta property="og:width" content="1200"/><meta property="og:height" content="675"/><link rel="icon" href="../../../static/icon.png"/><meta name="description" content="EvaluateurJUnit.java Package LibEvaluateur.EvaluationsUnitaire Description Concrete implementation of EvaluateurUnitaire that executes JUnit 4 tests and collects detailed ..."/><meta name="generator" content="Quartz"/><link href="../../../index.css" rel="stylesheet" type="text/css" spa-preserve/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../../static/contentIndex.json").then(data => data.json())</script></head><body data-slug="Architecture/LibEvaluateur/EvaluationsUnitaire/EvaluateurJUnit.java"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../../..">F.R.E.D</a></h2><div class="spacer mobile-only"></div><div class="search"><button class="search-button" id="search-button"><p>Recherche</p><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg></button><div id="search-container"><div id="search-space"><input autocomplete="off" id="search-bar" name="search" type="text" aria-label="Rechercher quelque chose" placeholder="Rechercher quelque chose"/><div id="search-layout" data-preview="true"></div></div></div></div><button class="darkmode" id="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Mode sombre"><title>Mode sombre</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Mode clair"><title>Mode clair</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button><button type="button" class="mobile-sidebar-toggle mobile-only" id="mobile-sidebar-toggle" aria-label="Open navigation menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button><div class="explorer desktop-only"><button type="button" id="explorer" data-behavior="collapse" data-collapsed="collapsed" data-savestate="true" data-tree="[{&quot;path&quot;:&quot;Architecture&quot;,&quot;collapsed&quot;:true},{&quot;path&quot;:&quot;Architecture/configuration&quot;,&quot;collapsed&quot;:true},{&quot;path&quot;:&quot;Architecture/LibEvaluateur&quot;,&quot;collapsed&quot;:true},{&quot;path&quot;:&quot;Architecture/LibEvaluateur/EvaluationsCompilation&quot;,&quot;collapsed&quot;:true},{&quot;path&quot;:&quot;Architecture/LibEvaluateur/EvaluationsStyle&quot;,&quot;collapsed&quot;:true},{&quot;path&quot;:&quot;Architecture/LibEvaluateur/EvaluationsUnitaire&quot;,&quot;collapsed&quot;:true},{&quot;path&quot;:&quot;Architecture/LibExplorateurs&quot;,&quot;collapsed&quot;:true}]" aria-controls="explorer-content" aria-expanded="false"><h2>Explorateur</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-content"><ul class="overflow" id="explorer-ul"><li><div class="folder-outer open"><ul style="padding-left:0;" class="content" data-folderul><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div data-folderpath="Architecture"><button class="folder-button"><span class="folder-title">Architecture</span></button></div></div><div class="folder-outer "><ul style="padding-left:1.4rem;" class="content" data-folderul="Architecture"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div data-folderpath="Architecture/configuration"><button class="folder-button"><span class="folder-title">configuration</span></button></div></div><div class="folder-outer "><ul style="padding-left:1.4rem;" class="content" data-folderul="Architecture/configuration"><li><a href="../../../Architecture/configuration/Scenario.java" data-for="Architecture/configuration/Scenario.java">Scenario.java</a></li></ul></div></li><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div data-folderpath="Architecture/LibEvaluateur"><button class="folder-button"><span class="folder-title">LibEvaluateur</span></button></div></div><div class="folder-outer "><ul style="padding-left:1.4rem;" class="content" data-folderul="Architecture/LibEvaluateur"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div data-folderpath="Architecture/LibEvaluateur/EvaluationsCompilation"><button class="folder-button"><span class="folder-title">EvaluationsCompilation</span></button></div></div><div class="folder-outer "><ul style="padding-left:1.4rem;" class="content" data-folderul="Architecture/LibEvaluateur/EvaluationsCompilation"><li><a href="../../../Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilationAda.java" data-for="Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilationAda.java">EvaluateurCompilationAda.java</a></li></ul></div></li><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div data-folderpath="Architecture/LibEvaluateur/EvaluationsStyle"><button class="folder-button"><span class="folder-title">EvaluationsStyle</span></button></div></div><div class="folder-outer "><ul style="padding-left:1.4rem;" class="content" data-folderul="Architecture/LibEvaluateur/EvaluationsStyle"><li><a href="../../../Architecture/LibEvaluateur/EvaluationsStyle/CheckStyle.java" data-for="Architecture/LibEvaluateur/EvaluationsStyle/CheckStyle.java">CheckStyle.java</a></li></ul></div></li><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div data-folderpath="Architecture/LibEvaluateur/EvaluationsUnitaire"><button class="folder-button"><span class="folder-title">EvaluationsUnitaire</span></button></div></div><div class="folder-outer "><ul style="padding-left:1.4rem;" class="content" data-folderul="Architecture/LibEvaluateur/EvaluationsUnitaire"><li><a href="../../../Architecture/LibEvaluateur/EvaluationsUnitaire/EvaluateurJUnit.java" data-for="Architecture/LibEvaluateur/EvaluationsUnitaire/EvaluateurJUnit.java">EvaluateurJUnit.java</a></li></ul></div></li><li><a href="../../../Architecture/LibEvaluateur/Evaluateur.java" data-for="Architecture/LibEvaluateur/Evaluateur.java">Evaluateur.java</a></li></ul></div></li><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div data-folderpath="Architecture/LibExplorateurs"><button class="folder-button"><span class="folder-title">LibExplorateurs</span></button></div></div><div class="folder-outer "><ul style="padding-left:1.4rem;" class="content" data-folderul="Architecture/LibExplorateurs"><li><a href="../../../Architecture/LibExplorateurs/Explorateur.java" data-for="Architecture/LibExplorateurs/Explorateur.java">Explorateur.java</a></li><li><a href="../../../Architecture/LibExplorateurs/ExplorateurGit.java" data-for="Architecture/LibExplorateurs/ExplorateurGit.java">ExplorateurGit.java</a></li><li><a href="../../../Architecture/LibExplorateurs/ExplorateurSimple.java" data-for="Architecture/LibExplorateurs/ExplorateurSimple.java">ExplorateurSimple.java</a></li></ul></div></li><li><a href="../../../Architecture/Superviseur.java" data-for="Architecture/Superviseur.java">Superviseur.java</a></li></ul></div></li><li><div class="folder-outer "><ul style="padding-left:0;" class="content" data-folderul></ul></div></li></ul></div></li><li id="explorer-end"></li></ul></div></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../Architecture/">Architecture</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../Architecture/LibEvaluateur/">LibEvaluateur</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../Architecture/LibEvaluateur/EvaluationsUnitaire/">EvaluationsUnitaire</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>EvaluateurJUnit.java</a></div></nav><h1 class="article-title">EvaluateurJUnit.java</h1><p show-comma="true" class="content-meta"><span>5 min de lecture</span></p></div></div><article class="popover-hint"><h1 id="evaluateurjunitjava">EvaluateurJUnit.java<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#evaluateurjunitjava" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<h2 id="package">Package<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#package" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><code>LibEvaluateur.EvaluationsUnitaire</code></p>
+<h2 id="description">Description<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#description" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Concrete implementation of <a href="../../../EvaluateurUnitaire" class="internal" data-slug="EvaluateurUnitaire">EvaluateurUnitaire</a> that executes JUnit 4 tests and collects detailed results including pass/fail status, error messages, and execution time.</p>
+<h2 id="purpose">Purpose<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#purpose" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Automatically runs JUnit tests on student code and provides comprehensive feedback on test results, helping identify which tests passed and why others failed.</p>
+<h2 id="inheritance">Inheritance<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#inheritance" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<pre><code>Evaluateur → EvaluateurUnitaire → EvaluateurJUnit
+</code></pre>
+<h2 id="fields">Fields<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#fields" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="fichierstests"><code>fichiersTests</code><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#fichierstests" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="java" data-theme="github-light github-dark"><code data-language="java" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">private</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ArrayList</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">File</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">></span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> fichiersTests</span></span></code></pre></figure>
+<p>List of test files to execute. Can be:</p>
+<ul>
+<li><code>.class</code> files (pre-compiled test classes)</li>
+<li><code>.java</code> files (source files - will look for corresponding <code>.class</code>)</li>
+</ul>
+<hr/>
+<h3 id="classpaths"><code>classpaths</code><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#classpaths" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="java" data-theme="github-light github-dark"><code data-language="java" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">private</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ArrayList</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">String</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">></span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> classpaths</span></span></code></pre></figure>
+<p>Additional paths for class loading:</p>
+<ul>
+<li>JUnit library JARs</li>
+<li>Student code directories</li>
+<li>Test dependencies</li>
+</ul>
+<h2 id="constructors">Constructors<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#constructors" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="evaluateurjunitarraylistfile-fichiers"><code>EvaluateurJUnit(ArrayList&lt;File> fichiers)</code><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#evaluateurjunitarraylistfile-fichiers" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Creates evaluator with test files only.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>fichiers</code> - List of test files (<code>.java</code> or <code>.class</code>)</li>
+</ul>
+<p><strong>Classpath:</strong> Uses default classpath (current directory and parent)</p>
+<hr/>
+<h3 id="evaluateurjunitarraylistfile-fichiers-arrayliststring-classpaths"><code>EvaluateurJUnit(ArrayList&lt;File> fichiers, ArrayList&lt;String> classpaths)</code><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#evaluateurjunitarraylistfile-fichiers-arrayliststring-classpaths" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Creates evaluator with test files and custom classpath.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>fichiers</code> - List of test files</li>
+<li><code>classpaths</code> - Additional paths for class loading</li>
+</ul>
+<p><strong>Use Case:</strong> When tests depend on external libraries or specific build directories</p>
+<h2 id="key-methods">Key Methods<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#key-methods" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="evaluer"><code>evaluer()</code><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#evaluer" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Executes all JUnit tests and captures comprehensive results.</p>
+<p><strong>Process:</strong></p>
+<ol>
+<li>
+<p><strong>Prepare ClassLoader</strong></p>
+<ul>
+<li>Add test file directories to URLs</li>
+<li>Add explicit classpaths</li>
+<li>For <code>.java</code> files, check for <code>../bin</code> directory</li>
+<li>Create URLClassLoader with all URLs</li>
+</ul>
+</li>
+<li>
+<p><strong>Redirect Output</strong></p>
+<ul>
+<li>Capture System.out and System.err</li>
+<li>Allows capturing test print statements</li>
+</ul>
+</li>
+<li>
+<p><strong>Execute Tests</strong></p>
+<ul>
+<li>For each test file:
+<ul>
+<li>Extract class name from filename</li>
+<li>Load class dynamically</li>
+<li>Run with JUnitCore</li>
+<li>Collect results</li>
+<li>Record pass/fail status</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Restore Output</strong></p>
+<ul>
+<li>Return System.out/err to normal</li>
+</ul>
+</li>
+<li>
+<p><strong>Format Results</strong></p>
+<ul>
+<li>Store detailed results in <code>resultat</code></li>
+<li>Store pass/fail array in <code>testsResultat</code></li>
+</ul>
+</li>
+</ol>
+<p><strong>Error Handling:</strong></p>
+<ul>
+<li>ClassNotFoundException: Logs and marks file as failed</li>
+<li>General exceptions: Logs and marks as failed</li>
+</ul>
+<hr/>
+<h3 id="resultatverstap"><code>ResultatVersTAP()</code><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#resultatverstap" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Intended to convert results to TAP format.</p>
+<p><strong>Status:</strong> 🚧 <strong>TODO</strong> - Not yet implemented</p>
+<p><strong>Comment in code:</strong> <code>&quot;TODO: Conversion vers format TAP (JP c'est ta tête sur l'affiche)&quot;</code></p>
+<hr/>
+<h3 id="obtenirnomclassefile-fichier"><code>obtenirNomClasse(File fichier)</code><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#obtenirnomclassefile-fichier" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Private method to extract class name from file.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>fichier</code> - Test file (<code>.java</code> or <code>.class</code>)</li>
+</ul>
+<p><strong>Returns:</strong> Class name without extension</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li><code>StudentTest.java</code> → <code>StudentTest</code></li>
+<li><code>MathTest.class</code> → <code>MathTest</code></li>
+</ul>
+<h2 id="junit-execution-flow">JUnit Execution Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#junit-execution-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<pre><code>1. Test files → [StudentTest.class, MathTest.class]
+2. Create EvaluateurJUnit(files, classpaths)
+3. Call evaluer()
+   ├─ Build URLClassLoader
+   │  ├─ Add test directories
+   │  ├─ Add ../bin if exists
+   │  └─ Add custom classpaths
+   ├─ Redirect System.out/err
+   ├─ For each test file:
+   │  ├─ Extract class name
+   │  ├─ Load class dynamically
+   │  ├─ Create JUnitCore instance
+   │  ├─ Run tests: junit.run(testClass)
+   │  ├─ Collect Result object
+   │  │  ├─ getRunCount() - total tests
+   │  │  ├─ getFailureCount() - failed tests
+   │  │  ├─ wasSuccessful() - all passed?
+   │  │  └─ getFailures() - failure details
+   │  └─ Add to testsResults
+   ├─ Restore System.out/err
+   └─ Store formatted results
+4. Results available via getResultat() / getTestsResultat()
+</code></pre>
+<h2 id="result-format">Result Format<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#result-format" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>resultat String Structure:</strong></p>
+<pre><code>=== Exécution des tests de StudentTest ===
+Tests exécutés: 10
+Tests réussis: 8
+Tests échoués: 2
+Temps d'exécution: 156 ms
+
+--- Échecs ---
+Test: testDivisionByZero
+Message: Expected exception: java.lang.ArithmeticException
+Trace: [stack trace]
+
+Test: testNullPointer
+Message: null
+Trace: [stack trace]
+
+=== Exécution des tests de MathTest ===
+...
+
+=== Sortie des tests ===
+[captured System.out/err output]
+</code></pre>
+<p><strong>testsResultat Array:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="java" data-theme="github-light github-dark"><code data-language="java" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">[</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">true</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">false</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">true</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">true</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Index 0: StudentTest - passed</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Index 1: MathTest - failed</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Index 2: HelperTest - passed</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Index 3: UtilTest - passed</span></span></code></pre></figure>
+<h2 id="junit-result-object">JUnit Result Object<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#junit-result-object" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Key Methods Used:</strong></p>
+<ul>
+<li><code>result.getRunCount()</code> - Total number of tests executed</li>
+<li><code>result.getFailureCount()</code> - Number of failed tests</li>
+<li><code>result.getRunTime()</code> - Execution time in milliseconds</li>
+<li><code>result.wasSuccessful()</code> - True if all tests passed</li>
+<li><code>result.getFailures()</code> - List of Failure objects</li>
+</ul>
+<p><strong>Failure Object:</strong></p>
+<ul>
+<li><code>getTestHeader()</code> - Test name</li>
+<li><code>getMessage()</code> - Failure message</li>
+<li><code>getTrace()</code> - Full stack trace</li>
+</ul>
+<h2 id="classloader-configuration">ClassLoader Configuration<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#classloader-configuration" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>URL Sources:</strong></p>
+<ol>
+<li>
+<p><strong>Test File Parent Directory</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="java" data-theme="github-light github-dark"><code data-language="java" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">fichier.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getParentFile</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">().</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">toURI</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">().</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">toURL</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span></code></pre></figure>
+</li>
+<li>
+<p><strong>Bin Directory</strong> (if exists)</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="java" data-theme="github-light github-dark"><code data-language="java" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">new</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> File</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(fichier.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getParentFile</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(), </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;../bin&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">).</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">toURI</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">().</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">toURL</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span></code></pre></figure>
+</li>
+<li>
+<p><strong>Custom Classpaths</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="java" data-theme="github-light github-dark"><code data-language="java" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">new</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> File</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(classpath).</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">toURI</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">().</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">toURL</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span></code></pre></figure>
+</li>
+</ol>
+<p><strong>Why Dynamic Loading?</strong></p>
+<ul>
+<li>Tests may be in different packages</li>
+<li>Avoids hardcoding class references</li>
+<li>Supports flexible directory structures</li>
+</ul>
+<h2 id="output-capture">Output Capture<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#output-capture" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Purpose:</strong>
+Capture any <code>System.out.println()</code> or <code>System.err.println()</code> in tests.</p>
+<p><strong>Implementation:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="java" data-theme="github-light github-dark"><code data-language="java" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">ByteArrayOutputStream outputStream </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> new</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> ByteArrayOutputStream</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">();</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">PrintStream printStream </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> new</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> PrintStream</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(outputStream);</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Save originals</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">PrintStream originalOut </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> System.out;</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">PrintStream originalErr </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> System.err;</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Redirect</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">System.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">setOut</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(printStream);</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">System.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">setErr</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(printStream);</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// ... run tests ...</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Restore</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">System.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">setOut</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(originalOut);</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">System.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">setErr</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(originalErr);</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Get captured output</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">String captured </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> outputStream.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">toString</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">();</span></span></code></pre></figure>
+<h2 id="error-scenarios">Error Scenarios<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#error-scenarios" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Class Not Found:</strong></p>
+<pre><code>ERREUR: Classe non trouvée - StudentTest
+Message: StudentTest
+</code></pre>
+<p>→ File not in classpath or wrong package</p>
+<p><strong>Execution Error:</strong></p>
+<pre><code>ERREUR lors de l'exécution de StudentTest: NullPointerException
+</code></pre>
+<p>→ Test initialization failed</p>
+<p><strong>Critical Error:</strong></p>
+<pre><code>ERREUR CRITIQUE: Could not create URLClassLoader
+</code></pre>
+<p>→ Classpath misconfiguration</p>
+<h2 id="usage-example">Usage Example<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#usage-example" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="java" data-theme="github-light github-dark"><code data-language="java" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Setup test files</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">ArrayList&lt;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">File</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">> testFiles </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> new</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ArrayList&lt;>();</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">testFiles.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">add</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">new</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> File</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;tests/StudentTest.class&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">));</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">testFiles.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">add</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">new</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> File</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;tests/MathTest.class&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">));</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Setup classpath</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">ArrayList&lt;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">> cp </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> new</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ArrayList&lt;>();</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">cp.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">add</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;libs/junit4.jar&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">);</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">cp.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">add</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;libs/hamcrest-core.jar&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">);</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">cp.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">add</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;build/classes/&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">);</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">cp.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">add</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;build/test-classes/&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">);</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Create and run evaluator</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">EvaluateurJUnit eval </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> new</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> EvaluateurJUnit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(testFiles, cp);</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">eval.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">setNomEvaluateur</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;JUnit Tests&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">);</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">eval.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">evaluer</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">();</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Check results</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">Boolean</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">[] results </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> eval.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getTestsResultat</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">();</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> passed </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 0</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">;</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">for</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (Boolean r </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">:</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> results) {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (r) passed</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">++</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">;</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">System.out.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">println</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Files passed: &quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> +</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> passed </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">+</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;/&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> +</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> results.length);</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">System.out.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">println</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">\n</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">Details:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">\n</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> +</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> eval.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getResultat</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">());</span></span></code></pre></figure>
+<h2 id="integration-with-aggregateur">Integration with Aggregateur<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#integration-with-aggregateur" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="java" data-theme="github-light github-dark"><code data-language="java" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">Aggregateur agg </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> new</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> Aggregateur</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">new</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> File</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;resultats/student/&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">));</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">EvaluateurJUnit testEval </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> new</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> EvaluateurJUnit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(testFiles, classpath);</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">testEval.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">setNomEvaluateur</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Unit Tests&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">);</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">testEval.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">evaluer</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">();</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">agg.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">add</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(testEval);</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">agg.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">aggreger</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">();</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Resultats_professeur.txt will show:</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Unit Tests : 3 réussis, 1 échoués</span></span></code></pre></figure>
+<h2 id="improvements-needed">Improvements Needed<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#improvements-needed" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ol>
+<li>
+<p><strong>Implement <code>ResultatVersTAP()</code></strong></p>
+<ul>
+<li>Convert to TAP13 format</li>
+<li>One TAP test per JUnit test (not per file)</li>
+<li>Include failure messages in TAP</li>
+</ul>
+</li>
+<li>
+<p><strong>Granular Results</strong></p>
+<ul>
+<li>Change <code>testsResultat</code> from file-level to test-level</li>
+<li>Each JUnit test = one boolean</li>
+<li>More accurate scoring</li>
+</ul>
+</li>
+<li>
+<p><strong>Timeout Handling</strong></p>
+<ul>
+<li>Some tests may hang</li>
+<li>Add timeout mechanism</li>
+</ul>
+</li>
+<li>
+<p><strong>Test Discovery</strong></p>
+<ul>
+<li>Automatically find all test classes</li>
+<li>No need to list manually</li>
+</ul>
+</li>
+</ol>
+<h2 id="related-classes">Related Classes<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-classes" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li><a href="../../../EvaluateurUnitaire" class="internal" data-slug="EvaluateurUnitaire">EvaluateurUnitaire</a> - Abstract parent class</li>
+<li><a href="../../../EvaluateurCompilation" class="internal" data-slug="EvaluateurCompilation">EvaluateurCompilation</a> - Must run first to compile tests</li>
+<li><a href="../../../Aggregateur" class="internal" data-slug="Aggregateur">Aggregateur</a> - Combines test results with other evaluations</li>
+<li><a href="../../../Architecture/configuration/Scenario.java" class="internal" data-slug="Architecture/configuration/Scenario.java">Scenario.java</a> - Orchestrates test execution</li>
+</ul></article><hr/><div class="page-footer"><div class="mobile-sidebar-container mobile-only" id="mobile-sidebar-container"><div class="mobile-sidebar-backdrop" id="mobile-sidebar-backdrop"></div><aside class="mobile-sidebar" id="mobile-sidebar" aria-label="Mobile navigation"><div class="mobile-sidebar-header"><h2>Navigation</h2><button type="button" class="mobile-sidebar-close" id="mobile-sidebar-close" aria-label="Close sidebar"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div><div class="mobile-sidebar-content"><div class="explorer"><button type="button" id="explorer" data-behavior="collapse" data-collapsed="collapsed" data-savestate="true" data-tree="[{&quot;path&quot;:&quot;Architecture&quot;,&quot;collapsed&quot;:true},{&quot;path&quot;:&quot;Architecture/configuration&quot;,&quot;collapsed&quot;:true},{&quot;path&quot;:&quot;Architecture/LibEvaluateur&quot;,&quot;collapsed&quot;:true},{&quot;path&quot;:&quot;Architecture/LibEvaluateur/EvaluationsCompilation&quot;,&quot;collapsed&quot;:true},{&quot;path&quot;:&quot;Architecture/LibEvaluateur/EvaluationsStyle&quot;,&quot;collapsed&quot;:true},{&quot;path&quot;:&quot;Architecture/LibEvaluateur/EvaluationsUnitaire&quot;,&quot;collapsed&quot;:true},{&quot;path&quot;:&quot;Architecture/LibExplorateurs&quot;,&quot;collapsed&quot;:true}]" aria-controls="explorer-content" aria-expanded="false"><h2>Explorateur</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-content"><ul class="overflow" id="explorer-ul"><li><div class="folder-outer open"><ul style="padding-left:0;" class="content" data-folderul><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div data-folderpath="Architecture"><button class="folder-button"><span class="folder-title">Architecture</span></button></div></div><div class="folder-outer "><ul style="padding-left:1.4rem;" class="content" data-folderul="Architecture"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div data-folderpath="Architecture/configuration"><button class="folder-button"><span class="folder-title">configuration</span></button></div></div><div class="folder-outer "><ul style="padding-left:1.4rem;" class="content" data-folderul="Architecture/configuration"><li><a href="../../../Architecture/configuration/Scenario.java" data-for="Architecture/configuration/Scenario.java">Scenario.java</a></li></ul></div></li><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div data-folderpath="Architecture/LibEvaluateur"><button class="folder-button"><span class="folder-title">LibEvaluateur</span></button></div></div><div class="folder-outer "><ul style="padding-left:1.4rem;" class="content" data-folderul="Architecture/LibEvaluateur"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div data-folderpath="Architecture/LibEvaluateur/EvaluationsCompilation"><button class="folder-button"><span class="folder-title">EvaluationsCompilation</span></button></div></div><div class="folder-outer "><ul style="padding-left:1.4rem;" class="content" data-folderul="Architecture/LibEvaluateur/EvaluationsCompilation"><li><a href="../../../Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilationAda.java" data-for="Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilationAda.java">EvaluateurCompilationAda.java</a></li></ul></div></li><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div data-folderpath="Architecture/LibEvaluateur/EvaluationsStyle"><button class="folder-button"><span class="folder-title">EvaluationsStyle</span></button></div></div><div class="folder-outer "><ul style="padding-left:1.4rem;" class="content" data-folderul="Architecture/LibEvaluateur/EvaluationsStyle"><li><a href="../../../Architecture/LibEvaluateur/EvaluationsStyle/CheckStyle.java" data-for="Architecture/LibEvaluateur/EvaluationsStyle/CheckStyle.java">CheckStyle.java</a></li></ul></div></li><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div data-folderpath="Architecture/LibEvaluateur/EvaluationsUnitaire"><button class="folder-button"><span class="folder-title">EvaluationsUnitaire</span></button></div></div><div class="folder-outer "><ul style="padding-left:1.4rem;" class="content" data-folderul="Architecture/LibEvaluateur/EvaluationsUnitaire"><li><a href="../../../Architecture/LibEvaluateur/EvaluationsUnitaire/EvaluateurJUnit.java" data-for="Architecture/LibEvaluateur/EvaluationsUnitaire/EvaluateurJUnit.java">EvaluateurJUnit.java</a></li></ul></div></li><li><a href="../../../Architecture/LibEvaluateur/Evaluateur.java" data-for="Architecture/LibEvaluateur/Evaluateur.java">Evaluateur.java</a></li></ul></div></li><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div data-folderpath="Architecture/LibExplorateurs"><button class="folder-button"><span class="folder-title">LibExplorateurs</span></button></div></div><div class="folder-outer "><ul style="padding-left:1.4rem;" class="content" data-folderul="Architecture/LibExplorateurs"><li><a href="../../../Architecture/LibExplorateurs/Explorateur.java" data-for="Architecture/LibExplorateurs/Explorateur.java">Explorateur.java</a></li><li><a href="../../../Architecture/LibExplorateurs/ExplorateurGit.java" data-for="Architecture/LibExplorateurs/ExplorateurGit.java">ExplorateurGit.java</a></li><li><a href="../../../Architecture/LibExplorateurs/ExplorateurSimple.java" data-for="Architecture/LibExplorateurs/ExplorateurSimple.java">ExplorateurSimple.java</a></li></ul></div></li><li><a href="../../../Architecture/Superviseur.java" data-for="Architecture/Superviseur.java">Superviseur.java</a></li></ul></div></li><li><div class="folder-outer "><ul style="padding-left:0;" class="content" data-folderul></ul></div></li></ul></div></li><li id="explorer-end"></li></ul></div></div></div></aside></div></div></div><div class="right sidebar"><div class="graph"><h3>Vue Graphique</h3><div class="graph-outer"><div id="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false}"></div><button id="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div id="global-graph-outer"><div id="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" id="toc" class aria-controls="toc-content" aria-expanded="true"><h3>Table des Matières</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="toc-content" class><ul class="overflow"><li class="depth-0"><a href="#evaluateurjunitjava" data-for="evaluateurjunitjava">EvaluateurJUnit.java</a></li><li class="depth-1"><a href="#package" data-for="package">Package</a></li><li class="depth-1"><a href="#description" data-for="description">Description</a></li><li class="depth-1"><a href="#purpose" data-for="purpose">Purpose</a></li><li class="depth-1"><a href="#inheritance" data-for="inheritance">Inheritance</a></li><li class="depth-1"><a href="#fields" data-for="fields">Fields</a></li><li class="depth-2"><a href="#fichierstests" data-for="fichierstests">fichiersTests</a></li><li class="depth-2"><a href="#classpaths" data-for="classpaths">classpaths</a></li><li class="depth-1"><a href="#constructors" data-for="constructors">Constructors</a></li><li class="depth-2"><a href="#evaluateurjunitarraylistfile-fichiers" data-for="evaluateurjunitarraylistfile-fichiers">EvaluateurJUnit(ArrayList&lt;File> fichiers)</a></li><li class="depth-2"><a href="#evaluateurjunitarraylistfile-fichiers-arrayliststring-classpaths" data-for="evaluateurjunitarraylistfile-fichiers-arrayliststring-classpaths">EvaluateurJUnit(ArrayList&lt;File> fichiers, ArrayList&lt;String> classpaths)</a></li><li class="depth-1"><a href="#key-methods" data-for="key-methods">Key Methods</a></li><li class="depth-2"><a href="#evaluer" data-for="evaluer">evaluer()</a></li><li class="depth-2"><a href="#resultatverstap" data-for="resultatverstap">ResultatVersTAP()</a></li><li class="depth-2"><a href="#obtenirnomclassefile-fichier" data-for="obtenirnomclassefile-fichier">obtenirNomClasse(File fichier)</a></li><li class="depth-1"><a href="#junit-execution-flow" data-for="junit-execution-flow">JUnit Execution Flow</a></li><li class="depth-1"><a href="#result-format" data-for="result-format">Result Format</a></li><li class="depth-1"><a href="#junit-result-object" data-for="junit-result-object">JUnit Result Object</a></li><li class="depth-1"><a href="#classloader-configuration" data-for="classloader-configuration">ClassLoader Configuration</a></li><li class="depth-1"><a href="#output-capture" data-for="output-capture">Output Capture</a></li><li class="depth-1"><a href="#error-scenarios" data-for="error-scenarios">Error Scenarios</a></li><li class="depth-1"><a href="#usage-example" data-for="usage-example">Usage Example</a></li><li class="depth-1"><a href="#integration-with-aggregateur" data-for="integration-with-aggregateur">Integration with Aggregateur</a></li><li class="depth-1"><a href="#improvements-needed" data-for="improvements-needed">Improvements Needed</a></li><li class="depth-1"><a href="#related-classes" data-for="related-classes">Related Classes</a></li></ul></div></div><div class="backlinks"><h3>Liens retour</h3><ul class="overflow"><li>Aucun lien retour trouvé</li></ul></div></div><footer class><p>Ce projet est inscrit dans le cadre du projet long de troisième année à l'ENSEEIHT. <br/><a href="https://www.enseeiht.fr/">https://www.enseeiht.fr/</a> <br/>par DEMAZURE Clément, BONTINCK Laérian, OLIVIER Louis-Clément et GUTTIEREZ Tom.</p><ul><li><a href="https://github.com/Hdvbxh7/FRED">GitHub du projet</a></li></ul></footer></div></div></body><script type="application/javascript">function c(){let t=this.parentElement;t.classList.toggle("is-collapsed");let l=t.classList.contains("is-collapsed")?this.scrollHeight:t.scrollHeight;t.style.maxHeight=l+"px";let o=t,e=t.parentElement;for(;e;){if(!e.classList.contains("callout"))return;let n=e.classList.contains("is-collapsed")?e.scrollHeight:e.scrollHeight+o.scrollHeight;e.style.maxHeight=n+"px",o=e,e=e.parentElement}}function i(){let t=document.getElementsByClassName("callout is-collapsible");for(let s of t){let l=s.firstElementChild;if(l){l.addEventListener("click",c),window.addCleanup(()=>l.removeEventListener("click",c));let e=s.classList.contains("is-collapsed")?l.scrollHeight:s.scrollHeight;s.style.maxHeight=e+"px"}}}document.addEventListener("nav",i);window.addEventListener("resize",i);
+</script><script type="module">
+          let mermaidImport = undefined
+          document.addEventListener('nav', async () => {
+            if (document.querySelector("code.mermaid")) {
+              mermaidImport ||= await import('https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs')
+              const mermaid = mermaidImport.default
+              const darkMode = document.documentElement.getAttribute('saved-theme') === 'dark'
+              mermaid.initialize({
+                startOnLoad: false,
+                securityLevel: 'loose',
+                theme: darkMode ? 'dark' : 'default'
+              })
+
+              await mermaid.run({
+                querySelector: '.mermaid'
+              })
+            }
+          });
+          </script><script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/copy-tex.min.js" type="application/javascript"></script><script type="application/javascript">
+        const socket = new WebSocket('ws://localhost:3001')
+        // reload(true) ensures resources like images and scripts are fetched again in firefox
+        socket.addEventListener('message', () => document.location.reload(true))
+      </script><script src="../../../postscript.js" type="module"></script></html>

@@ -8,8 +8,7 @@ export const sharedPageComponents: SharedLayout = {
   afterBody: [Component.MobileOnly(Component.MobileSidebar())],
   footer: Component.Footer({
     links: {
-      GitHub: "https://github.com/jackyzha0/quartz",
-      "Discord Community": "https://discord.gg/cRFFHYye7t",
+      "GitHub du projet": "https://github.com/Hdvbxh7/FRED",
     },
   }),
 }

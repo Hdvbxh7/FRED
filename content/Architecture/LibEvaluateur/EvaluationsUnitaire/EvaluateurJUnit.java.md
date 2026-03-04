@@ -1,0 +1,1 @@
+Cette classe hérite d'[[EvaluateurUnitaire.java|EvaluateurUnitaire]] et exécute des tests JUnit sur des classes de test compilées. Elle charge dynamiquement les classes de test, les exécute avec JUnitCore, collecte les résultats (réussis, échoués, avec détails des erreurs), et les convertit au format TAP pour un rapport standardisé.

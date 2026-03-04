@@ -14,8 +14,9 @@ export default ((opts?: Options) => {
     return (
       <footer class={`${displayClass ?? ""}`}>
         <p>
-          {i18n(cfg.locale).components.footer.createdWith}{" "}
-          <a href="https://quartz.jzhao.xyz/">Quartz v{version}</a> © {year}
+          Ce projet est inscrit dans le cadre du projet long de troisième année à l'ENSEEIHT. <br></br>
+          <a href="https://www.enseeiht.fr/">https://www.enseeiht.fr/</a> <br></br>
+          par DEMAZURE Clément, BONTINCK Laérian, OLIVIER Louis-Clément et GUTTIEREZ Tom.
         </p>
         <ul>
           {Object.entries(links).map(([text, link]) => (

@@ -1,0 +1,1 @@
+Cette classe hérite d'[[Explorateur.java|Explorateur]] et gère l'évaluation de projets hébergés sur des dépôts Git distants. Elle lit un fichier CSV contenant les identifiants et URLs des dépôts étudiants, clone ou met à jour chaque dépôt localement via [[AppelGit.java|AppelGit]], et peut optionnellement pousser les résultats d'évaluation sur une branche dédiée de chaque dépôt.

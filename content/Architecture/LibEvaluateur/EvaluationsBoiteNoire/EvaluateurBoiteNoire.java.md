@@ -1,0 +1,1 @@
+Cette classe hérite d'[[Evaluateur.java|Evaluateur]] et est destinée à implémenter des tests en boîte noire, c'est-à-dire des tests qui vérifient le comportement d'un programme sans accéder à sa structure interne. La classe est actuellement vide et attend son implémentation.

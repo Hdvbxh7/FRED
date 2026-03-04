@@ -2,21 +2,69 @@
 <rss version="2.0">
     <channel>
       <title>F.R.E.D</title>
-      <link>https://quartz.jzhao.xyz</link>
-      <description>Last 10 notes on F.R.E.D</description>
+      <link>https://https://github.com/Hdvbxh7/FRED</link>
+      <description>Les dernières 10 notes on F.R.E.D</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
-    <title>Some note</title>
-    <link>https://quartz.jzhao.xyz/Test-Category/Some-note</link>
-    <guid>https://quartz.jzhao.xyz/Test-Category/Some-note</guid>
-    <description>Just another note, but it links to index.</description>
-    <pubDate>Tue, 03 Mar 2026 20:27:20 GMT</pubDate>
+    <title>Evaluateur.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/Evaluateur.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/Evaluateur.java</guid>
+    <description>Cette classe abstraite définit l’interface commune pour tous les types d’évaluateurs du système. Elle utilise TAP (Test Anything Protocol) pour standardiser le format des résultats de tests et fournit les méthodes de base pour évaluer du code, stocker les résultats et convertir les sorties en format TAP.</description>
+    <pubDate>Wed, 04 Mar 2026 15:07:15 GMT</pubDate>
   </item><item>
-    <title>MoutonQuartz</title>
-    <link>https://quartz.jzhao.xyz/</link>
-    <guid>https://quartz.jzhao.xyz/</guid>
-    <description>This is a simple static website built with Quartz. It serves as a base to build a website from an Obsidian vault. You can find the source code on Github : MoutonQuartz If you like it, check out the original : Quartz.</description>
-    <pubDate>Tue, 03 Mar 2026 20:27:20 GMT</pubDate>
+    <title>Test.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/Tests/Test.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/Tests/Test.java</guid>
+    <description></description>
+    <pubDate>Wed, 04 Mar 2026 15:06:56 GMT</pubDate>
+  </item><item>
+    <title>DossierGitATester.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/Git/DossierGitATester.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/Git/DossierGitATester.java</guid>
+    <description></description>
+    <pubDate>Wed, 04 Mar 2026 15:06:53 GMT</pubDate>
+  </item><item>
+    <title>AppelGit.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/Git/AppelGit.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/Git/AppelGit.java</guid>
+    <description></description>
+    <pubDate>Wed, 04 Mar 2026 15:06:51 GMT</pubDate>
+  </item><item>
+    <title>ExplorateurGit.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/ExplorateurGit.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/ExplorateurGit.java</guid>
+    <description></description>
+    <pubDate>Wed, 04 Mar 2026 15:06:48 GMT</pubDate>
+  </item><item>
+    <title>ExplorateurSimple.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/ExplorateurSimple.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/ExplorateurSimple.java</guid>
+    <description></description>
+    <pubDate>Wed, 04 Mar 2026 15:06:44 GMT</pubDate>
+  </item><item>
+    <title>Explorateur.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/Explorateur.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/Explorateur.java</guid>
+    <description></description>
+    <pubDate>Wed, 04 Mar 2026 15:06:40 GMT</pubDate>
+  </item><item>
+    <title>EvaluateurUnitaire.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsUnitaire/EvaluateurUnitaire.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsUnitaire/EvaluateurUnitaire.java</guid>
+    <description></description>
+    <pubDate>Wed, 04 Mar 2026 15:06:36 GMT</pubDate>
+  </item><item>
+    <title>CheckStyle.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsStyle/CheckStyle.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsStyle/CheckStyle.java</guid>
+    <description>Cette classe hérite d’EvaluateurStyle et utilise l’outil Checkstyle pour analyser le style et la qualité du code Java. Elle applique un ensemble de règles de style (définies dans un fichier XML de configuration) sur les fichiers source, détecte les violations, et génère un rapport des problèmes de style trouvés.</description>
+    <pubDate>Wed, 04 Mar 2026 15:06:34 GMT</pubDate>
+  </item><item>
+    <title>EvaluateurValgrind.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsMemoire/EvaluateurValgrind.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsMemoire/EvaluateurValgrind.java</guid>
+    <description></description>
+    <pubDate>Wed, 04 Mar 2026 15:06:29 GMT</pubDate>
   </item>
     </channel>
   </rss>
