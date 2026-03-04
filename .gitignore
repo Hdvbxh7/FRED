@@ -1,7 +1,7 @@
 *.class
 *.jar
 /BacATest/*
-.github
+/.github/copilot-instructions.md
 studentRepo/
 mdpGit.txt
 GitPaths.csv
