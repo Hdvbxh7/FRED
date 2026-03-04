@@ -6,65 +6,65 @@
       <description>Les dernières 10 notes on F.R.E.D</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
-    <title>Untitled</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/Untitled</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/Untitled</guid>
-    <description></description>
-    <pubDate>Wed, 04 Mar 2026 15:49:40 GMT</pubDate>
+    <title>Documentation de F.R.E.D</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/</guid>
+    <description>F.R.E.D (Framework de Review d’Exercices en Direct) est une librairie Java qui fournit un accès facile aux outils de tests utilisés pour passer en revue le code d’étudiants ...</description>
+    <pubDate>Wed, 04 Mar 2026 16:04:22 GMT</pubDate>
   </item><item>
     <title>Découverte</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/D%C3%A9couverte</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/D%C3%A9couverte</guid>
     <description>Bonjour.</description>
-    <pubDate>Wed, 04 Mar 2026 15:49:40 GMT</pubDate>
+    <pubDate>Wed, 04 Mar 2026 16:04:22 GMT</pubDate>
   </item><item>
     <title>Ada</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Languages/Ada</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Languages/Ada</guid>
     <description> ERROR Cet article n’est pas fini.</description>
-    <pubDate>Wed, 04 Mar 2026 15:41:12 GMT</pubDate>
+    <pubDate>Wed, 04 Mar 2026 16:04:22 GMT</pubDate>
   </item><item>
     <title>Java</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Languages/Java</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Languages/Java</guid>
     <description> ERROR Cet article n’est pas fini.</description>
-    <pubDate>Wed, 04 Mar 2026 15:41:07 GMT</pubDate>
-  </item><item>
-    <title>Evaluateur.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/Evaluateur.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/Evaluateur.java</guid>
-    <description>Cette classe abstraite définit l’interface commune pour tous les types d’évaluateurs du système. Elle utilise TAP (Test Anything Protocol) pour standardiser le format des résultats de tests et fournit les méthodes de base pour évaluer du code, stocker les résultats et convertir les sorties en format TAP.</description>
-    <pubDate>Wed, 04 Mar 2026 15:07:15 GMT</pubDate>
+    <pubDate>Wed, 04 Mar 2026 16:04:22 GMT</pubDate>
   </item><item>
     <title>Test.java</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/Tests/Test.java</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/Tests/Test.java</guid>
     <description>Cette classe simple sert de fichier de test ou d’exemple pour vérifier le bon fonctionnement du système d’évaluation. Elle contient une méthode basique qui permet de tester les différents évaluateurs du projet.</description>
-    <pubDate>Wed, 04 Mar 2026 15:06:56 GMT</pubDate>
+    <pubDate>Wed, 04 Mar 2026 16:04:22 GMT</pubDate>
+  </item><item>
+    <title>Scenario.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/configuration/Scenario.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/configuration/Scenario.java</guid>
+    <description>Cette classe configure et orchestre l’exécution des scénarios de tests sur les dossiers étudiants. Elle définit les paramètres globaux comme la date limite d’évaluation, le type d’explorateur à utiliser (Git, Simple ou Scénario), et le chemin du projet à tester.</description>
+    <pubDate>Wed, 04 Mar 2026 16:04:22 GMT</pubDate>
+  </item><item>
+    <title>Utiles.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/configuration/Utiles.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/configuration/Utiles.java</guid>
+    <description>Cette classe fournit des fonctions utilitaires statiques pour manipuler les fichiers et les processus. Elle permet notamment de copier des fichiers, de lire le contenu d’un fichier sous forme de chaîne de caractères, d’afficher les sorties de processus externes, et de supprimer des répertoires de manière récursive.</description>
+    <pubDate>Wed, 04 Mar 2026 16:04:22 GMT</pubDate>
   </item><item>
     <title>DossierGitATester.java</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/Git/DossierGitATester.java</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/Git/DossierGitATester.java</guid>
     <description>Cette classe implémente Runnable et représente un dossier Git étudiant à évaluer de manière asynchrone. Elle gère la mise à jour du dépôt depuis l’URL distante, vérifie si de nouveaux tests sont nécessaires en comparant la date du dernier test avec la date limite, exécute le scénario de tests, et publie les résultats sur le dépôt Git.</description>
-    <pubDate>Wed, 04 Mar 2026 15:06:53 GMT</pubDate>
+    <pubDate>Wed, 04 Mar 2026 16:04:22 GMT</pubDate>
   </item><item>
-    <title>AppelGit.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/Git/AppelGit.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/Git/AppelGit.java</guid>
-    <description>Cette classe encapsule les opérations Git (clone, pull, commit, push) en utilisant la bibliothèque JGit. Elle gère l’authentification, le clonage initial des dépôts étudiants, la mise à jour via pull, et la publication des résultats d’évaluation via commit et push, tout en gérant les erreurs et les conflits potentiels.</description>
-    <pubDate>Wed, 04 Mar 2026 15:06:51 GMT</pubDate>
+    <title>Superviseur.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/Superviseur.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/Superviseur.java</guid>
+    <description>Cette classe est le point d’entrée principal de FRED. Elle récupère la liste des dossiers à tester via l’explorateur configuré dans Scenario, puis lance l’évaluation de chaque dossier en parallèle à l’aide de threads virtuels, permettant ainsi de tester plusieurs projets étudiants simultanément de manière efficace.</description>
+    <pubDate>Wed, 04 Mar 2026 16:04:22 GMT</pubDate>
   </item><item>
-    <title>ExplorateurGit.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/ExplorateurGit.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/ExplorateurGit.java</guid>
-    <description>Cette classe hérite d’Explorateur et gère l’évaluation de projets hébergés sur des dépôts Git distants. Elle lit un fichier CSV contenant les identifiants et URLs des dépôts étudiants, clone ou met à jour chaque dépôt localement via AppelGit, et peut optionnellement pousser les résultats d’évaluation sur une branche dédiée de chaque dépôt.</description>
-    <pubDate>Wed, 04 Mar 2026 15:06:48 GMT</pubDate>
-  </item><item>
-    <title>ExplorateurScenario.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/ExplorateurScenario.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/ExplorateurScenario.java</guid>
-    <description>Cette classe hérite d’Explorateur et délègue la collecte des dossiers et le post-traitement aux fonctions définies dans Scenario. Elle offre une flexibilité maximale en permettant de personnaliser complètement la logique d’exploration via la classe de configuration.</description>
-    <pubDate>Wed, 04 Mar 2026 15:06:46 GMT</pubDate>
+    <title>ExplorateurSimple.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/ExplorateurSimple.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/ExplorateurSimple.java</guid>
+    <description>Cette classe hérite d’Explorateur et explore simplement un dossier source pour identifier tous les sous-dossiers étudiants à tester. Elle utilise DossFilter pour filtrer les répertoires et ne nécessite aucun traitement particulier après l’évaluation.</description>
+    <pubDate>Wed, 04 Mar 2026 16:04:22 GMT</pubDate>
   </item>
     </channel>
   </rss>
