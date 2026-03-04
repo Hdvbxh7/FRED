@@ -5,17 +5,9 @@
 .view-header-title,
 .markdown-preview-view h1,
 .markdown-preview-view h2,
-.markdown-preview-view h3,
-.markdown-preview-view h4,
-.markdown-preview-view h5,
-.markdown-preview-view h6,
 .cm-header,
 .cm-header-1,
-.cm-header-2,
-.cm-header-3,
-.cm-header-4,
-.cm-header-5,
-.cm-header-6 {
+.cm-header-2 {
     font-family: "Ruigslay","Stardom", serif !important;
 }
 

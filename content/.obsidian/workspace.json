@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "2cb72a69c227a8e3",
+        "id": "42e39699d80fcc68",
         "type": "tabs",
         "children": [
           {
-            "id": "a4e4786cb35b1049",
+            "id": "da94b6370b84b62d",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Architecture/LibEvaluateur/Evaluateur.java.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "Evaluateur.java"
+              "title": "New tab"
             }
           }
         ]
@@ -78,7 +74,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 295
   },
   "right": {
     "id": "92784a2c5766421f",
@@ -184,12 +180,29 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "a4e4786cb35b1049",
+  "active": "9686067bffd8b3a7",
   "lastOpenFiles": [
-    "Architecture/LibEvaluateur/Aggregateur.java.md",
-    "Architecture/LibEvaluateur/Evaluateur.java.md",
-    "Architecture/configuration/Utiles.java.md",
+    "Drawing 2026-01-22 22.52.47.excalidraw.md",
+    "Languages/Java.md",
+    "Languages/Ada.md",
+    "Comment utiliser FRED ?/Découverte.md",
+    "index.md",
+    "Comment utiliser FRED ?",
     "Architecture/configuration/Scenario.java.md",
+    "Architecture/configuration/Utiles.java.md",
+    "Architecture/LibEvaluateur/Evaluateur.java.md",
+    "Architecture/LibEvaluateur/EvaluationsBoiteNoire/EvaluateurBoiteNoire.java.md",
+    "Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilation.java.md",
+    "Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilationJava.java.md",
+    "Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilationAda.java.md",
+    "Languages",
+    "Architecture/LibEvaluateur/EvaluationsMemoire/EvaluateurValgrind.java.md",
+    "Architecture/LibEvaluateur/EvaluationsMemoire/EvaluateurMemoire.java.md",
+    "Architecture/LibEvaluateur/EvaluationsStyle/EvaluateurStyle.java.md",
+    "Architecture/LibEvaluateur/EvaluationsUnitaire/EvaluateurJUnit.java.md",
+    "Architecture/LibEvaluateur/EvaluationsUnitaire/EvaluateurUnitaire.java.md",
+    "Architecture/LibEvaluateur/EvaluationsStyle/CheckStyle.java.md",
+    "Architecture/LibEvaluateur/Aggregateur.java.md",
     "Architecture/Superviseur.java.md",
     "Architecture/Tests/Test.java.md",
     "Architecture/LibExplorateurs/Git/DossierGitATester.java.md",
@@ -198,19 +211,6 @@
     "Architecture/LibExplorateurs/ExplorateurGit.java.md",
     "Architecture/LibExplorateurs/ExplorateurScenario.java.md",
     "Architecture/LibExplorateurs/ExplorateurSimple.java.md",
-    "Architecture/LibExplorateurs/DossFilter.java.md",
-    "Architecture/LibExplorateurs/Explorateur.java.md",
-    "Architecture/LibEvaluateur/EvaluationsUnitaire/EvaluateurJUnit.java.md",
-    "Architecture/LibEvaluateur/EvaluationsUnitaire/EvaluateurUnitaire.java.md",
-    "Architecture/LibEvaluateur/EvaluationsStyle/CheckStyle.java.md",
-    "Architecture/LibEvaluateur/EvaluationsStyle/EvaluateurStyle.java.md",
-    "Architecture/LibEvaluateur/EvaluationsMemoire/EvaluateurValgrind.java.md",
-    "Architecture/LibEvaluateur/EvaluationsMemoire/EvaluateurMemoire.java.md",
-    "Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilationAda.java.md",
-    "Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilationJava.java.md",
-    "Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilation.java.md",
-    "Architecture/LibEvaluateur/EvaluationsBoiteNoire/EvaluateurBoiteNoire.java.md",
-    "index.md",
     "Architecture/LibEvaluateur/EvaluationsUnitaire",
     "Architecture/LibEvaluateur/EvaluationsStyle",
     "Architecture/LibEvaluateur/EvaluationsMemoire",
@@ -218,10 +218,6 @@
     "Architecture/LibEvaluateur/EvaluationsBoiteNoire",
     "Architecture/libs",
     "Architecture/configuration",
-    "Architecture/Tests",
-    "Architecture/LibExplorateurs",
-    "Architecture/Some note.md",
-    "Meurtre (?) à l'Opéra.md",
     "Media/SVG/garden_shape.svg",
     "Media/SVG/garden_shape.png",
     "Media/SVG/fountain_shape.svg",

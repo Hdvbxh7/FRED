@@ -18,6 +18,8 @@ De plus, les tests à effectuer et la manière de les agencer pourront être dé
 Le projet ce doit d'être open source et documenté au mieux, aussi bien pour les utilisateurs que pour le code source, afin qu'il puisse être maintenus et enrichis par d'autres personnes que nous. Le but n'est pas de produire un exécutable complet, mais un projet facilement modifiable pour s'adapter à des contraintes futures.
 
 
-## Comment utiliser cet 
+## Comment utiliser FRED ?
+Veuillez consulter la catégorie "[[Comment utiliser FRED ?]]"
+
 ---
 Cette documentation est construite avec une [version modifiée](https://github.com/MoutonSuite/obsidian-quartz-mouton) de [Quartz](https://quartz.jzhao.xyz/)

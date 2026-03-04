@@ -6,6 +6,30 @@
       <description>Les dernières 10 notes on F.R.E.D</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>Untitled</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/Untitled</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/Untitled</guid>
+    <description></description>
+    <pubDate>Wed, 04 Mar 2026 15:49:40 GMT</pubDate>
+  </item><item>
+    <title>Découverte</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/D%C3%A9couverte</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/D%C3%A9couverte</guid>
+    <description>Bonjour.</description>
+    <pubDate>Wed, 04 Mar 2026 15:49:40 GMT</pubDate>
+  </item><item>
+    <title>Ada</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Languages/Ada</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Languages/Ada</guid>
+    <description> ERROR Cet article n’est pas fini.</description>
+    <pubDate>Wed, 04 Mar 2026 15:41:12 GMT</pubDate>
+  </item><item>
+    <title>Java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Languages/Java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Languages/Java</guid>
+    <description> ERROR Cet article n’est pas fini.</description>
+    <pubDate>Wed, 04 Mar 2026 15:41:07 GMT</pubDate>
+  </item><item>
     <title>Evaluateur.java</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/Evaluateur.java</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/Evaluateur.java</guid>
@@ -15,56 +39,32 @@
     <title>Test.java</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/Tests/Test.java</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/Tests/Test.java</guid>
-    <description></description>
+    <description>Cette classe simple sert de fichier de test ou d’exemple pour vérifier le bon fonctionnement du système d’évaluation. Elle contient une méthode basique qui permet de tester les différents évaluateurs du projet.</description>
     <pubDate>Wed, 04 Mar 2026 15:06:56 GMT</pubDate>
   </item><item>
     <title>DossierGitATester.java</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/Git/DossierGitATester.java</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/Git/DossierGitATester.java</guid>
-    <description></description>
+    <description>Cette classe implémente Runnable et représente un dossier Git étudiant à évaluer de manière asynchrone. Elle gère la mise à jour du dépôt depuis l’URL distante, vérifie si de nouveaux tests sont nécessaires en comparant la date du dernier test avec la date limite, exécute le scénario de tests, et publie les résultats sur le dépôt Git.</description>
     <pubDate>Wed, 04 Mar 2026 15:06:53 GMT</pubDate>
   </item><item>
     <title>AppelGit.java</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/Git/AppelGit.java</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/Git/AppelGit.java</guid>
-    <description></description>
+    <description>Cette classe encapsule les opérations Git (clone, pull, commit, push) en utilisant la bibliothèque JGit. Elle gère l’authentification, le clonage initial des dépôts étudiants, la mise à jour via pull, et la publication des résultats d’évaluation via commit et push, tout en gérant les erreurs et les conflits potentiels.</description>
     <pubDate>Wed, 04 Mar 2026 15:06:51 GMT</pubDate>
   </item><item>
     <title>ExplorateurGit.java</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/ExplorateurGit.java</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/ExplorateurGit.java</guid>
-    <description></description>
+    <description>Cette classe hérite d’Explorateur et gère l’évaluation de projets hébergés sur des dépôts Git distants. Elle lit un fichier CSV contenant les identifiants et URLs des dépôts étudiants, clone ou met à jour chaque dépôt localement via AppelGit, et peut optionnellement pousser les résultats d’évaluation sur une branche dédiée de chaque dépôt.</description>
     <pubDate>Wed, 04 Mar 2026 15:06:48 GMT</pubDate>
   </item><item>
-    <title>ExplorateurSimple.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/ExplorateurSimple.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/ExplorateurSimple.java</guid>
-    <description></description>
-    <pubDate>Wed, 04 Mar 2026 15:06:44 GMT</pubDate>
-  </item><item>
-    <title>Explorateur.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/Explorateur.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/Explorateur.java</guid>
-    <description></description>
-    <pubDate>Wed, 04 Mar 2026 15:06:40 GMT</pubDate>
-  </item><item>
-    <title>EvaluateurUnitaire.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsUnitaire/EvaluateurUnitaire.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsUnitaire/EvaluateurUnitaire.java</guid>
-    <description></description>
-    <pubDate>Wed, 04 Mar 2026 15:06:36 GMT</pubDate>
-  </item><item>
-    <title>CheckStyle.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsStyle/CheckStyle.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsStyle/CheckStyle.java</guid>
-    <description>Cette classe hérite d’EvaluateurStyle et utilise l’outil Checkstyle pour analyser le style et la qualité du code Java. Elle applique un ensemble de règles de style (définies dans un fichier XML de configuration) sur les fichiers source, détecte les violations, et génère un rapport des problèmes de style trouvés.</description>
-    <pubDate>Wed, 04 Mar 2026 15:06:34 GMT</pubDate>
-  </item><item>
-    <title>EvaluateurValgrind.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsMemoire/EvaluateurValgrind.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsMemoire/EvaluateurValgrind.java</guid>
-    <description></description>
-    <pubDate>Wed, 04 Mar 2026 15:06:29 GMT</pubDate>
+    <title>ExplorateurScenario.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/ExplorateurScenario.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/ExplorateurScenario.java</guid>
+    <description>Cette classe hérite d’Explorateur et délègue la collecte des dossiers et le post-traitement aux fonctions définies dans Scenario. Elle offre une flexibilité maximale en permettant de personnaliser complètement la logique d’exploration via la classe de configuration.</description>
+    <pubDate>Wed, 04 Mar 2026 15:06:46 GMT</pubDate>
   </item>
     </channel>
   </rss>
