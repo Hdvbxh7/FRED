@@ -104,4 +104,47 @@ public class Utiles {
             file.delete();
         }
     }
+
+    /**
+     * créer l'ensemble des dossiers parents
+     * @param fichier le fichier dont on doit construire l'arbre
+     * @param dossier si le fichier en bout de chaîne est un dossier
+     */
+    public static void createTree(File fichier,boolean dossier){
+        try {
+            //chemin local du fichier
+            String chemin = fichier.getPath();
+            //sous dossiers parents
+            String[] cheminDecoupe = chemin.split("/");
+            String cheminactuel = "";
+            //on fait chaque dossier
+            for(String part : cheminDecoupe){
+                //vérification sur la dérniére branche de l'arbre
+                if(!part.equals(cheminDecoupe[cheminDecoupe.length-1]) || dossier){
+                    //premier dossier
+                    if(cheminactuel.isBlank()){
+                        //chemin du dossier actuel a crée
+                        cheminactuel = cheminactuel.concat(part);
+                        File fichierActuel = new File(cheminactuel);
+                        //vérification d'existence et création si non
+                        if(!fichierActuel.exists()){
+                            fichierActuel.mkdirs();
+                        }
+                    //dossiers suivants    
+                    } else {
+                        //chemin du dossier actuel a crée
+                        cheminactuel = cheminactuel.concat("/"+part);
+                        File fichierActuel = new File(cheminactuel);
+                        //vérification d'existence et création si non
+                        if(!fichierActuel.exists()){
+                            fichierActuel.mkdirs();
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("fichier fourni invalide");
+            e.printStackTrace();
+        }
+    }
 }
