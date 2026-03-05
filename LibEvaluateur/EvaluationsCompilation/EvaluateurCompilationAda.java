@@ -6,7 +6,14 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.tap4j.model.Directive;
+import org.tap4j.model.TestResult;
+import org.tap4j.util.StatusValues;
+
 public class EvaluateurCompilationAda extends EvaluateurCompilation {
+	
+    private TestSet ensembleTest;
+
 
     protected List<File> fichiers = new ArrayList<File>();
 
@@ -29,19 +36,40 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
         return testsResultat;
     }
 
+    /**
+     * Convertit la sortie brute de gnatmake en format TAP.
+     *
+     * @param SortieTest la sortie brute produite par gnatmake
+     */
     protected void resultatVersTAP(String SortieTest) {
-        System.out.println("Voici la sortie +++++ " + SortieTest + " +++++");
-
-        if (SortieTest.isEmpty()) {
-            testsResultat = new Boolean[]{true};
-            resultat = "Test réussi";
-        } else {
-            testsResultat = new Boolean[]{false};
-            resultat = "Test raté";
-        }
-
-
-    }
+        testsResultat = new Boolean[1];
+		ensembleTest.setPlan( new Plan(2) );
+		TestResult presErr;
+		TestResult presAvrt;
+		if (SortieTest.isEmpty()){
+			presErr = new TestResult( StatusValues.OK, 1 );
+			presAvrt = new TestResult( StatusValues.OK, 2);
+	        testsResultat[0] = true;
+	        testsResultat[1] = true;
+			}
+		else if (derniereLigne(SortieTest).contains("\" compilation error")) {
+			// On pourrait rendre ça plus robuste avec des regexp..
+			presErr = new TestResult( StatusValues.NOT_OK, 1 );
+            Directive dirAvrt = new Directive(DirectivesValues.SKIP, "Erreur de compilation.");
+            presAvrt = new TestResult( StatusValues.NOT_OK, 2);
+            presAvrt.setDirective(dirAvrt);
+            testsResultat[0] = false;
+            testsResultat[1] = false;
+		} else {
+			presErr = new TestResult( StatusValues.OK, 1 );
+	        presAvrt = new TestResult( StatusValues.NOT_OK, 2);
+	        testsResultat[0] = true;
+	        testsResultat[1] = false;
+		}
+		ensembleTest.addTestResult( presErr );
+		ensembleTest.addTestResult( presAvrt );
+		this.resultat = producteur.dump( ensembleTest );
+	}
 
     public void evaluer() throws Exception {
         StringWriter sw = new StringWriter();
@@ -106,5 +134,9 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public static String derniereLigne(String text) {
+    	return text.substring(text.lastIndexOf('\n'));
     }
 }
