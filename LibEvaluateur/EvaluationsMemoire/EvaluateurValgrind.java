@@ -66,7 +66,6 @@ public class EvaluateurValgrind extends EvaluateurMemoire {
     /**
      * Convertit la sortie brute de Valgrind en format TAP.
      *
-     *
      * @param SortieTest la sortie brute produite par Valgrind
      */
     protected void resultatVersTAP(String SortieTest) {

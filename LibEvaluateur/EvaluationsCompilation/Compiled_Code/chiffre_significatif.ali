@@ -26,7 +26,7 @@ D a-tags.ads		20240521074738 9eaa38c6 ada.tags%s
 D a-textio.ads		20240521074738 5c2c6153 ada.text_io%s
 D a-tiinio.ads		20240521074738 e58fa6fb ada.text_io.integer_io%s
 D a-unccon.ads		20240521074738 0e9b276f ada.unchecked_conversion%s
-D chiffre_significatif.adb  20260302165811 d15392cf chiffre_significatif%b
+D chiffre_significatif.adb  20260302170051 d15392cf chiffre_significatif%b
 D interfac.ads		20240521074738 15f799c2 interfaces%s
 D i-cstrea.ads		20240521074738 e53d8b8e interfaces.c_streams%s
 D system.ads		20240521074738 426dafb8 system%s

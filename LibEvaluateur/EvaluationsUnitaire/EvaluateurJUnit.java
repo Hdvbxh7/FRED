@@ -61,10 +61,11 @@ public class EvaluateurJUnit extends EvaluateurUnitaire {
     }
 
     /**
-     * Convertit les résultats de l'évaluation en format TAP.
+     * Convertit les résultats de l'évaluation en format TAP. Dans cette classe, la sortie générée
+     * est déja au format tap. Cette fonction est donc vide.
      */
     @Override
-    protected void ResultatVersTAP() {
+    protected void resultatVersTAP(String SortieTest);
         /* TODO: Conversion vers format TAP (JP c'est ta tête sur l'affiche) */
     }
 

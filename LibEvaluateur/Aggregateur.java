@@ -63,8 +63,8 @@ public class Aggregateur {
         outputStringProfesseurs += "\nScore total : " + outputScore + " / " + totalScore;
         
         // Write both files
-        File professeurFile = new File(resultats.getParent(), "Resultats_professeur.txt");
-        File eleveFile = new File(resultats.getParent(), "Resultat_eleve.txt");
+        File professeurFile = new File(resultats.getAbsolutePath(), "Resultats_professeur.txt");
+        File eleveFile = new File(resultats.getAbsolutePath(), "Resultat_eleve.txt");
         
         try {
             java.nio.file.Files.write(professeurFile.toPath(), outputStringProfesseurs.getBytes());
@@ -85,7 +85,7 @@ public class Aggregateur {
             File aTester = new File("Tests/Test.java");
             File aTester2 = new File("BacATest/chiffre_significatif.adb");
 
-            Aggregateur aggreg = new Aggregateur(new File("Tests/result.txt"));
+            Aggregateur aggreg = new Aggregateur(new File("Tests/"));
 
             EvaluateurMemoire eval1 = new EvaluateurValgrind(aTester);
 
