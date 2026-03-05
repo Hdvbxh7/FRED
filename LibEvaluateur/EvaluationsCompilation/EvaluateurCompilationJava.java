@@ -1,3 +1,4 @@
+
 package LibEvaluateur.EvaluationsCompilation;
 
 import java.io.BufferedWriter;
@@ -11,6 +12,8 @@ import java.util.List;
 import javax.tools.*;
 
 import org.tap4j.model.TestResult;
+import org.tap4j.util.StatusValues;
+import org.tap4j.model.Directive;
 
 public class EvaluateurCompilationJava extends EvaluateurCompilation {
 
@@ -39,22 +42,40 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
         return testsResultat;
     }
 
+    /**
+     * Convertit la sortie brute de javac en format TAP.
+     *
+     * @param SortieTest la sortie brute produite par javac
+     */
     protected void resultatVersTAP(String SortieTest) {
-        System.out.println(SortieTest);
         testsResultat = new Boolean[1];
 		ensembleTest.setPlan( new Plan(2) );
-		TestResult presenceErreur;
-		if (SortieTest.contains(": error:")){
-			presenceErreur = new TestResult( StatusValues.NOT_OK, 1 );
+		TestResult presErr;
+		TestResult presAvrt;
+		if (derniereLigne(SortieTest).contains("error")){
+			presErr = new TestResult( StatusValues.NOT_OK, 1 );
+            Directive dirAvrt = new Directive(DirectivesValues.SKIP, "Erreur de compilation.");
+            presAvrt = new TestResult( StatusValues.NOT_OK, 2);
+            presAvrt.setDirective(dirAvrt);
             testsResultat[0] = false;
-            presenceFuite.setDescription(derniereLigne(SortieTest)));
-			}else {
-			presenceErreur = new TestResult( StatusValues.OK, 1 );
-            testsResultat[0] = true;
+            testsResultat[1] = false;
+			}
+		else if (derniereLigne(SortieTest).contains("warning")) {
+			presErr = new TestResult( StatusValues.OK, 1 );
+	        presAvrt = new TestResult( StatusValues.NOT_OK, 2);
+	        testsResultat[0] = true;
+	        testsResultat[1] = false;
+		} else {
+			presErr = new TestResult( StatusValues.OK, 1 );
+			presAvrt = new TestResult( StatusValues.OK, 2);
+	        testsResultat[0] = true;
+	        testsResultat[1] = true;
 		}
-		ensembleTest.addTestResult( presenceErreur );
+		ensembleTest.addTestResult( presErr );
+		ensembleTest.addTestResult( presAvrt );
 		this.resultat = producteur.dump( ensembleTest );
 	}
+
 
     public void evaluer() throws Exception {
 
