@@ -18,8 +18,6 @@ public class ExplorateurGit extends Explorateur{
 
     /**Liste de Threads */
     public ArrayList<Thread> tList;
-    /** Liste des dossiers à renvoyer */
-    public ArrayList<File> dossiersATester;
     /**liste des AppelsGits */
     public ArrayList<AppelGit> gitsEleve;
     /** TODO : chercher l'implémentation dans les cours */
@@ -32,6 +30,11 @@ public class ExplorateurGit extends Explorateur{
      * ...,...
     */
     private File csvGits;
+    String cheminProjetGit;
+
+    public String getCheminProjetGit() {
+        return cheminProjetGit;
+    }
 
     public String getMailCommit() {
         return mailCommit;
@@ -49,6 +52,28 @@ public class ExplorateurGit extends Explorateur{
         mailCommit = mail;
         csvGits = csv;
         lockPartage  = new ReentrantLock();
+        nomResultat = new ArrayList<File>();
+        dossiersATester = new ArrayList<File>();
+        gitsEleve = new ArrayList<AppelGit>();
+        cheminProjetGit = null;
+    }
+
+        /**
+     * 
+     * @param mail mail à lier aux commits de l'évaluateur 
+     * @param csv fichier csv qui contient tout les noms
+     * et l'url de chaque éléve selon le format
+     * login,url
+     * ...,...
+     */
+    public ExplorateurGit(String mail,File csv,String cheminProjet){
+        mailCommit = mail;
+        csvGits = csv;
+        lockPartage  = new ReentrantLock();
+        nomResultat = new ArrayList<File>();
+        dossiersATester = new ArrayList<File>();
+        gitsEleve = new ArrayList<AppelGit>();
+        cheminProjetGit = cheminProjet;
     }
     
     /** Dossier Local qui contient les repos */
@@ -65,10 +90,11 @@ public class ExplorateurGit extends Explorateur{
     private File ajoutTest(File dossierGit,String identifiantEleve){
         try {
             //dossier dans lequel les évaluations seront copiés
-            File dossierResultat = new File(dossierGit.getCanonicalPath()+Scenario.projet+"/evaluation");
+            File dossierResultat = new File(dossierGit.getCanonicalPath()+cheminProjetGit+"/evaluation");
 
             //fichier qui contient les informations d'évaluations
-            File resultatCalcule = new File("resultats/"+identifiantEleve+"/evaluation_"+identifiantEleve+".txt");
+            //TODO : voir avec lc le nom des fichiers résultats
+            File resultatCalcule = new File("resultats/"+identifiantEleve+cheminProjetGit+"/evaluation_"+identifiantEleve+".txt");
 
             //fichier de destination des tests
             File fichierResultat = new File(dossierResultat.getCanonicalPath()+"/evaluation.txt");
@@ -88,6 +114,7 @@ public class ExplorateurGit extends Explorateur{
         //récupére les différentes erreur d'écriture de fichier
         } catch (IOException e) {
             System.out.println("erreur d'écriture en ajoutant les résultats");
+            e.printStackTrace();
             return null;
         }
     }
@@ -121,7 +148,7 @@ public class ExplorateurGit extends Explorateur{
             String[] values = lines[ind].split(",");
             
             //création du Thread
-            threadPool.execute(new DossierGitATester(values[0], values[1], this));
+            threadPool.execute(new DossierGitATester(values[1], values[0], this));
         }
         shutdownAndWaitForTermination();
 

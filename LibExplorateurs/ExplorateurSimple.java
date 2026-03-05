@@ -9,14 +9,16 @@ public class ExplorateurSimple extends Explorateur{
 
     public ExplorateurSimple(File source){
         dossierSource = source;
+        nomResultat = new ArrayList<File>();
     }
     
     //methode
     public ArrayList<File> listeDossier(){
         File[] dossierEleves = dossierSource.listFiles(new DossFilter());
-        ArrayList<File> dossiersATester = new ArrayList<>();
+        dossiersATester = new ArrayList<>();
         for(File dossier : dossierEleves){
             dossiersATester.add(dossier);
+            addNomResultat(new File("resultat/"+dossier.getName()));
         }
         return dossiersATester;
     }

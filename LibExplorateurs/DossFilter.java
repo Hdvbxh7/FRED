@@ -24,7 +24,7 @@ public class DossFilter implements FileFilter{
      *          should be included
      */
     public boolean accept(File pathname){
-        if(dossName.isEmpty()){
+        if(dossName == null){
             return pathname.isDirectory();
         } else {
             return pathname.isDirectory() && (pathname.getName().equals(dossName));

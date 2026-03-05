@@ -16,9 +16,24 @@ import configuration.Scenario;
 public abstract class Explorateur {
 
     ExecutorService threadPool;
+    protected ArrayList<File> nomResultat;
+    protected ArrayList<File> dossiersATester;
+
+    public void addNomResultat(File dossier){
+        nomResultat.add(dossier);
+    }
+
+    public void addDossierATester(File dossier){
+        dossiersATester.add(dossier);
+    }
 
     //methode
     public abstract ArrayList<File> listeDossier();
+
+    public File getResultatDepuisDossierTeste(File dossier){
+        int indice = dossiersATester.indexOf(dossier);
+        return nomResultat.get(indice);
+    }
 
     public abstract void postprocess();
 

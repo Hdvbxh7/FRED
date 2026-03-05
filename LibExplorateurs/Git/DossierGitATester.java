@@ -11,13 +11,11 @@ import java.io.InputStreamReader;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
 import LibExplorateurs.ExplorateurGit;
-import configuration.Scenario;
 
 public class DossierGitATester implements Runnable{
     
     File dossierEleve;
     /** chemin du dossier sous git */
-    String cheminProjet;
     String urlEleve;
     String identifiantEleve;
     ExplorateurGit explo;
@@ -33,37 +31,23 @@ public class DossierGitATester implements Runnable{
         urlEleve = url;
         identifiantEleve = identifiant;
         explo =explorateur;
-        cheminProjet = null;
-    }
-
-    /**
-     * Constructeur où l'on doit rajouter un chemin 
-     * vers le dossier du projet
-     * @param url url du git à tester
-     * @param identifiant identifiant de l'éléve
-     * @param explorateur explorateur utilisé
-     * @param chemin chemin vers le dossier du projet
-     */
-    public DossierGitATester(String url,String identifiant,ExplorateurGit explorateur,String chemin){
-        urlEleve = url;
-        identifiantEleve = identifiant;
-        explo =explorateur;
-        cheminProjet = chemin;
     }
 
     /**
      * Mets à jour la date du dernier test
      * @throws IOException, renvoi une erreur si le fichier n'arrive pas à écrire dans dateDernierTest.txt
      */
-    private void majDateDernierTest(AppelGit git) throws IOException{
+    private void majDernierTest(AppelGit git) throws IOException{
         //fichier qui contient la date du dernier test
-        File dateDernierTest = new File("resultats/"+identifiantEleve+git.getCheminProjetGit()+"/dateDernierTest.txt");
+        File dateDernierTest = new File("resultats/"+identifiantEleve+explo.getCheminProjetGit()+"/dateDernierTest.txt");
 
         //créer le fichier s'il n'existe pas
         if (!dateDernierTest.exists()) {
+            configuration.Utiles.createTree(dateDernierTest, false);
             dateDernierTest.createNewFile();
         } else{
             dateDernierTest.delete();
+            configuration.Utiles.createTree(dateDernierTest, false);
             dateDernierTest.createNewFile();
         }
 
@@ -87,10 +71,10 @@ public class DossierGitATester implements Runnable{
      * @return la date du dernier Test réalisé
      * @throws IOException erreur dans la lecture du fichier
      */
-    private String dateDernierTest() throws IOException{
+    private String dernierCommit() throws IOException{
         try {
             //fichier qui contient la date de dernier commit
-            File fichierDateDernierTest = new File("resultats/"+identifiantEleve+"/dateDernierTest.txt");
+            File fichierDateDernierTest = new File("resultats/"+identifiantEleve+ explo.getCheminProjetGit()+"/dateDernierTest.txt");
 
             //ouverture des canaux de données
             InputStream is = new FileInputStream(fichierDateDernierTest);
@@ -133,12 +117,12 @@ public class DossierGitATester implements Runnable{
         String dernierCommit = "";
         
         //récupération du Git
-        AppelGit gitEleve = new AppelGit(urlEleve,dossierGit,identifiantEleve,cheminProjet);
+        AppelGit gitEleve = new AppelGit(urlEleve,dossierGit,identifiantEleve,explo.getCheminProjetGit());
 
         try {
             //Récupération de la date du dernier test et mise à jour
-            dernierCommit = dateDernierTest();
-            majDateDernierTest(gitEleve);
+            dernierCommit = dernierCommit();
+            majDernierTest(gitEleve);
 
         } catch (Exception e) {
             System.out.println("erreur lors de la mise à jour de la date de test");
@@ -146,15 +130,18 @@ public class DossierGitATester implements Runnable{
         }
 
         //vérifie si le dossier à besoin d'être tester
-        if(gitEleve.needTesting(dernierCommit)){
+        if(dernierCommit == null || gitEleve.needTesting(dernierCommit)){
             try {
                 //création du dossier à tester
-                File projetATester = new File(dossierGit.getCanonicalPath()+Scenario.projet);
+                File projetATester = new File(dossierGit.getCanonicalPath()+explo.getCheminProjetGit());
+
+                String resultat = "resultats/"+identifiantEleve+explo.getCheminProjetGit();
 
                 //ajout à l'explorateur
                 explo.lockPartage.lock();
                 explo.gitsEleve.add(gitEleve);
-                explo.dossiersATester.add(projetATester);
+                explo.addDossierATester(projetATester);
+                explo.addNomResultat(new File(resultat));
                 explo.lockPartage.unlock();
             //erreur de dossiers
             } catch (IOException e) {
