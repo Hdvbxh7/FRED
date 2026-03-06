@@ -11,3 +11,5 @@ resultats/
 .vscode
 .github
 TODO.txt
+bin/
+src/

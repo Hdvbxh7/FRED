@@ -8,7 +8,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+
+import java.util.Scanner;
+
+import org.tap4j.model.Comment;
+import org.tap4j.model.Directive;
+import org.tap4j.model.Plan;
+import org.tap4j.model.TestResult;
+import org.tap4j.model.TestSet;
+import org.tap4j.util.DirectiveValues;
+import org.tap4j.util.StatusValues;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import com.puppycrawl.tools.checkstyle.Checker;
@@ -22,6 +36,9 @@ import com.puppycrawl.tools.checkstyle.api.Configuration;
  * This class is the Checkstyle module
  * TODO
  */
+/**
+ * 
+ */
 public class CheckStyle extends EvaluateurStyle {
 
     /** result of all tests */
@@ -32,11 +49,11 @@ public class CheckStyle extends EvaluateurStyle {
 
     // parameters to set up
     /** List of files to analyze */
-    private ArrayList<File> FilesToCheck;
+    private ArrayList<File> filesToCheck;
     /** The XML file that contains the checks to run */
-    private File CheckstyleToUse;
+    private File checkstyleToUse;
     /** The properties file used by the Checkstyle configuration */
-    private Properties PropertiesToUse;
+    private Properties propertiesToUse;
 
     //constructors
 
@@ -45,8 +62,8 @@ public class CheckStyle extends EvaluateurStyle {
      * @param Files List of files to test
      */
     public CheckStyle(ArrayList<File> Files){
-        FilesToCheck = Files;
-        CheckstyleToUse = new File("LibEvaluateur/EvaluationsStyle/checkstyle-sans-javadoc.xml");
+        filesToCheck = Files;
+        checkstyleToUse = new File("LibEvaluateur/EvaluationsStyle/checkstyle-sans-javadoc.xml");
     }
 
     /**
@@ -56,8 +73,8 @@ public class CheckStyle extends EvaluateurStyle {
      * @param checkstyle XML configuration file
      */
     public CheckStyle(ArrayList<File> Files,File checkstyle){
-        FilesToCheck = Files;
-        CheckstyleToUse = checkstyle;
+        filesToCheck = Files;
+        checkstyleToUse = checkstyle;
     }
 
     /**
@@ -68,11 +85,11 @@ public class CheckStyle extends EvaluateurStyle {
      * @param properties File containing the properties used in the XML configuration
      */
     public CheckStyle(ArrayList<File> Files,File checkstyle,File properties){
-        PropertiesToUse = new Properties();
-        FilesToCheck = Files;
-        CheckstyleToUse = checkstyle;
+        propertiesToUse = new Properties();
+        filesToCheck = Files;
+        checkstyleToUse = checkstyle;
         try {
-            PropertiesToUse.load(new FileInputStream(properties));
+            propertiesToUse.load(new FileInputStream(properties));
         } catch (FileNotFoundException e){
             System.out.println("fichier de propriété non trouvé");
         } catch (IOException e) {
@@ -96,10 +113,67 @@ public class CheckStyle extends EvaluateurStyle {
         return testsResults;
     }
 
-    protected void ResultatVersTAP(){
-    }
-
     /**
+     * Convertit la sortie brute de CheckStyle en format TAP.
+     *
+     * @param sortieTest la sortie brute produite par Valgrind
+     */
+	@Override
+	protected void resultatVersTAP(String sortieTest) {
+		TestSet ensembleTestGlobal = new TestSet();
+		List<String> nomsVerifs;
+		try {
+			nomsVerifs = parserNomsVerifications(checkstyleToUse);
+		} catch (FileNotFoundException e){
+			ensembleTestGlobal.setPlan( new Plan(1) );
+        	TestResult resultat = new TestResult(StatusValues.NOT_OK, 1);
+        	Directive exFileNotFound = new Directive(DirectiveValues.SKIP,
+        			"Erreur, fichier de configuration de checkstyle introuvable");
+        	resultat.setDirective(exFileNotFound);
+            this.testsResults = new Boolean[1];
+            testsResults[0] = false;
+            ensembleTestGlobal.addTestResult(resultat);
+			this.resultat = producteur.dump(ensembleTestGlobal);
+			return;
+		}
+		Map<String,List<String>> erreursMap = new HashMap<String,List<String>>(nomsVerifs.size());
+		for (String verif : nomsVerifs) {
+			erreursMap.put(verif, new ArrayList<String>());
+		}
+		for (String line : sortieTest.split("\n")) {
+			line = line.strip();
+			for (String verif : nomsVerifs) {
+				if (line.endsWith("["+verif+"]")) {
+					erreursMap.get(verif).add(nettoyageLigneErreur(line.strip()));
+				}
+			}
+		}
+		this.testsResultat = new Boolean[nomsVerifs.size()];
+		ensembleTestGlobal.setPlan( new Plan(nomsVerifs.size()) );
+		for (String verif : nomsVerifs) {
+			testsResultat[nomsVerifs.indexOf(verif)] = erreursMap.get(verif).isEmpty();
+			TestResult resultatVerif = new TestResult(StatusValues.OK, nomsVerifs.indexOf(verif)+1);
+			resultatVerif.setDescription(verif);
+			if (!erreursMap.get(verif).isEmpty()) {
+				resultatVerif.setStatus(StatusValues.NOT_OK);
+				TestSet erreursVerif = new TestSet();
+				erreursVerif.setPlan(new Plan(erreursMap.get(verif).size()));
+				for (String ligneErr : erreursMap.get(verif)) {
+					TestResult errResult = new TestResult(StatusValues.NOT_OK, erreursMap.get(verif).indexOf(ligneErr)+1);
+					errResult.setDescription(ligneErr);
+					erreursVerif.addTestResult(errResult);
+				}
+				resultatVerif.setSubtest(erreursVerif);
+			}
+			ensembleTestGlobal.addTestResult(resultatVerif);
+		}
+		this.resultat = producteur.dump(ensembleTestGlobal);
+	}
+	
+	
+    
+
+	/**
      * Launch the test and add the results to testResults
      * and resultat
      */
@@ -112,14 +186,14 @@ public class CheckStyle extends EvaluateurStyle {
         //creating configuration file
         try {
             Configuration config = null;
-            if (PropertiesToUse==null) {
+            if (propertiesToUse==null) {
                 config = ConfigurationLoader.loadConfiguration(
-                CheckstyleToUse.getAbsolutePath(),
+                checkstyleToUse.getAbsolutePath(),
                 new PropertiesExpander(new Properties()));
             } else {
                 config = ConfigurationLoader.loadConfiguration(
-                CheckstyleToUse.getAbsolutePath(),
-                new PropertiesExpander(PropertiesToUse));
+                checkstyleToUse.getAbsolutePath(),
+                new PropertiesExpander(propertiesToUse));
             }
             checker.configure(config);
         } catch (CheckstyleException e) {
@@ -143,7 +217,7 @@ public class CheckStyle extends EvaluateurStyle {
 
         //launching test
         try {
-            checker.process(FilesToCheck);
+            checker.process(filesToCheck);
         } catch (CheckstyleException e) {
             System.out.print("error during the Tests");
             e.printStackTrace();
@@ -172,6 +246,55 @@ public class CheckStyle extends EvaluateurStyle {
 
         //destroying the checker so that the listener won't remain
         checker.destroy();
+    }
+
+    /**
+     * Fonction utilitaire pour ne conserver que la partie la plus utile d'une ligne d'erreur du retour de checkstyle.
+     * 
+     * @param String La ligne concernée.
+     * @return la ligne raccourcies un maximum.
+     */
+    private String nettoyageLigneErreur(String line) {
+    	for (File fichier : filesToCheck) {
+    		if (line.contains(fichier.getName())) {
+    			return line.substring(line.indexOf(fichier.getName()), line.lastIndexOf("["));
+    		}
+    	}
+		return line.substring(line.indexOf("]"), line.lastIndexOf("["));
+	}
+    
+    /**
+     * Fonction utilitaire lire le fichier xml de configuration et trouver le nom de toutes les différentes verifications.
+     * 
+     * @param File Le fichier xml de configuration.
+     * @return Une liste de string composée du nom de chaques verifications.
+     */
+    private static List<String> parserNomsVerifications(File xmlConfiguration) throws FileNotFoundException{
+    	Scanner myReader = new Scanner(xmlConfiguration);
+    	List<String> nomsVerifs = new ArrayList<String>();
+    	while (myReader.hasNextLine()) {
+    		String data = myReader.nextLine();
+    		if (data.strip().startsWith("<module name=\"")) {
+    			String nomModule = parseNomModule(data);
+    			if (!(nomModule.isBlank()
+    					|| nomModule.equalsIgnoreCase("TreeWalker")
+    					|| nomModule.equalsIgnoreCase("Checker"))) {
+    				nomsVerifs.add(nomModule);
+    			}
+    		}
+    	}
+    	myReader.close();
+    	return(nomsVerifs);
+    }
+    
+    /**
+     * fonction utilitaire pour raccourcir le code de parserNomsVerifications.
+     * 
+     * @param String une ligne d'un xml de configuration de checkstyle de la forme "<module name=\"[nom]\">.
+     * @return la string [nom]
+     */
+    private static String parseNomModule(String ligne) {
+    	return ligne.substring(ligne.indexOf("\"")+1, ligne.lastIndexOf("\""));
     }
 
 }
