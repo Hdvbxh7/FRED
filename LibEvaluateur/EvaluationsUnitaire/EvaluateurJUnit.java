@@ -139,7 +139,7 @@ public class EvaluateurJUnit extends EvaluateurUnitaire {
                     
                     // Détail des échecs (Uniquement des echecs, impossible de récuperer les resultats des tests réussis...)
                     if (!result.wasSuccessful()) {
-                    	resultatFichier = new TestResult(StatusValues.NOT_OK, fichiersTests.indexOf(fichier));
+                    	resultatFichier = new TestResult(StatusValues.NOT_OK, fichiersTests.indexOf(fichier)+1);
                     	resultatFichier.setDescription(className.concat(" Echecs des tests suivants."));
                     	List<Failure> echecs = result.getFailures();
                     	TestSet echecsFichier = new TestSet();
@@ -155,7 +155,7 @@ public class EvaluateurJUnit extends EvaluateurUnitaire {
                         }
                         resultatFichier.setSubtest(echecsFichier);
                     } else {
-                    	resultatFichier = new TestResult(StatusValues.OK, fichiersTests.indexOf(fichier));
+                    	resultatFichier = new TestResult(StatusValues.OK, fichiersTests.indexOf(fichier)+1);
                     	resultatFichier.setDescription(" Tous les tests de " + className + " ont réussis.");
                     	Comment descrSucces = new Comment(
                     			"Tests exécutés: ".concat(String.valueOf(result.getRunCount()))
@@ -170,14 +170,14 @@ public class EvaluateurJUnit extends EvaluateurUnitaire {
                     ensembleTestGlobal.addTestResult(resultatFichier);
                     
                 } catch (ClassNotFoundException e) {
-                	resultatFichier = new TestResult(StatusValues.NOT_OK, fichiersTests.indexOf(fichier));
+                	resultatFichier = new TestResult(StatusValues.NOT_OK, fichiersTests.indexOf(fichier)+1);
                 	Directive exClassAbs = new Directive(DirectiveValues.SKIP,
                 			"Exception rencontrée :" + className + " non trouvée.");
                 	resultatFichier.setDirective(exClassAbs);
                     testsResults.add(false);
                     ensembleTestGlobal.addTestResult(resultatFichier);
                 } catch (Exception e) {
-                	resultatFichier = new TestResult(StatusValues.NOT_OK, fichiersTests.indexOf(fichier));
+                	resultatFichier = new TestResult(StatusValues.NOT_OK, fichiersTests.indexOf(fichier)+1);
                 	Directive exAutre = new Directive(DirectiveValues.SKIP,
                 			"Exception rencontrée lors de l'execution de :" + className);
                 	resultatFichier.setDirective(exAutre);
