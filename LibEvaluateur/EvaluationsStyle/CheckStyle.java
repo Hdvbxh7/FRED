@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import com.puppycrawl.tools.checkstyle.Checker;
@@ -32,11 +33,11 @@ public class CheckStyle extends EvaluateurStyle {
 
     // parameters to set up
     /** List of files to analyze */
-    private ArrayList<File> FilesToCheck;
+    private ArrayList<File> filesToCheck;
     /** The XML file that contains the checks to run */
-    private File CheckstyleToUse;
+    private File checkstyleToUse;
     /** The properties file used by the Checkstyle configuration */
-    private Properties PropertiesToUse;
+    private Properties propertiesToUse;
 
     //constructors
 
@@ -45,8 +46,8 @@ public class CheckStyle extends EvaluateurStyle {
      * @param Files List of files to test
      */
     public CheckStyle(ArrayList<File> Files){
-        FilesToCheck = Files;
-        CheckstyleToUse = new File("LibEvaluateur/EvaluationsStyle/checkstyle-sans-javadoc.xml");
+        filesToCheck = Files;
+        checkstyleToUse = new File("LibEvaluateur/EvaluationsStyle/checkstyle-sans-javadoc.xml");
     }
 
     /**
@@ -56,8 +57,8 @@ public class CheckStyle extends EvaluateurStyle {
      * @param checkstyle XML configuration file
      */
     public CheckStyle(ArrayList<File> Files,File checkstyle){
-        FilesToCheck = Files;
-        CheckstyleToUse = checkstyle;
+        filesToCheck = Files;
+        checkstyleToUse = checkstyle;
     }
 
     /**
@@ -68,11 +69,11 @@ public class CheckStyle extends EvaluateurStyle {
      * @param properties File containing the properties used in the XML configuration
      */
     public CheckStyle(ArrayList<File> Files,File checkstyle,File properties){
-        PropertiesToUse = new Properties();
-        FilesToCheck = Files;
-        CheckstyleToUse = checkstyle;
+        propertiesToUse = new Properties();
+        filesToCheck = Files;
+        checkstyleToUse = checkstyle;
         try {
-            PropertiesToUse.load(new FileInputStream(properties));
+            propertiesToUse.load(new FileInputStream(properties));
         } catch (FileNotFoundException e){
             System.out.println("fichier de propriété non trouvé");
         } catch (IOException e) {
@@ -96,9 +97,14 @@ public class CheckStyle extends EvaluateurStyle {
         return testsResults;
     }
 
-    protected void ResultatVersTAP(){
-    }
-
+	@Override
+	protected void resultatVersTAP(String SortieTest) {
+		// TODO Auto-generated method stub
+		if (!checkstyleToUse.canRead()) {
+    		
+    	}
+		
+	}
     /**
      * Launch the test and add the results to testResults
      * and resultat
@@ -112,14 +118,14 @@ public class CheckStyle extends EvaluateurStyle {
         //creating configuration file
         try {
             Configuration config = null;
-            if (PropertiesToUse==null) {
+            if (propertiesToUse==null) {
                 config = ConfigurationLoader.loadConfiguration(
-                CheckstyleToUse.getAbsolutePath(),
+                checkstyleToUse.getAbsolutePath(),
                 new PropertiesExpander(new Properties()));
             } else {
                 config = ConfigurationLoader.loadConfiguration(
-                CheckstyleToUse.getAbsolutePath(),
-                new PropertiesExpander(PropertiesToUse));
+                checkstyleToUse.getAbsolutePath(),
+                new PropertiesExpander(propertiesToUse));
             }
             checker.configure(config);
         } catch (CheckstyleException e) {
@@ -143,7 +149,7 @@ public class CheckStyle extends EvaluateurStyle {
 
         //launching test
         try {
-            checker.process(FilesToCheck);
+            checker.process(filesToCheck);
         } catch (CheckstyleException e) {
             System.out.print("error during the Tests");
             e.printStackTrace();
@@ -172,6 +178,10 @@ public class CheckStyle extends EvaluateurStyle {
 
         //destroying the checker so that the listener won't remain
         checker.destroy();
+    }
+    
+    private static List<String> parserNomsVerifications(File xmlConfiguration){
+    	
     }
 
 }
