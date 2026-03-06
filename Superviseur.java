@@ -1,30 +1,45 @@
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
 
 import configuration.Scenario;
 
 public class Superviseur {
 
-    static ArrayList<File> dossiersATester;
-    static ArrayList<Thread> tList;
-    
+    static ArrayList<File> dossierATester;
+    static ExecutorService threadPool= Executors.newFixedThreadPool(Scenario.nbThread);
+    static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
     public static void main(String[] args) {
-        tList = new ArrayList<>();
 
         //récupére les dossiers
-        dossiersATester = Scenario.explorateur.listeDossier();
+        dossierATester = Scenario.explorateur.listeDossier();
 
         //lance le scénario sur chacun en multi threading
-        for(File doss : dossiersATester){
-            Thread t = Thread.startVirtualThread(new Scenario(doss));
-            tList.add(t);
+        for(File doss : dossierATester){
+            System.out.println(doss.getName());
+            Future<?> future = threadPool.submit(new Scenario(doss,Scenario.explorateur.getResultatDepuisDossierTeste(doss)));
+            /*scheduler.schedule(() -> {
+            //termine le thread de test au temps prédéfini
+            if (!future.isDone()) {
+                future.cancel(true);
+                try {
+                    System.out.println("erreur lors de l'éxécution des tests sur " + doss.getCanonicalPath());
+                } catch (IOException e) {
+                   System.out.println("probléme sur le dossier de test");
+                }
+            }
+        }, Scenario.waitingTimeBeforeCrashScenario, Scenario.timeUnitScenario);*/
         }
 
         try {
-            //Attend la fin de tout les threads
-            for(Thread t : tList){
-                t.join();
-            }
+            threadPool.shutdown();
+            threadPool.awaitTermination(Scenario.waitingTimeBeforeCrash, Scenario.timeUnit);
+            threadPool.shutdownNow();
         } catch (InterruptedException e) {
             System.out.println("thread de Dossier git a Tester interrompu");
         }

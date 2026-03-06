@@ -7,6 +7,10 @@ public class DossFilter implements FileFilter{
 
     String dossName;
 
+    DossFilter(){
+
+    }
+
     DossFilter(String name){
         dossName = name;
     }
@@ -20,7 +24,11 @@ public class DossFilter implements FileFilter{
      *          should be included
      */
     public boolean accept(File pathname){
-        return pathname.isDirectory() && (pathname.getName().equals(dossName));
+        if(dossName == null){
+            return pathname.isDirectory();
+        } else {
+            return pathname.isDirectory() && (pathname.getName().equals(dossName));
+        }
     }
 }
 
