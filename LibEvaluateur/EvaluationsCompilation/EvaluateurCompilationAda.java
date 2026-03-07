@@ -154,4 +154,8 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
         }
     }
 
+    public static String derniereLigne(String text) {
+    	return text.substring(text.lastIndexOf('\n'));
+    }
+
 }
