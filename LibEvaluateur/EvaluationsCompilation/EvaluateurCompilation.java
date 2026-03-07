@@ -14,18 +14,5 @@ public abstract class EvaluateurCompilation extends Evaluateur {
     public EvaluateurCompilation() {
         super();
     }
-
-    public String getResultat() {
-        return this.resultat;
-    }
-    
-    public Boolean[] getTestsResultat() {
-        return testsResultat;
-    }
-
-    protected abstract void resultatVersTAP(String SortieTest);
-
-    public abstract void evaluer() throws Exception;
-
     
 }

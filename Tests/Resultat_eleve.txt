@@ -1,6 +1,0 @@
-FeurTest : 
-1..1
-not ok 1 -  total heap usage: 1,059 allocs, 437 frees, 105,473 bytes allocated
-
-Feur2Test : 
-Test réussi

@@ -8,27 +8,50 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Evaluateur de tests en boîte noire pour des programmes Java.
+ *
+ * <p>
+ * Les classes doivent être compilées et fournies sous forme de fichiers
+ * {@code .class}. Le premier fichier correspond au programme testé et
+ * le second au programme de référence.
+ * </p>
+ */
 public class EvaluateurBoiteNoireJavaSimple extends EvaluateurBoiteNoire {
 
-    
-
+    /**
+     * Construit un évaluateur avec une liste de fichiers.
+     * @param fichiersList liste des fichiers {@code .class} nécessaires
+     */
     public EvaluateurBoiteNoireJavaSimple(List<File> fichiersList) {
         super();
         fichiers.addAll(fichiersList);
     }
 
 
-
+    /**
+     * @param fichiersList liste des fichiers {@code .class}
+     * @param arguments liste d'arguments passés aux programmes lors de l'exécution
+     */
     public EvaluateurBoiteNoireJavaSimple(List<File> fichiersList, List<String> arguments) {
         super();
         fichiers.addAll(fichiersList);
         this.arguments = arguments;
     }
 
+    /**
+     * Convertit les résultats d'exécution en format TAP.
+     *
+     * @param SortieTest sortie brute produite lors de l'exécution des tests
+     */
     protected void resultatVersTAP(String SortieTest) {
 
     }
 
+    /**
+     * Lance l'évaluation en boîte noire.
+     * @throws Exception si le nombre de fichiers fournis est insuffisant
+     */
     public void evaluer() throws Exception {
     
         if (fichiers.size() < 2) {
@@ -58,16 +81,15 @@ public class EvaluateurBoiteNoireJavaSimple extends EvaluateurBoiteNoire {
         // ---- Build classpath ----
         StringBuilder classpath = new StringBuilder();
     
-        // Root of project (VERY IMPORTANT for packaged classes)
+        // Root of project
         classpath.append(new File(".").getAbsolutePath());
     
-        // Add additional classpath entries (index >= 2)
+        // Add additional classpath entries
         for (int i = 2; i < fichiers.size(); i++) {
             classpath.append(File.pathSeparator);
             classpath.append(fichiers.get(i).getAbsolutePath());
         }
     
-        
         int numberOfTests = (arguments == null || arguments.isEmpty())
                 ? 1
                 : arguments.size();
@@ -80,8 +102,7 @@ public class EvaluateurBoiteNoireJavaSimple extends EvaluateurBoiteNoire {
                     ? null
                     : arguments.get(i);
         
-            
-            //ON RUN LA CLASSE A TESTER
+            // Run test class
             List<String> testCommand = new ArrayList<>();
             testCommand.add("java");
             testCommand.add("-cp");
@@ -99,7 +120,7 @@ public class EvaluateurBoiteNoireJavaSimple extends EvaluateurBoiteNoire {
         
             int exitTest = processTest.waitFor();
         
-            //ON RUN LA CLASSE TEMOIN
+            // Run reference class
             List<String> refCommand = new ArrayList<>();
             refCommand.add("java");
             refCommand.add("-cp");
@@ -117,8 +138,7 @@ public class EvaluateurBoiteNoireJavaSimple extends EvaluateurBoiteNoire {
         
             int exitRef = processRef.waitFor();
         
-           
-            //ON COMPARE
+            // Compare results
             boolean sameOutput =
                     outputTest.trim().equals(outputRef.trim());
         
@@ -132,7 +152,13 @@ public class EvaluateurBoiteNoireJavaSimple extends EvaluateurBoiteNoire {
         }
     }
 
-
+    /**
+     * Convertit un flux d'entrée en chaîne de caractères.
+     *
+     * @param in flux d'entrée
+     * @return contenu du flux sous forme de chaîne
+     * @throws IOException si une erreur de lecture survient
+     */
     private String streamToString(InputStream in) throws IOException {
         StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
@@ -143,32 +169,4 @@ public class EvaluateurBoiteNoireJavaSimple extends EvaluateurBoiteNoire {
         }
         return sb.toString();
     }
-
-    public static void main(String[] args) {
-
-        ArrayList<File> liste = new ArrayList<File>();
-        liste.add(new File("Tests/TestF.class"));
-        liste.add(new File("Tests/TestV.class"));
-
-        ArrayList<String> in = new ArrayList<>();
-        in.add("2");
-        in.add("3");
-
-        EvaluateurBoiteNoireJavaSimple a = new EvaluateurBoiteNoireJavaSimple(liste, in);
-
-        try {
-            a.evaluer();
-            Boolean[] results = a.getTestsResultat();
-
-            for (int i = 0; i < results.length; i++) {
-                System.out.println("Test " + i + ": " + results[i]);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-       
-    }
-
-    
 }
-
