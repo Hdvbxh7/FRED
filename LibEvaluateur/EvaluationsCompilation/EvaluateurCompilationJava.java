@@ -1,4 +1,3 @@
-
 package LibEvaluateur.EvaluationsCompilation;
 
 import java.io.BufferedWriter;
@@ -15,18 +14,36 @@ import org.tap4j.model.TestResult;
 import org.tap4j.util.StatusValues;
 import org.tap4j.model.Directive;
 
+/**
+ * Evaluateur permettant de tester la compilation d'un fichier Java
+ * à l'aide du compilateur {@code javac}.  
+ *
+ * <p>Deux tests TAP sont générés :</p>
+ * <ul>
+ * <li>Test 1 : absence d'erreurs de compilation</li>
+ * <li>Test 2 : absence d'avertissements (warnings)</li>
+ * </ul>
+ */
 public class EvaluateurCompilationJava extends EvaluateurCompilation {
 
     private TestSet ensembleTest;
 
+    /** Liste des fichiers à compiler (le premier est la cible, les autres sont des dépendances). */
     protected List<File> fichiers = new ArrayList<File>();
 
+    /**
+     * @param binaire fichier Java à tester
+     */
     public EvaluateurCompilationJava(File binaire) { 
         super();
         this.ensembleTest = new TestSet();
         fichiers.add(binaire);
     }
 
+    /**
+     * @param binaire fichier Java principal à compiler
+     * @param dependences liste de fichiers ou bibliothèques nécessaires à la compilation
+     */
     public EvaluateurCompilationJava(File binaire, ArrayList<File> dependences) { 
         super();
         fichiers.add(binaire);
@@ -34,24 +51,17 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
         fichiers.addAll(dependences);
     }
 
-    public String getResultat() {
-        return this.resultat;
-    }
-    
-    public Boolean[] getTestsResultat() {
-        return testsResultat;
-    }
 
-    /**
-     * Convertit la sortie brute de javac en format TAP.
-     *
-     * @param SortieTest la sortie brute produite par javac
-     */
+    /** Convertit la sortie brute de javac en format TAP. 
+     * 
+     * @param SortieTest la sortie brute produite par javac 
+    */
     protected void resultatVersTAP(String SortieTest) {
         testsResultat = new Boolean[1];
 		ensembleTest.setPlan( new Plan(2) );
 		TestResult presErr;
 		TestResult presAvrt;
+
 		if (derniereLigne(SortieTest).contains("error")){
 			presErr = new TestResult( StatusValues.NOT_OK, 1 );
             Directive dirAvrt = new Directive(DirectivesValues.SKIP, "Erreur de compilation.");
@@ -71,12 +81,18 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
 	        testsResultat[0] = true;
 	        testsResultat[1] = true;
 		}
+
 		ensembleTest.addTestResult( presErr );
 		ensembleTest.addTestResult( presAvrt );
 		this.resultat = producteur.dump( ensembleTest );
 	} 
 
 
+    /**
+     * Lance l'évaluation de la compilation du fichier Java.
+     *
+     * @throws Exception si une erreur survient lors de l'évaluation
+     */
     public void evaluer() throws Exception {
 
         StringWriter sw = new StringWriter();
@@ -94,21 +110,22 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
         } else {
             ourJCompiler(out, fichiers.get(0).getAbsolutePath(), null);
         }
+
         out.close();
         
         String resultatsBruts = sw.toString();
-
         resultatVersTAP(resultatsBruts);
 
     }
 
 
-
-
-
-
-
-
+    /**
+     * Exécute le compilateur Java {@code javac} de manière programmatique.
+     *
+     * @param out flux dans lequel écrire les résultats du compilateur
+     * @param file fichier Java à compiler
+     * @param cp classpath à utiliser pour la compilation (peut être {@code null})
+     */
     private static void ourJCompiler(BufferedWriter out,String file,String cp){
         ByteArrayOutputStream cout = new ByteArrayOutputStream();
         ByteArrayOutputStream cerr = new ByteArrayOutputStream();
@@ -126,6 +143,7 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
         }else{
             javac.run(null, cout, cerr,"-d","LibEvaluateur/EvaluationsCompilation/Compiled_Code","-Xlint", file);
         }
+
         try{
             out.write(cout.toString());
             out.write(cerr.toString());
@@ -134,35 +152,13 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
         }
     }
 
-
-    public static void main(String[] args) {
-
-
-        try {
-            File aTester = new File("LibEvaluateur/EvaluationsCompilation/CompilationTest.java");
-            File junit = new File("libs/junit4.jar");
-            File junit2 = new File("libs/junit-jupiter-api-5.6.0.jar");
-            File junit3 = new File("libs/junit-platform-commons-1.6.0.jar");
-            File junit4 = new File("libs/junit-platform-engine-1.6.0.jar");
-            File junit5 = new File("libs/junit-platform-launcher-1.6.0.jar");
-            File apiguardian = new File("libs/apiguardian-api-1.1.0.jar");
-            ArrayList<File> libs = new ArrayList<File>();
-            libs.add(junit);
-            libs.add(junit2);
-            libs.add(junit3);
-            libs.add(junit4);
-            libs.add(junit5);
-            libs.add(apiguardian);
-            EvaluateurCompilationJava eval = new EvaluateurCompilationJava(aTester, libs);
-
-            eval.evaluer();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
     
+    /**
+     * Retourne la dernière ligne d'un texte.
+     *
+     * @param text texte d'entrée
+     * @return dernière ligne du texte
+     */
     public static String derniereLigne(String text) {
     	return text.substring(text.lastIndexOf('\n'));
     }

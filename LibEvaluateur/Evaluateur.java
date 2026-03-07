@@ -34,17 +34,6 @@ public abstract class Evaluateur {
 	}
 	
 
- protected abstract void resultatVersTAP(String SortieTest);
-
-	public String getNomEvaluateur() {
-		return this.nomEvaluateur;
-	}
-
-	public void setNomEvaluateur(String nomEvaluateur) {
-		this.nomEvaluateur = nomEvaluateur;
-	}
-	
-
 	protected abstract void resultatVersTAP(String SortieTest);
 
 	public abstract void evaluer() throws Exception;

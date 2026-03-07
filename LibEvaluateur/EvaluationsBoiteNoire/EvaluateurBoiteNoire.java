@@ -8,6 +8,7 @@ import LibEvaluateur.Evaluateur;
 
 public abstract class EvaluateurBoiteNoire extends Evaluateur {
 
+    
     protected List<File> fichiers = new ArrayList<File>();
 
     public EvaluateurBoiteNoire() {
