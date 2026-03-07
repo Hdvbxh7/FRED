@@ -13,32 +13,46 @@ import org.tap4j.model.TestSet;
 import org.tap4j.util.StatusValues;
 import org.tap4j.util.DirectiveValues;
 
+/**
+ * Evaluateur permettant de tester la compilation d'un programme Ada
+ * en utilisant le compilateur {@code gnatmake}.
+ * 
+ * <p>
+ * Deux tests TAP sont générés :
+ * </p>
+ * <ul>
+ * <li>Test 1 : présence ou non d'erreurs de compilation</li>
+ * <li>Test 2 : présence éventuelle d'avertissements</li>
+ * </ul>
+ *
+ */
 public class EvaluateurCompilationAda extends EvaluateurCompilation {
 	
+    /** Ensemble des résultats de tests TAP. */
     private TestSet ensembleTest;
 
     protected List<File> fichiers = new ArrayList<File>();
 
+    /**
+     * @param binaire fichier Ada principal à compiler
+     */
     public EvaluateurCompilationAda(File binaire) { 
         super();
         this.ensembleTest = new TestSet();
         fichiers.add(binaire);
     }
 
+    /**
+     * @param binaire fichier Ada principal
+     * @param dependences fichiers supplémentaires nécessaires à la compilation
+     */
     public EvaluateurCompilationAda(File binaire, ArrayList<File> dependences) { 
         super();
         fichiers.add(binaire);
         this.ensembleTest = new TestSet();
         fichiers.addAll(dependences);
     }
-
-    public String getResultat() {
-        return this.resultat;
-    }
     
-    public Boolean[] getTestsResultat() {
-        return testsResultat;
-    }
 
     /**
      * Convertit la sortie brute de gnatmake en format TAP.
@@ -75,6 +89,12 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
 		this.resultat = producteur.dump( ensembleTest );
 	}
 
+    /**
+     * Lance l'évaluation de la compilation Ada.
+     *
+     *
+     * @throws Exception si une erreur survient pendant l'évaluation
+     */
     public void evaluer() throws Exception {
         StringWriter sw = new StringWriter();
         BufferedWriter out = new BufferedWriter(sw);
@@ -86,6 +106,12 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
         resultatVersTAP(resultatsBruts);
     }
 
+    /**
+     * Compile un fichier Ada en invoquant le compilateur {@code gnatmake}.
+     *
+     * @param out flux dans lequel écrire les messages du compilateur
+     * @param file chemin du fichier Ada à compiler
+     */
     private static void compileAda(BufferedWriter out, String file) {
         try {
             File outputDir = new File("LibEvaluateur/EvaluationsCompilation/Compiled_Code");
@@ -128,19 +154,4 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
         }
     }
 
-    public static void main(String[] args) {
-        try {
-            File aTester = new File("LibEvaluateur/EvaluationsCompilation/CompilationTest.ada");
-            EvaluateurCompilationAda eval = new EvaluateurCompilationAda(aTester);
-
-            eval.evaluer();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public static String derniereLigne(String text) {
-    	return text.substring(text.lastIndexOf('\n'));
-    }
 }

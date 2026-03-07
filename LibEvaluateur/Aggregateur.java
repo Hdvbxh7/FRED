@@ -25,10 +25,19 @@ public class Aggregateur {
     }
 
 
+    /**
+     * Permet d'ajouter un evaluateur a l'aggrégateur
+     * @param eval
+     */
     public void add(Evaluateur eval) {
         listeEvaluateur.add(eval);
     }
 
+    /**
+     * Aggrège les résultats de tout les évaluateurs pour produire deux fichiers
+     * Resultat_eleve.txt : Résultat pour l'élève, un détail des tests sans score
+     * Resultat_professeur.txt : Resultats pour le professeur, juste le score sans détailler les tests ratés et réussi.
+     */
     public void aggreger() {
         String outputStringProfesseurs = "";
         String outputStringEleve = "";
