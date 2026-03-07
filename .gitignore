@@ -8,6 +8,8 @@ studentRepo/
 mdpGit.txt
 GitPaths.csv
 resultats/
-.vscode
+.vscode/*
 .github
 TODO.txt
+bin/
+src/

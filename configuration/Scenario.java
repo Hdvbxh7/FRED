@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
 import LibExplorateurs.*;
+import LibEvaluateur.*;
 
 public class Scenario implements Runnable{
 

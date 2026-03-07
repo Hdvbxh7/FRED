@@ -7,8 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.tap4j.model.Directive;
+import org.tap4j.model.Plan;
 import org.tap4j.model.TestResult;
+import org.tap4j.model.TestSet;
 import org.tap4j.util.StatusValues;
+import org.tap4j.util.DirectiveValues;
 
 /**
  * Evaluateur permettant de tester la compilation d'un programme Ada
@@ -28,7 +31,6 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
     /** Ensemble des résultats de tests TAP. */
     private TestSet ensembleTest;
 
-    /** Liste des fichiers impliqués dans la compilation (fichier principal + dépendances éventuelles). */
     protected List<File> fichiers = new ArrayList<File>();
 
     /**
@@ -36,6 +38,7 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
      */
     public EvaluateurCompilationAda(File binaire) { 
         super();
+        this.ensembleTest = new TestSet();
         fichiers.add(binaire);
     }
 
@@ -46,6 +49,7 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
     public EvaluateurCompilationAda(File binaire, ArrayList<File> dependences) { 
         super();
         fichiers.add(binaire);
+        this.ensembleTest = new TestSet();
         fichiers.addAll(dependences);
     }
     
@@ -69,7 +73,7 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
 		else if (derniereLigne(SortieTest).contains("\" compilation error")) {
 			// On pourrait rendre ça plus robuste avec des regexp..
 			presErr = new TestResult( StatusValues.NOT_OK, 1 );
-            Directive dirAvrt = new Directive(DirectivesValues.SKIP, "Erreur de compilation.");
+            Directive dirAvrt = new Directive(DirectiveValues.SKIP, "Erreur de compilation.");
             presAvrt = new TestResult( StatusValues.NOT_OK, 2);
             presAvrt.setDirective(dirAvrt);
             testsResultat[0] = false;

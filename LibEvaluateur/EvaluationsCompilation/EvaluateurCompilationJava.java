@@ -11,8 +11,11 @@ import java.util.List;
 import javax.tools.*;
 
 import org.tap4j.model.TestResult;
+import org.tap4j.model.TestSet;
+import org.tap4j.util.DirectiveValues;
 import org.tap4j.util.StatusValues;
 import org.tap4j.model.Directive;
+import org.tap4j.model.Plan;
 
 /**
  * Evaluateur permettant de tester la compilation d'un fichier Java
@@ -64,7 +67,7 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
 
 		if (derniereLigne(SortieTest).contains("error")){
 			presErr = new TestResult( StatusValues.NOT_OK, 1 );
-            Directive dirAvrt = new Directive(DirectivesValues.SKIP, "Erreur de compilation.");
+            Directive dirAvrt = new Directive(DirectiveValues.SKIP, "Erreur de compilation.");
             presAvrt = new TestResult( StatusValues.NOT_OK, 2);
             presAvrt.setDirective(dirAvrt);
             testsResultat[0] = false;

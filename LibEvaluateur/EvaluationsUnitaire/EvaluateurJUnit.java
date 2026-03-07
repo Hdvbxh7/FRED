@@ -11,6 +11,13 @@ import java.util.List;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
+import org.tap4j.model.Comment;
+import org.tap4j.model.Directive;
+import org.tap4j.model.Plan;
+import org.tap4j.model.TestResult;
+import org.tap4j.model.TestSet;
+import org.tap4j.util.DirectiveValues;
+import org.tap4j.util.StatusValues;
 
 /* 
     NOTE:
@@ -65,8 +72,8 @@ public class EvaluateurJUnit extends EvaluateurUnitaire {
      * est déja au format tap. Cette fonction est donc vide.
      */
     @Override
-    protected void resultatVersTAP(String SortieTest);
-        /* TODO: Conversion vers format TAP (JP c'est ta tête sur l'affiche) */
+    protected void resultatVersTAP(String sortieTest) {
+        this.resultat = sortieTest;
     }
 
     /**
@@ -76,10 +83,11 @@ public class EvaluateurJUnit extends EvaluateurUnitaire {
      */
     @Override
     public void evaluer() {
-        StringBuilder resultBuilder = new StringBuilder();
         List<Boolean> testsResults = new ArrayList<>();
-        
+        TestSet ensembleTestGlobal = new TestSet();
+
         try {
+        	
             // Préparation du ClassLoader pour charger les classes de test
             List<URL> urls = new ArrayList<>();
             
@@ -110,109 +118,97 @@ public class EvaluateurJUnit extends EvaluateurUnitaire {
                 Thread.currentThread().getContextClassLoader()
             );
             
-            // Capture de la sortie système pour les logs des tests
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            PrintStream printStream = new PrintStream(outputStream);
-            PrintStream originalOut = System.out;
-            PrintStream originalErr = System.err;
-            
-            // Redirection temporaire de System.out et System.err
-            System.setOut(printStream);
-            System.setErr(printStream);
-            
             // Exécution des tests pour chaque fichier
+            ensembleTestGlobal.setPlan( new Plan(fichiersTests.size()) );
+            ensembleTestGlobal.addComment(new Comment("Resultats par fichier de tests : "));
+
             for (File fichier : fichiersTests) {
+            	TestResult resultatFichier ;
                 String className = obtenirNomClasse(fichier);
                 
                 try {
                     // Chargement de la classe de test
                     Class<?> testClass = classLoader.loadClass(className);
                     
-                    resultBuilder.append("=== Exécution des tests de ")
-                                .append(className)
-                                .append(" ===\n");
-                    
                     // Exécution des tests avec JUnitCore
                     JUnitCore junit = new JUnitCore();
                     Result result = junit.run(testClass);
                     
-                    // Collecte des résultats
-                    resultBuilder.append("Tests exécutés: ")
-                                .append(result.getRunCount())
-                                .append("\n");
-                    resultBuilder.append("Tests réussis: ")
-                                .append(result.getRunCount() 
-                                       - result.getFailureCount())
-                                .append("\n");
-                    resultBuilder.append("Tests échoués: ")
-                                .append(result.getFailureCount())
-                                .append("\n");
-                    resultBuilder.append("Temps d'exécution: ")
-                                .append(result.getRunTime())
-                                .append(" ms\n");
-                    
                     // Ajout du statut global du fichier
                     testsResults.add(result.wasSuccessful());
                     
-                    // Détail des échecs
+                    // Détail des échecs (Uniquement des echecs, impossible de récuperer les resultats des tests réussis...)
                     if (!result.wasSuccessful()) {
-                        resultBuilder.append("\n--- Échecs ---\n");
-                        for (Failure failure : result.getFailures()) {
-                            resultBuilder.append("Test: ")
-                                        .append(failure.getTestHeader())
-                                        .append("\n");
-                            resultBuilder.append("Message: ")
-                                        .append(failure.getMessage())
-                                        .append("\n");
-                            resultBuilder.append("Trace: ")
-                                        .append(failure.getTrace())
-                                        .append("\n\n");
+                    	resultatFichier = new TestResult(StatusValues.NOT_OK, fichiersTests.indexOf(fichier)+1);
+                    	resultatFichier.setDescription(className.concat(" Echecs des tests suivants."));
+                    	List<Failure> echecs = result.getFailures();
+                    	TestSet echecsFichier = new TestSet();
+                    	echecsFichier.setPlan(new Plan(echecs.size()));
+                        for (int i=0;i>=echecs.size();i++) {
+                        	TestResult echec = new TestResult(StatusValues.NOT_OK, i);
+                        	echec.setDescription("Test: ".concat(echecs.get(i).getTestHeader()));
+                        	Comment message = new Comment("Message: "+ echecs.get(i).getMessage() + ".", false);
+                        	echec.addComment(message);
+                        	Comment trace = new Comment("Trace: "+ echecs.get(i).getTrace() + ".", false);
+                        	echec.addComment(trace);
+                        	echecsFichier.addTestResult(echec);
                         }
+                        resultatFichier.setSubtest(echecsFichier);
+                    } else {
+                    	resultatFichier = new TestResult(StatusValues.OK, fichiersTests.indexOf(fichier)+1);
+                    	resultatFichier.setDescription(" Tous les tests de " + className + " ont réussis.");
+                    	Comment descrSucces = new Comment(
+                    			"Tests exécutés: ".concat(String.valueOf(result.getRunCount()))
+                    			.concat(". Temps d'exécution: ")
+                    			.concat(String.valueOf(result.getRunTime()))
+                    			.concat(" ms.")
+                    			);
+                    	resultatFichier.addComment(descrSucces);
+                    	
                     }
-                    
-                    resultBuilder.append("\n");
+                    resultatFichier.setDescription(className);
+                    ensembleTestGlobal.addTestResult(resultatFichier);
                     
                 } catch (ClassNotFoundException e) {
-                    resultBuilder.append("ERREUR: Classe non trouvée - ")
-                                .append(className)
-                                .append("\n");
-                    resultBuilder.append("Message: ")
-                                .append(e.getMessage())
-                                .append("\n\n");
+                	resultatFichier = new TestResult(StatusValues.NOT_OK, fichiersTests.indexOf(fichier)+1);
+                	Directive exClassAbs = new Directive(DirectiveValues.SKIP,
+                			"Exception rencontrée :" + className + " non trouvée.");
+                	resultatFichier.setDirective(exClassAbs);
                     testsResults.add(false);
+                    ensembleTestGlobal.addTestResult(resultatFichier);
                 } catch (Exception e) {
-                    resultBuilder.append("ERREUR lors de l'exécution de ")
-                                .append(className)
-                                .append(": ")
-                                .append(e.getMessage())
-                                .append("\n\n");
+                	resultatFichier = new TestResult(StatusValues.NOT_OK, fichiersTests.indexOf(fichier)+1);
+                	Directive exAutre = new Directive(DirectiveValues.SKIP,
+                			"Exception rencontrée lors de l'execution de :" + className);
+                	resultatFichier.setDirective(exAutre);
+                	Comment trace = new Comment ("Message d'erreur :" + e.getMessage());
+                	resultatFichier.addComment(trace);
                     testsResults.add(false);
+                    ensembleTestGlobal.addTestResult(resultatFichier);
+                    
                 }
             }
             
-            // Restauration de System.out et System.err
-            System.setOut(originalOut);
-            System.setErr(originalErr);
-            
-            // Ajout de la sortie capturée aux résultats
-            String capturedOutput = outputStream.toString();
-            if (!capturedOutput.isEmpty()) {
-                resultBuilder.append("\n=== Sortie des tests ===\n");
-                resultBuilder.append(capturedOutput);
-            }
+
             
             // Fermeture du ClassLoader
             classLoader.close();
             
         } catch (Exception e) {
-            resultBuilder.append("ERREUR CRITIQUE: ")
-                        .append(e.getMessage())
-                        .append("\n");
-            e.printStackTrace();
+        	ensembleTestGlobal.setPlan( new Plan(1) );
+            
+        	TestResult resultat = new TestResult(StatusValues.NOT_OK, 1);
+        	Directive exAutre = new Directive(DirectiveValues.SKIP,
+        			"Erreur critique rencontrée lors de l'execution. pas de resultats");
+        	resultat.setDirective(exAutre);
+        	Comment trace = new Comment ("Message d'erreur :" + e.getMessage());
+        	resultat.addComment(trace);
+            testsResults.add(false);
+            ensembleTestGlobal.addTestResult(resultat);
         }
         
         // Stockage des résultats dans les attributs hérités
-        this.resultat = resultBuilder.toString();
+        resultatVersTAP(producteur.dump(ensembleTestGlobal));
         this.testsResultat = testsResults.toArray(new Boolean[0]);
     }
     
