@@ -74,7 +74,7 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
 		ensembleTest.addTestResult( presErr );
 		ensembleTest.addTestResult( presAvrt );
 		this.resultat = producteur.dump( ensembleTest );
-	}
+	} 
 
 
     public void evaluer() throws Exception {
