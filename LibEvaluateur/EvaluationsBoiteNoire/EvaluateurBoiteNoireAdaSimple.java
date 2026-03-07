@@ -8,23 +8,49 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Evaluateur de tests en boîte noire pour des programmes Ada compilés.
+ * <p>
+ * Les fichiers fournis doivent être des exécutables Ada déjà compilés
+ * (par exemple générés par {@code gnatmake}).
+ * </p>
+ */
 public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
 
+    /**
+     * Construit un évaluateur avec une liste d'exécutables Ada.
+     * @param fichiersList liste des exécutables Ada
+     */
     public EvaluateurBoiteNoireAdaSimple(List<File> fichiersList) {
         super();
         fichiers.addAll(fichiersList);
     }
 
+    /**
+     * @param fichiersList liste des exécutables Ada
+     * @param arguments arguments à passer lors de l'exécution
+     */
     public EvaluateurBoiteNoireAdaSimple(List<File> fichiersList, List<String> arguments) {
         super();
         fichiers.addAll(fichiersList);
         this.arguments = arguments;
     }
 
+    /**
+     * Convertit la sortie brute d'un test en format TAP.
+     *
+     *
+     * @param SortieTest sortie brute produite lors de l'exécution
+     */
     protected void resultatVersTAP(String SortieTest) {
         // Optional TAP formatting
     }
 
+    /**
+     * Lance l'évaluation en boîte noire des exécutables Ada.
+     *
+     * @throws Exception si les exécutables sont manquants ou invalides
+     */
     public void evaluer() throws Exception {
 
         if (fichiers.size() < 2) {
@@ -87,6 +113,13 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
         }
     }
 
+    /**
+     * Convertit un flux d'entrée en chaîne de caractères.
+     *
+     * @param in flux d'entrée
+     * @return contenu du flux sous forme de chaîne
+     * @throws IOException si une erreur de lecture survient
+     */
     private String streamToString(InputStream in) throws IOException {
         StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
@@ -96,32 +129,5 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
             }
         }
         return sb.toString();
-    }
-
-    public static void main(String[] args) {
-
-        ArrayList<File> liste = new ArrayList<>();
-        
-        // These must be compiled Ada executables (not .adb files)
-        liste.add(new File("BacATest/square_int"));       // compiled test
-        liste.add(new File("BacATest/double_int"));  // compiled reference
-
-        ArrayList<String> in = new ArrayList<>();
-        in.add("2");
-        in.add("3");
-
-        EvaluateurBoiteNoireAdaSimple a =
-                new EvaluateurBoiteNoireAdaSimple(liste, in);
-
-        try {
-            a.evaluer();
-            Boolean[] results = a.getTestsResultat();
-
-            for (int i = 0; i < results.length; i++) {
-                System.out.println("Test " + i + ": " + results[i]);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
