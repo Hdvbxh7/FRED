@@ -25,7 +25,16 @@ public abstract class EvaluateurBoiteNoire extends Evaluateur {
         this.arguments = arguments;
     }
 
+    /** Cette liste de booléens permet de savoir si une execution a timeout ou pas */
+    protected boolean[] timedOut;
 
+    public boolean[] getTimedOut() {
+        return this.timedOut;
+    }
+
+    public void setTimedOut(boolean[] timedOut) {
+        this.timedOut = timedOut;
+    }
 
     protected abstract void resultatVersTAP(String SortieTest);
 
