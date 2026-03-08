@@ -162,26 +162,4 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
         return sb.toString();
     }
 
-    public static void main(String[] args) { 
-        ArrayList<File> liste = new ArrayList<>(); 
-        liste.add(new File("BacATest/double_int")); 
-        liste.add(new File("BacATest/square_int")); 
-        ArrayList<String> in = new ArrayList<>(); 
-        in.add("2"); 
-        in.add("-3"); 
-        EvaluateurBoiteNoireAdaSimple a = new EvaluateurBoiteNoireAdaSimple(liste, in); 
-        try { 
-            a.evaluer(); 
-            Boolean[] results = a.getTestsResultat(); 
-            for (int i = 0; i < results.length; i++) { 
-                System.out.println("Test " + i + ": " + results[i]); 
-            } 
-            boolean[] timeout = a.getTimedOut(); 
-            for (int i = 0; i < timeout.length; i++) { 
-                System.out.println("timeout " + i + ": " + timeout[i]); 
-            } 
-        } catch (Exception e) { 
-            e.printStackTrace(); 
-        } 
-    }
 }
