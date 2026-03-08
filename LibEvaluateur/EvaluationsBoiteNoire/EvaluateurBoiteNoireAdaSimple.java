@@ -18,8 +18,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
 
-    /** Ce booléen permet de savoir si une execution a timeout ou pas */
-    boolean timedOut = false;
+
     /**
      * Construit un évaluateur avec une liste d'exécutables Ada.
      * @param fichiersList liste des exécutables Ada, le premier est le fichier a tester, le deuxième est la réference
@@ -27,6 +26,7 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
     public EvaluateurBoiteNoireAdaSimple(List<File> fichiersList) {
         super();
         fichiers.addAll(fichiersList);
+        this.timedOut = new boolean[1];
     }
 
     /**
@@ -37,6 +37,7 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
         super();
         fichiers.addAll(fichiersList);
         this.arguments = arguments;
+        this.timedOut = new boolean[arguments.size()];
     }
 
     /**
@@ -75,6 +76,7 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
 
         for (int i = 0; i < numberOfTests; i++) {
 
+
             String arg = (arguments == null || arguments.isEmpty())
                     ? null
                     : arguments.get(i);
@@ -101,7 +103,7 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
                 exitTest = processTest.exitValue();
             } else {
                 processTest.destroyForcibly();
-                timedOut = true;
+                timedOut[i] = true;
                 System.out.println("Test executable timed out");
             }
 
@@ -127,18 +129,18 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
                 exitRef = processRef.exitValue();
             } else {
                 processRef.destroyForcibly();
-                timedOut = true;
+                timedOut[i] = true;
             }
 
             // ---- COMPARE RESULTS ----
-
-            boolean sameOutput = outputTest.trim().equals(outputRef.trim());
-            boolean sameError = errorTest.trim().equals(errorRef.trim());
-            boolean sameExitCode = exitTest == exitRef;
-
-            testsResultat[i] = sameOutput && sameError && sameExitCode;
-
-            timedOut = false;
+            if (timedOut[i]) {
+                testsResultat[i] = false;
+            } else {
+                boolean sameOutput = outputTest.trim().equals(outputRef.trim());
+                boolean sameError = errorTest.trim().equals(errorRef.trim());
+                boolean sameExitCode = exitTest == exitRef;
+                testsResultat[i] = sameOutput && sameError && sameExitCode;
+            }
         }
     }
 
@@ -166,13 +168,17 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
         liste.add(new File("BacATest/square_int")); 
         ArrayList<String> in = new ArrayList<>(); 
         in.add("2"); 
-        in.add("3"); 
+        in.add("-3"); 
         EvaluateurBoiteNoireAdaSimple a = new EvaluateurBoiteNoireAdaSimple(liste, in); 
         try { 
             a.evaluer(); 
             Boolean[] results = a.getTestsResultat(); 
             for (int i = 0; i < results.length; i++) { 
                 System.out.println("Test " + i + ": " + results[i]); 
+            } 
+            boolean[] timeout = a.getTimedOut(); 
+            for (int i = 0; i < timeout.length; i++) { 
+                System.out.println("timeout " + i + ": " + timeout[i]); 
             } 
         } catch (Exception e) { 
             e.printStackTrace(); 
