@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Evaluateur de tests en boîte noire pour des programmes Ada compilés.
@@ -17,23 +18,26 @@ import java.util.List;
  */
 public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
 
+
     /**
      * Construit un évaluateur avec une liste d'exécutables Ada.
-     * @param fichiersList liste des exécutables Ada
+     * @param fichiersList liste des exécutables Ada, le premier est le fichier a tester, le deuxième est la réference
      */
     public EvaluateurBoiteNoireAdaSimple(List<File> fichiersList) {
         super();
         fichiers.addAll(fichiersList);
+        this.timedOut = new boolean[1];
     }
 
     /**
-     * @param fichiersList liste des exécutables Ada
+     * @param fichiersList liste des exécutables Ada, le premier est le fichier a tester, le deuxième est la réference
      * @param arguments arguments à passer lors de l'exécution
      */
     public EvaluateurBoiteNoireAdaSimple(List<File> fichiersList, List<String> arguments) {
         super();
         fichiers.addAll(fichiersList);
         this.arguments = arguments;
+        this.timedOut = new boolean[arguments.size()];
     }
 
     /**
@@ -72,6 +76,7 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
 
         for (int i = 0; i < numberOfTests; i++) {
 
+
             String arg = (arguments == null || arguments.isEmpty())
                     ? null
                     : arguments.get(i);
@@ -86,9 +91,21 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
 
             Process processTest = new ProcessBuilder(testCommand).start();
 
-            String outputTest = streamToString(processTest.getInputStream());
-            String errorTest = streamToString(processTest.getErrorStream());
-            int exitTest = processTest.waitFor();
+            boolean finishedTest = processTest.waitFor(5, TimeUnit.SECONDS);
+
+            String outputTest = "";
+            String errorTest = "";
+            int exitTest = -1;
+
+            if (finishedTest) {
+                outputTest = streamToString(processTest.getInputStream());
+                errorTest = streamToString(processTest.getErrorStream());
+                exitTest = processTest.exitValue();
+            } else {
+                processTest.destroyForcibly();
+                timedOut[i] = true;
+                System.out.println("Test executable timed out");
+            }
 
             // ---- RUN REFERENCE EXECUTABLE ----
             List<String> refCommand = new ArrayList<>();
@@ -100,16 +117,30 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
 
             Process processRef = new ProcessBuilder(refCommand).start();
 
-            String outputRef = streamToString(processRef.getInputStream());
-            String errorRef = streamToString(processRef.getErrorStream());
-            int exitRef = processRef.waitFor();
+            boolean finishedRef = processRef.waitFor(5, TimeUnit.SECONDS);
+
+            String outputRef = "";
+            String errorRef = "";
+            int exitRef = -1;
+
+            if (finishedRef) {
+                outputRef = streamToString(processRef.getInputStream());
+                errorRef = streamToString(processRef.getErrorStream());
+                exitRef = processRef.exitValue();
+            } else {
+                processRef.destroyForcibly();
+                timedOut[i] = true;
+            }
 
             // ---- COMPARE RESULTS ----
-            boolean sameOutput = outputTest.trim().equals(outputRef.trim());
-            boolean sameError = errorTest.trim().equals(errorRef.trim());
-            boolean sameExitCode = exitTest == exitRef;
-
-            testsResultat[i] = sameOutput && sameError && sameExitCode;
+            if (timedOut[i]) {
+                testsResultat[i] = false;
+            } else {
+                boolean sameOutput = outputTest.trim().equals(outputRef.trim());
+                boolean sameError = errorTest.trim().equals(errorRef.trim());
+                boolean sameExitCode = exitTest == exitRef;
+                testsResultat[i] = sameOutput && sameError && sameExitCode;
+            }
         }
     }
 
@@ -129,5 +160,28 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
             }
         }
         return sb.toString();
+    }
+
+    public static void main(String[] args) { 
+        ArrayList<File> liste = new ArrayList<>(); 
+        liste.add(new File("BacATest/double_int")); 
+        liste.add(new File("BacATest/square_int")); 
+        ArrayList<String> in = new ArrayList<>(); 
+        in.add("2"); 
+        in.add("-3"); 
+        EvaluateurBoiteNoireAdaSimple a = new EvaluateurBoiteNoireAdaSimple(liste, in); 
+        try { 
+            a.evaluer(); 
+            Boolean[] results = a.getTestsResultat(); 
+            for (int i = 0; i < results.length; i++) { 
+                System.out.println("Test " + i + ": " + results[i]); 
+            } 
+            boolean[] timeout = a.getTimedOut(); 
+            for (int i = 0; i < timeout.length; i++) { 
+                System.out.println("timeout " + i + ": " + timeout[i]); 
+            } 
+        } catch (Exception e) { 
+            e.printStackTrace(); 
+        } 
     }
 }
