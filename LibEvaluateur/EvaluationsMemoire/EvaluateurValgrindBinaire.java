@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.concurrent.TimeUnit;
 
 import org.tap4j.model.Plan;
 import org.tap4j.model.TestResult;
@@ -30,11 +31,11 @@ import org.tap4j.util.StatusValues;
  * @author Louis-Clément Olivier
 */
 
-public class EvaluateurValgrind extends EvaluateurMemoire {
+public class EvaluateurValgrindBinaire extends EvaluateurMemoire {
 
     private TestSet ensembleTest;
 
-    public EvaluateurValgrind(File binaire) {
+    public EvaluateurValgrindBinaire(File binaire) {
         super();
         this.ensembleTest = new TestSet();
         this.fichiers.add(binaire);
@@ -89,58 +90,33 @@ public class EvaluateurValgrind extends EvaluateurMemoire {
      * Exécute Valgrind sur le fichier binaire spécifié et capture sa sortie.
      */
     public void evaluer() throws Exception {
-        File javaFile = fichiers.get(0);
-        String javaFilePath = javaFile.getAbsolutePath();
-        String directory = javaFile.getParent();
-        String fileName = javaFile.getName();
-        String className = fileName.substring(0, fileName.lastIndexOf('.'));
-        
-        // Compile the Java file
-        Process compileProcess = new ProcessBuilder(
-                "javac",
-                javaFilePath
-        ).start();
-        
-        compileProcess.waitFor();
-        
-        // Create a wrapper shell script that executes the Java class
-        String wrapperPath = directory + File.separator + className + ".sh";
-        String wrapperScript = "#!/bin/bash\n" +
-                              "cd " + directory + "\n" +
-                              "java " + className + "\n";
-        
-        try (FileWriter writer = new FileWriter(wrapperPath)) {
-            writer.write(wrapperScript);
-        }
-        
-        // Make the wrapper script executable
-        Files.setPosixFilePermissions(
-                Paths.get(wrapperPath),
-                java.nio.file.attribute.PosixFilePermissions.fromString("rwxr-xr-x")
-        );
-        
-        // Run Valgrind on the wrapper script
+    
+        File binary = fichiers.get(0);
+    
         Process process = new ProcessBuilder(
                 "valgrind",
-                wrapperPath
+                binary.getAbsolutePath()
         ).start();
-
+    
         BufferedReader errorReader = new BufferedReader(
                 new InputStreamReader(process.getErrorStream())
         );
-
+    
         StringBuilder outputBuilder = new StringBuilder();
+    
+        boolean finished = process.waitFor(10, TimeUnit.SECONDS);
+    
+        if (!finished) {
+            process.destroyForcibly();
+            outputBuilder.append("Execution timed out after 10 seconds\n");
+        }
+    
         String line;
-
         while ((line = errorReader.readLine()) != null) {
             outputBuilder.append(line).append(System.lineSeparator());
         }
-
-        process.waitFor();
-
-        String OutputSortie = outputBuilder.toString();
-
-        resultatVersTAP(OutputSortie);
+    
+        resultatVersTAP(outputBuilder.toString());
     }
 
     /**
@@ -150,6 +126,17 @@ public class EvaluateurValgrind extends EvaluateurMemoire {
         int start = input.indexOf(" total heap usage: ");
         int end = input.indexOf("\n", start);
         return input.substring(start, end);
+    }
+
+
+    public static void main(String[] args) {
+        EvaluateurValgrindBinaire a = new EvaluateurValgrindBinaire(new File("BacATest/square_int"));
+        try {
+            a.evaluer();
+            System.out.println(a.resultat);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
 }
