@@ -60,7 +60,7 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
      * @param SortieTest la sortie brute produite par gnatmake
      */
     protected void resultatVersTAP(String SortieTest) {
-        testsResultat = new Boolean[1];
+        testsResultat = new Boolean[2];
 		ensembleTest.setPlan( new Plan(2) );
 		TestResult presErr;
 		TestResult presAvrt;
