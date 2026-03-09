@@ -1,0 +1,1 @@
+Cette classe est le point d'entrée principal de FRED. Elle récupère la liste des dossiers à tester via l'[[Explorateur.java|explorateur]] configuré dans [[Scenario.java|Scenario]], puis lance l'évaluation de chaque dossier en parallèle à l'aide de threads virtuels, permettant ainsi de tester plusieurs projets étudiants simultanément de manière efficace.

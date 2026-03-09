@@ -1,0 +1,1 @@
+Cette classe hérite d'[[EvaluateurCompilation.java|EvaluateurCompilation]] et évalue la compilation de fichiers [[Java]]. Elle utilise l'API Java Compiler pour compiler les fichiers source, détecte les erreurs de compilation, et convertit les résultats au format TAP pour un rapport standardisé.

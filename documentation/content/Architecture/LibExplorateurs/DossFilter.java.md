@@ -1,0 +1,1 @@
+Cette classe implémente FileFilter et sert à filtrer les dossiers par nom lors de l'exploration du système de fichiers. Elle est utilisée par [[ExplorateurSimple.java|ExplorateurSimple]] pour identifier les dossiers correspondant à un nom spécifique parmi un ensemble de fichiers et répertoires.

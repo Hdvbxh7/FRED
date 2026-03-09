@@ -1,0 +1,1 @@
+Cette classe abstraite hérite d'[[Evaluateur.java|Evaluateur]] et sert de base pour tous les évaluateurs de gestion mémoire, comme [[EvaluateurValgrind.java|EvaluateurValgrind]]. Elle maintient une liste de fichiers binaires à analyser et définit l'interface commune pour détecter les fuites mémoire dans le code et autres problèmes liés à la mémoire.

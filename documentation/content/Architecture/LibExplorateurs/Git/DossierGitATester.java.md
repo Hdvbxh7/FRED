@@ -1,0 +1,1 @@
+Cette classe implémente Runnable et représente un dossier Git étudiant à évaluer de manière asynchrone. Elle gère la mise à jour du dépôt depuis l'URL distante, vérifie si de nouveaux tests sont nécessaires en comparant la date du dernier test avec la date limite, exécute le [[Scenario.java|scénario]] de tests, et publie les résultats sur le dépôt Git.

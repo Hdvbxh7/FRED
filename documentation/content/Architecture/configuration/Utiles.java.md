@@ -1,0 +1,1 @@
+Cette classe fournit des fonctions utilitaires statiques pour manipuler les fichiers et les processus. Elle permet notamment de copier des fichiers, de lire le contenu d'un fichier sous forme de chaîne de caractères, d'afficher les sorties de processus externes, et de supprimer des répertoires de manière récursive.
