@@ -30,5 +30,6 @@ else
 fi
 
 # Build Quartz to raw_html directory
-echo "Mise à jour de la documentation dans raw_html..."
-npx quartz build --output raw_html
+echo "Mise à jour de la documentation dans public..."
+npx quartz build
+echo "✓ Documentation mise à jour avec succès !"
