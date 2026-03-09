@@ -60,7 +60,7 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
      * @param SortieTest la sortie brute produite par javac 
     */
     protected void resultatVersTAP(String SortieTest) {
-        testsResultat = new Boolean[1];
+        testsResultat = new Boolean[2];
 		ensembleTest.setPlan( new Plan(2) );
 		TestResult presErr;
 		TestResult presAvrt;
@@ -142,9 +142,9 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
         JavaCompiler javac = ToolProvider.getSystemJavaCompiler();
         if(cp!=null){
             System.out.println(cp.toString());
-            javac.run(null, cout, cerr,"-d","LibEvaluateur/EvaluationsCompilation/Compiled_Code","-Xlint","-cp",cp, file);
+            javac.run(null, cout, cerr,"-d","Compiled_Code","-Xlint","-cp",cp, file);
         }else{
-            javac.run(null, cout, cerr,"-d","LibEvaluateur/EvaluationsCompilation/Compiled_Code","-Xlint", file);
+            javac.run(null, cout, cerr,"-d","Compiled_Code","-Xlint", file);
         }
 
         try{
@@ -163,7 +163,28 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
      * @return dernière ligne du texte
      */
     public static String derniereLigne(String text) {
-    	return text.substring(text.lastIndexOf('\n'));
+        if (text == null || text.isEmpty()) {
+            return "";
+        }
+
+        int index = text.lastIndexOf('\n');
+
+        if (index == -1) {
+            return text;
+        }
+
+        return text.substring(index + 1);
+    }
+
+    public static void main(String[] args) {
+        EvaluateurCompilationJava a = new EvaluateurCompilationJava(new File("BacATest/TestV.java"));
+
+        try {
+            a.evaluer();
+            System.out.println(a.resultat);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
 }
