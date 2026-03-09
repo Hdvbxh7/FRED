@@ -1,0 +1,10 @@
+unnamed package
+configuration
+LibEvaluateur
+LibEvaluateur.EvaluationsBoiteNoire
+LibEvaluateur.EvaluationsCompilation
+LibEvaluateur.EvaluationsMemoire
+LibEvaluateur.EvaluationsStyle
+LibEvaluateur.EvaluationsUnitaire
+LibExplorateurs
+LibExplorateurs.Git

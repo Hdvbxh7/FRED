@@ -73,6 +73,11 @@ const config: QuartzConfig = {
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
       Plugin.Latex({ renderEngine: "katex" }),
+      Plugin.Javadoc({
+        javadocDir: "static/javadoc",
+        inlineHtml: true,
+        javadocBaseUrl: "/static/javadoc",
+      }),
     ],
     filters: [Plugin.RemoveDrafts()],
     emitters: [

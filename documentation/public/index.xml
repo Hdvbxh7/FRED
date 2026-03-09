@@ -6,6 +6,12 @@
       <description>Les dernières 10 notes on F.R.E.D</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>Utiliser Javadoc dans la Documentation</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/Javadoc</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/Javadoc</guid>
+    <description>Comment intégrer Javadoc dans vos pages FRED utilise un plugin Quartz personnalisé qui permet d’intégrer automatiquement la documentation Javadoc directement dans les pages ...</description>
+    <pubDate>Mon, 09 Mar 2026 16:27:06 GMT</pubDate>
+  </item><item>
     <title>Découverte</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/D%C3%A9couverte</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/D%C3%A9couverte</guid>
@@ -58,12 +64,6 @@
     <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/configuration/Scenario.java</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/configuration/Scenario.java</guid>
     <description>Cette classe configure et orchestre l’exécution des scénarios de tests sur les dossiers étudiants. Elle définit les paramètres globaux comme la date limite d’évaluation, le type d’explorateur à utiliser (Git, Simple ou Scénario), et le chemin du projet à tester.</description>
-    <pubDate>Mon, 09 Mar 2026 15:47:36 GMT</pubDate>
-  </item><item>
-    <title>Utiles.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/configuration/Utiles.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/configuration/Utiles.java</guid>
-    <description>Cette classe fournit des fonctions utilitaires statiques pour manipuler les fichiers et les processus. Elle permet notamment de copier des fichiers, de lire le contenu d’un fichier sous forme de chaîne de caractères, d’afficher les sorties de processus externes, et de supprimer des répertoires de manière récursive.</description>
     <pubDate>Mon, 09 Mar 2026 15:47:36 GMT</pubDate>
   </item>
     </channel>
