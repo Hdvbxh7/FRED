@@ -101,6 +101,12 @@ public class Scenario implements Runnable{
 
     }
 
+    public static void main(String[] args) {
+        File TP02 = new File("BacATest/TP02");
+        File TP02Resultat = new File("BacATest/TP02Resultat");
+        scenario(TP02,TP02Resultat);
+    }
+
     /**
      * lance le thread de scénario
      */
