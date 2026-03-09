@@ -96,7 +96,7 @@ public class Aggregateur {
 
             Aggregateur aggreg = new Aggregateur(new File("Tests/"));
 
-            EvaluateurMemoire eval1 = new EvaluateurValgrind(aTester);
+            EvaluateurMemoire eval1 = new EvaluateurValgrindBinaire(aTester);
 
             EvaluateurCompilation eval2 = new EvaluateurCompilationAda(aTester2);
 
