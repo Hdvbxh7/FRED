@@ -45,6 +45,7 @@ public class Aggregateur {
         for (int i = 0; i < listeEvaluateur.size(); i++) {
             Evaluateur evaltemp = listeEvaluateur.get(i);
             Boolean[] temp = evaltemp.getTestsResultat();
+            System.out.println("Salut je suis le test : " + evaltemp.getNomEvaluateur());
             
             // Count passed and failed tests
             int passed = 0;

@@ -41,11 +41,7 @@ import com.puppycrawl.tools.checkstyle.api.Configuration;
  */
 public class CheckStyle extends EvaluateurStyle {
 
-    /** result of all tests */
-    private String resultat;
 
-    /** array of results for each test type (true=passed, false=failed) */
-    private Boolean[] testsResults;
 
     // parameters to set up
     /** List of files to analyze */
@@ -98,22 +94,6 @@ public class CheckStyle extends EvaluateurStyle {
     }
 
     /**
-     * Getter for Resultat
-     * @return the resultat attribute
-     */
-    public String getResultat() {
-        return resultat;
-    }
-
-    /**
-     * Getter for testsResults
-     * @return the results Table
-     */
-    public Boolean[] getTestsResults() {
-        return testsResults;
-    }
-
-    /**
      * Convertit la sortie brute de CheckStyle en format TAP.
      *
      * @param sortieTest la sortie brute produite par Valgrind
@@ -130,8 +110,8 @@ public class CheckStyle extends EvaluateurStyle {
         	Directive exFileNotFound = new Directive(DirectiveValues.SKIP,
         			"Erreur, fichier de configuration de checkstyle introuvable");
         	resultat.setDirective(exFileNotFound);
-            this.testsResults = new Boolean[1];
-            testsResults[0] = false;
+            this.testsResultat = new Boolean[1];
+            testsResultat[0] = false;
             ensembleTestGlobal.addTestResult(resultat);
 			this.resultat = producteur.dump(ensembleTestGlobal);
 			return;
@@ -246,6 +226,8 @@ public class CheckStyle extends EvaluateurStyle {
 
         //destroying the checker so that the listener won't remain
         checker.destroy();
+
+        resultatVersTAP(resultat);
     }
 
     /**
