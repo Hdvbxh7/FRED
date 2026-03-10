@@ -73,13 +73,13 @@ public class Scenario implements Runnable{
             if (resultatComp != null && resultatComp.length > 0 && resultatComp[0]) {
                 
                 // Test 2 : Checkstyle
-                java.util.ArrayList<File> fichiers = new java.util.ArrayList<>();
-                fichiers.add(pointJava);
-                LibEvaluateur.EvaluationsStyle.CheckStyle evalStyle = 
-                    new LibEvaluateur.EvaluationsStyle.CheckStyle(fichiers);
-                evalStyle.setNomEvaluateur("Style (Checkstyle)");
-                aggregateur.add(evalStyle);
-                evalStyle.evaluer();
+                // java.util.ArrayList<File> fichiers = new java.util.ArrayList<>();
+                // fichiers.add(pointJava);
+                // LibEvaluateur.EvaluationsStyle.CheckStyle evalStyle = 
+                //     new LibEvaluateur.EvaluationsStyle.CheckStyle(fichiers);
+                // evalStyle.setNomEvaluateur("Style (Checkstyle)");
+                // aggregateur.add(evalStyle);
+                // evalStyle.evaluer();
                 
                 // Test 3 : Tests unitaires JUnit
                 java.util.ArrayList<File> testsFiles = new java.util.ArrayList<>();
@@ -103,7 +103,7 @@ public class Scenario implements Runnable{
 
     public static void main(String[] args) {
         File TP02 = new File("BacATest/TP02");
-        File TP02Resultat = new File("BacATest/TP02Resultat");
+        File TP02Resultat = new File("BacATest/TP02Res");
         scenario(TP02,TP02Resultat);
     }
 
