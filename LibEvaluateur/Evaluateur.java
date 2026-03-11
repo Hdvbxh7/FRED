@@ -1,7 +1,13 @@
 package LibEvaluateur;
 
+import org.tap4j.model.Directive;
+import org.tap4j.model.Plan;
+import org.tap4j.model.TestResult;
+import org.tap4j.model.TestSet;
 import org.tap4j.producer.TapProducer;
 import org.tap4j.producer.TapProducerFactory;
+import org.tap4j.util.DirectiveValues;
+import org.tap4j.util.StatusValues;
 
 public abstract class Evaluateur {
 	
@@ -33,7 +39,16 @@ public abstract class Evaluateur {
 		this.nomEvaluateur = nomEvaluateur;
 	}
 	
-
+	protected void skipResultatVersTAP(String raison) {
+		TestSet testIgnore = new TestSet();
+		testIgnore.setPlan(new Plan(2));
+		TestResult resIgnore =  new TestResult(StatusValues.NOT_OK, 1);
+		Directive dirIgnore = new Directive(DirectiveValues.SKIP, raison);
+		resIgnore.setDirective(dirIgnore);
+		this.testsResultat = new Boolean[1];
+		this.testsResultat[0] = false;
+		this.resultat = producteur.dump(testIgnore);
+	}
 
 	protected abstract void resultatVersTAP(String SortieTest);
 

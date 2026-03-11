@@ -9,6 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.tap4j.model.Comment;
+import org.tap4j.model.Directive;
+import org.tap4j.model.Plan;
+import org.tap4j.model.TestResult;
+import org.tap4j.model.TestSet;
+import org.tap4j.util.DirectiveValues;
+import org.tap4j.util.StatusValues;
+
 /**
  * Evaluateur de tests en boîte noire pour des programmes Ada compilés.
  * <p>
@@ -46,8 +54,8 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
      *
      * @param SortieTest sortie brute produite lors de l'exécution
      */
-    protected void resultatVersTAP(String SortieTest) {
-        // Optional TAP formatting
+    protected void resultatVersTAP(String sortieTest) {
+        this.resultat = sortieTest;
     }
 
     /**
@@ -74,8 +82,10 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
 
         testsResultat = new Boolean[numberOfTests];
 
+        TestSet testBoiteNoire = new TestSet();
+		testBoiteNoire.setPlan(new Plan(numberOfTests));
+		
         for (int i = 0; i < numberOfTests; i++) {
-
 
             String arg = (arguments == null || arguments.isEmpty())
                     ? null
@@ -88,6 +98,8 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
             if (arg != null) {
                 testCommand.add(arg);
             }
+			testBoiteNoire.addComment(new Comment("Commande de test : " + testExecutable.getName() + " " + arg));
+
 
             Process processTest = new ProcessBuilder(testCommand).start();
 
@@ -133,15 +145,52 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
             }
 
             // ---- COMPARE RESULTS ----
+            TestResult resComp;
+
             if (timedOut[i]) {
                 testsResultat[i] = false;
+                resComp =  new TestResult(StatusValues.NOT_OK, 1);
+        		Directive dirTO = new Directive(DirectiveValues.SKIP, "Temps d'execution dépassé.");
+        		resComp.setDirective(dirTO);
             } else {
                 boolean sameOutput = outputTest.trim().equals(outputRef.trim());
                 boolean sameError = errorTest.trim().equals(errorRef.trim());
                 boolean sameExitCode = exitTest == exitRef;
                 testsResultat[i] = sameOutput && sameError && sameExitCode;
+    			if (testsResultat[i]) {
+    				resComp =  new TestResult(StatusValues.OK, i+1);
+    			} else {
+    				resComp =  new TestResult(StatusValues.NOT_OK, i+1);
+    				if (!sameOutput) {
+    					resComp.setDescription("Différences avec le retour attendu trouvées :");
+    					List<String> rapportDiff = lignesDiffs(outputTest, outputRef);
+    					TestSet ensDiff = new TestSet();
+    					ensDiff.setPlan(new Plan(rapportDiff.size()));
+    					for (int j = 0;j <= rapportDiff.size();j++) {
+    						TestResult diffLigne = new TestResult(StatusValues.NOT_OK, j+1);
+    						diffLigne.setDescription(rapportDiff.get(j));
+    						ensDiff.addTestResult(diffLigne);
+    					}
+    					resComp.setSubtest(ensDiff);
+    				} else if (!sameError) {
+    					resComp.setDescription("Différences avec l'erreur attendu trouvées :");
+    					List<String> rapportDiff = lignesDiffs(errorTest, errorRef);
+    					TestSet ensDiff = new TestSet();
+    					ensDiff.setPlan(new Plan(rapportDiff.size()));
+    					for (int j = 0;j <= rapportDiff.size();j++) {
+    						TestResult diffLigne = new TestResult(StatusValues.NOT_OK, j+1);
+    						diffLigne.setDescription(rapportDiff.get(j));
+    						ensDiff.addTestResult(diffLigne);
+    					}
+    					resComp.setSubtest(ensDiff);
+    				} else {
+    					resComp.setDescription("Mauvais code retour : trouvé " + exitTest + " attendu " + exitRef);
+    				}
+    			}
             }
+			testBoiteNoire.addTestResult(resComp);
         }
+        this.resultatVersTAP(producteur.dump(testBoiteNoire));
     }
 
     /**

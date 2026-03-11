@@ -36,8 +36,21 @@ public abstract class EvaluateurBoiteNoire extends Evaluateur {
         this.timedOut = timedOut;
     }
 
-    protected abstract void resultatVersTAP(String SortieTest);
+    protected abstract void resultatVersTAP(String sortieTest);
 
     public abstract void evaluer() throws Exception;
     
+	protected static List<String> lignesDiffs(String stringTest, String stringTemoin) {
+		String[] lignesTest = stringTest.split("\n");
+		String[] lignesTemoin = stringTemoin.split("\n");
+		List<String> rapportDiff = new ArrayList<String>() ;
+		for (int i = 0;i<=Integer.min(lignesTest.length,lignesTemoin.length); i++) {
+			if (!lignesTest[i].equalsIgnoreCase(lignesTemoin[i])) {
+				rapportDiff.add("l " + String.valueOf(i) + " : [resultat] " 
+						+ lignesTest[i] + " || [attendu] " + lignesTemoin[i]);
+			}
+		}
+		return rapportDiff;
+		
+	}
 }
