@@ -1,13 +1,10 @@
 package LibEvaluateur.EvaluationsStyle;
 
-import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
 
 import java.util.Scanner;
 
@@ -33,65 +30,84 @@ import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import com.puppycrawl.tools.checkstyle.api.Configuration;
 
 /**
- * This class is the Checkstyle module
- * TODO
+ * Évaluateur de code basé sur Checkstyle.
+ * <p>
+ * Cette classe encapsule la configuration et l'exécution d'un
+ * <a href="https://checkstyle.org/">checker Checkstyle</a> sur
+ * une liste de fichiers Java. Le résultat est converti en format
+ * <a href="https://testanything.org/tap-specification.html">TAP</a>
+ * pour l'intégration dans la suite d'évaluation de FRED.
+ * </p>
+ *
+ * <p>Quelques références :</p>
+ * <ul>
+ *   <li>https://puppycrawl.com/checkstyle/</li>
+ *   <li>https://checkstyle.org/</li>
+ *   <li>https://checkstyle.sourceforge.io/apidocs/com/puppycrawl/tools/checkstyle/package-summary.html</li>
+ * </ul>
+ *
+ * <p><strong>Exemple d'utilisation :</strong></p>
+ * <pre><code>
+ * List&lt;File&gt; files = List.of(new File("src/Main.java"));
+ * EvaluateurCheckStyle eval = new EvaluateurCheckStyle(new ArrayList<>(files));
+ * eval.evaluer();
+ * System.out.println(eval.getResultat());
+ * </code></pre>
  */
-/**
- * 
- */
-public class CheckStyle extends EvaluateurStyle {
+public class EvaluateurCheckStyle extends EvaluateurStyle {
 
+    // paramètres de checkstyle
 
+    /** Liste des fichiers à analyser */
+    private ArrayList<File> fichiersAVerifier;
+    /** Fichier XML contenant les vérifications à exécuter */
+    private File checkstyleAUtiliser;
+    /** Fichier de propriétés utilisé par la configuration Checkstyle */
+    private Properties proprietesAUtiliser;
 
-    // parameters to set up
-    /** List of files to analyze */
-    private ArrayList<File> filesToCheck;
-    /** The XML file that contains the checks to run */
-    private File checkstyleToUse;
-    /** The properties file used by the Checkstyle configuration */
-    private Properties propertiesToUse;
-
-    //constructors
+    //constructeurs
 
     /**
-     * Default constructor, uses the default checkstyle file
-     * @param Files List of files to test
+     * Constructeur par défaut : utilise le fichier de configuration de checkstyle par défaut
+     * @param listeFichiers Liste des fichiers à tester
      */
-    public CheckStyle(ArrayList<File> Files){
-        filesToCheck = Files;
-        checkstyleToUse = new File("LibEvaluateur/EvaluationsStyle/checkstyle-sans-javadoc.xml");
+    public EvaluateurCheckStyle(ArrayList<File> listeFichiers){
+        fichiersAVerifier = listeFichiers;
+        checkstyleAUtiliser = new File("LibEvaluateur/EvaluationsStyle/checkstyle-sans-javadoc.xml");
     }
 
     /**
-     * Custom constructor: allows providing a custom checkstyle XML file
-     * to be used for the checks
-     * @param Files List of files to test
-     * @param checkstyle XML configuration file
+     * Constructeur personnalisé : permet de fournir un fichier XML
+     * de configuration checkstyle à utiliser pour les vérifications
+     * @param listeFichiers Liste des fichiers à tester
+     * @param checkstyle Fichier XML de configuration
      */
-    public CheckStyle(ArrayList<File> Files,File checkstyle){
-        filesToCheck = Files;
-        checkstyleToUse = checkstyle;
+    public EvaluateurCheckStyle(ArrayList<File> listeFichiers,File checkstyle){
+        fichiersAVerifier = listeFichiers;
+        checkstyleAUtiliser = checkstyle;
     }
 
     /**
-     * Custom constructor: allows providing a custom checkstyle XML file
-     * and the properties file used by that configuration
-     * @param Files List of files to test
-     * @param checkstyle XML configuration file
-     * @param properties File containing the properties used in the XML configuration
+     * Constructeur personnalisé : permet de fournir un fichier XML de configuration checkstyle
+     * et le fichier de propriétés utilisé par cette configuration
+     * @param listeFichiers Liste des fichiers à tester
+     * @param checkstyle Fichier XML de configuration
+     * @param proprietes Fichier contenant les propriétés utilisées dans la configuration XML
      */
-    public CheckStyle(ArrayList<File> Files,File checkstyle,File properties){
-        propertiesToUse = new Properties();
-        filesToCheck = Files;
-        checkstyleToUse = checkstyle;
+    public EvaluateurCheckStyle(ArrayList<File> listeFichiers,File checkstyle,File proprietes){
+        proprietesAUtiliser = new Properties();
+        fichiersAVerifier = listeFichiers;
+        checkstyleAUtiliser = checkstyle;
         try {
-            propertiesToUse.load(new FileInputStream(properties));
+            proprietesAUtiliser.load(new FileInputStream(proprietes));
         } catch (FileNotFoundException e){
             System.out.println("fichier de propriété non trouvé");
         } catch (IOException e) {
             System.out.println("le fichier de propriété données n'est pas conforme");
         } 
     }
+
+    //méthodes
 
     /**
      * Convertit la sortie brute de CheckStyle en format TAP.
@@ -103,7 +119,7 @@ public class CheckStyle extends EvaluateurStyle {
 		TestSet ensembleTestGlobal = new TestSet();
 		List<String> nomsVerifs;
 		try {
-			nomsVerifs = parserNomsVerifications(checkstyleToUse);
+			nomsVerifs = parserNomsVerifications(checkstyleAUtiliser);
 		} catch (FileNotFoundException e){
 			ensembleTestGlobal.setPlan( new Plan(1) );
         	TestResult resultat = new TestResult(StatusValues.NOT_OK, 1);
@@ -154,79 +170,61 @@ public class CheckStyle extends EvaluateurStyle {
     
 
 	/**
-     * Launch the test and add the results to testResults
-     * and resultat
+     * Exécute l'analyse Checkstyle sur les fichiers fournis et prépare le
+     * résultat TAP.
+     * <p>
+     * Cette méthode ne lance pas d'exception à l'extérieur : en cas d'erreur
+     * (configuration invalide, I/O, etc.) un message est écrit sur
+     * {@code System.out} et l'état interne peut indiquer un échec.
+     * </p>
      */
     public void evaluer(){
+        //création du checker
+        Checker verifieur = new Checker();
+        verifieur.setModuleClassLoader(Checker.class.getClassLoader());
 
-        //creating checker
-        Checker checker = new Checker();
-        checker.setModuleClassLoader(Checker.class.getClassLoader());
-
-        //creating configuration file
+        //création du fichier de configuration
         try {
             Configuration config = null;
-            if (propertiesToUse==null) {
+            if (proprietesAUtiliser==null) {
                 config = ConfigurationLoader.loadConfiguration(
-                checkstyleToUse.getAbsolutePath(),
+                checkstyleAUtiliser.getAbsolutePath(),
                 new PropertiesExpander(new Properties()));
             } else {
                 config = ConfigurationLoader.loadConfiguration(
-                checkstyleToUse.getAbsolutePath(),
-                new PropertiesExpander(propertiesToUse));
+                checkstyleAUtiliser.getAbsolutePath(),
+                new PropertiesExpander(proprietesAUtiliser));
             }
-            checker.configure(config);
+            verifieur.configure(config);
         } catch (CheckstyleException e) {
                 System.out.println("error during the creation of configuration");
                 e.printStackTrace();
         }
 
-        //disable the halt on exception
-        checker.setHaltOnException(false);
+        //désactive l'arrêt si exception
+        verifieur.setHaltOnException(false);
 
-        // logger vers le fichier logCheckstyle.txt
-        File checkstyleLog = new File("logCheckstyle.txt");
-        try {
-            PrintStream resultPrintStream = new PrintStream(checkstyleLog);
-            DefaultLogger logger =
-                new DefaultLogger(resultPrintStream, com.puppycrawl.tools.checkstyle.api.AutomaticBean.OutputStreamOptions.CLOSE);
-            checker.addListener(logger);
-        } catch (FileNotFoundException e) {
-           System.out.println("error during log creation");
-        }
+        // Création du logger qui récupérera les résultats
+        ByteArrayOutputStream fluxResultat = new ByteArrayOutputStream();
+        DefaultLogger logger =
+            new DefaultLogger(fluxResultat, com.puppycrawl.tools.checkstyle.api.AutomaticBean.OutputStreamOptions.CLOSE);
+        verifieur.addListener(logger);
 
-        //launching test
+        //lancement du test sur les fichiers
         try {
-            checker.process(filesToCheck);
+            verifieur.process(fichiersAVerifier);
         } catch (CheckstyleException e) {
             System.out.print("error during the Tests");
             e.printStackTrace();
         }
 
-        //écriture de logCheckstyle.txt
-        try {
-            InputStream is = new FileInputStream(checkstyleLog);
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader buffer = new BufferedReader(isr);
+        //transformation du stream en String dans résultat
+        resultat = fluxResultat.toString();
 
-            String line = buffer.readLine();
-            StringBuilder builder = new StringBuilder();
-        
-            while(line != null){
-                builder.append(line).append("\n");
-                line = buffer.readLine();
-            }
-            resultat = builder.toString();
-            buffer.close();
-            isr.close();
-            is.close();
-        } catch (IOException e) {
-            System.out.println("error during the writing of log in resultat");
-        }
+        //on supprime le checker pour que le destroyer ne tourne plus
+        verifieur.destroy();
 
-        //destroying the checker so that the listener won't remain
-        checker.destroy();
-
+        //transformation du résultat en TAP
         resultatVersTAP(resultat);
     }
 
@@ -237,7 +235,7 @@ public class CheckStyle extends EvaluateurStyle {
      * @return la ligne raccourcies un maximum.
      */
     private String nettoyageLigneErreur(String line) {
-    	for (File fichier : filesToCheck) {
+    	for (File fichier : fichiersAVerifier) {
     		if (line.contains(fichier.getName())) {
     			return line.substring(line.indexOf(fichier.getName()), line.lastIndexOf("["));
     		}

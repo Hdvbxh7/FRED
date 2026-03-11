@@ -83,7 +83,7 @@ public class AppelGit {
                 motDePasse = info[1];
                 authentification = true;
             }
-            if(!(new File(doss.getCanonicalPath()+Scenario.projet)).exists()){
+            if(!(new File(doss.getCanonicalPath()+cheminProjet)).exists()){
                 try {    
                     //clonage du repository
                     clonage(doss, gitUrl);
@@ -240,7 +240,7 @@ public class AppelGit {
         boolean conflit = false;
         try {
             //récupére le chemin du projet
-            String projetPath = Scenario.projet;
+            String projetPath = cheminProjetGit;
 
             //enléve le slash d'ouverture de dossier
             if(projetPath.charAt(0)=='/'){

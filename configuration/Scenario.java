@@ -1,19 +1,12 @@
 package configuration;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
 import LibExplorateurs.*;
 import LibEvaluateur.*;
 
 public class Scenario implements Runnable{
-
-    /** date de fin de test */
-    public static final GregorianCalendar endOfEvaluation = new GregorianCalendar(2026,GregorianCalendar.FEBRUARY,19,21,54);
-
-    /** le chemin du projet (/<cheminDossProjet>) ou "" si il n'y a pas de sous dossier */
-    public static final String projet = "";
 
     /** nombre de thread */
     public static int nbThread = 15;
