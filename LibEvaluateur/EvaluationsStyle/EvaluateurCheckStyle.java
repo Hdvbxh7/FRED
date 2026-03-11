@@ -112,7 +112,7 @@ public class EvaluateurCheckStyle extends EvaluateurStyle {
     /**
      * Convertit la sortie brute de CheckStyle en format TAP.
      *
-     * @param sortieTest la sortie brute produite par Valgrind
+     * @param sortieTest la sortie brute produite par CheckStyle
      */
 	@Override
 	protected void resultatVersTAP(String sortieTest) {
