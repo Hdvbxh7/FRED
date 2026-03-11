@@ -3,19 +3,19 @@ package LibExplorateurs;
 import java.io.File;
 import java.util.ArrayList;
 
-import configuration.Scenario;
+import configuration.Configuration;
 
 /**
  * Explorateur utilisant les fonctions défini dans scénario
  */
-public class ExplorateurScenario extends Explorateur{
+public class ExplorateurConfiguration extends Explorateur{
     
     //methode
     public ArrayList<File> listeDossier(){
-        return Scenario.listeDossier();
+        return Configuration.listeDossier(this);
     }
 
     public void postprocess(){
-        Scenario.postprocess();
+        Configuration.postprocess(this);
     }
 }

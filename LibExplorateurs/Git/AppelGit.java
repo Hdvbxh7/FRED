@@ -14,7 +14,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
-import configuration.Scenario;
+import configuration.Configuration;
 import configuration.Utiles;
 
 /**

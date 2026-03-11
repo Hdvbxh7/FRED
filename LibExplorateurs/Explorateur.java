@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import configuration.Scenario;
+import configuration.Configuration;
 
 /**
  * Classe utiliser pour savoir quel superviseur
  * sera utilisé
  * @see ExplorateurGit ExplorateurGit
- * @see ExplorateurScenario ExplorateurScenario
+ * @see ExplorateurConfiguration ExplorateurScenario
  * @see ExplorateurSimple ExplorateurSimple
  */
 public abstract class Explorateur {
@@ -41,7 +41,7 @@ public abstract class Explorateur {
      * On créer l'ensemble de thread
      */
     protected void initiationThreadPool(){
-        threadPool = Executors.newFixedThreadPool(Scenario.nbThread);
+        threadPool = Executors.newFixedThreadPool(Configuration.nbThread);
     }
 
     /**
@@ -50,7 +50,7 @@ public abstract class Explorateur {
     protected void shutdownAndWaitForTermination(){
         try {
             threadPool.shutdown();
-            threadPool.awaitTermination(Scenario.waitingTimeBeforeCrash, Scenario.timeUnit);
+            threadPool.awaitTermination(Configuration.waitingTimeBeforeCrash, Configuration.timeUnit);
             threadPool.shutdownNow();
         } catch (InterruptedException e) {
             System.out.println("thread de l'explorateurS interrompu");

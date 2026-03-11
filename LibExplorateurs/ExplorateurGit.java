@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import LibExplorateurs.Git.AppelGit;
 import LibExplorateurs.Git.DossierGitATester;
-import configuration.Scenario;
+import configuration.Configuration;
 import configuration.Utiles;
 
 /**
@@ -20,7 +20,7 @@ public class ExplorateurGit extends Explorateur{
     public ArrayList<Thread> tList;
     /**liste des AppelsGits */
     public ArrayList<AppelGit> gitsEleve;
-    /** TODO : chercher l'implémentation dans les cours */
+    /** Lock utilisé pour le multithreading */
     public Lock lockPartage;
     /** email du professeur pour identité de commit */
     private String mailCommit;
@@ -93,8 +93,7 @@ public class ExplorateurGit extends Explorateur{
             File dossierResultat = new File(dossierGit.getCanonicalPath()+cheminProjetGit+"/evaluation");
 
             //fichier qui contient les informations d'évaluations
-            //TODO : voir avec lc le nom des fichiers résultats
-            File resultatCalcule = new File("resultats/"+identifiantEleve+cheminProjetGit+"/evaluation_"+identifiantEleve+".txt");
+            File resultatCalcule = new File("resultats/"+identifiantEleve+cheminProjetGit+"/Resultat_eleve.txt");
 
             //fichier de destination des tests
             File fichierResultat = new File(dossierResultat.getCanonicalPath()+"/evaluation.txt");

@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import LibExplorateurs.*;
 import LibEvaluateur.*;
 
-public class Scenario implements Runnable{
+public class Configuration implements Runnable{
 
     /** nombre de thread */
     public static int nbThread = 15;
@@ -21,11 +21,11 @@ public class Scenario implements Runnable{
 
     /** Explorateur à utiliser 
      * @see ExplorateurGit ExplorateurGit
-     * @see ExplorateurScenario ExplorateurScenario
+     * @see ExplorateurConfiguration ExplorateurScenario
      * @see ExplorateurSimple ExplorateurSimple
      * @see Explorateur Classe Abstraite Explorateur
     */
-    //public static final Explorateur explorateur = new ExplorateurGit("tom.gutierrez1040@gmail.com",new File("GitPaths.csv"),"/mini-projet");
+    //public static final Explorateur explorateur = new ExplorateurGit("tom.gutierrez1040@gmail.com",new File("GitPaths.csv"),"/mini-projet","GitProfesseur");
     public static final Explorateur explorateur = new ExplorateurSimple(new File("BacATest"));
 
     /** dossiers a tester */
@@ -36,7 +36,7 @@ public class Scenario implements Runnable{
      * dossier sur lequel lancer le scénario
      * @param dossier dossier à tester
      */
-    public Scenario(File dossier,File dossierResultatArg){
+    public Configuration(File dossier,File dossierResultatArg){
         dossierATester = dossier;
         dossierResultat = dossierResultatArg;
     }
@@ -108,7 +108,8 @@ public class Scenario implements Runnable{
     }
 
     /** 
-     * @see ExplorateurScenario 
+     * Fonctions à remplir pour l'explorateur Configuration
+     * @see ExplorateurConfiguration 
      * si utilisation de Explorateur scenario 
      */
 
@@ -116,8 +117,8 @@ public class Scenario implements Runnable{
      * fonction qui renvoi la liste des dossiers à tester
      * @return une liste de dossier à tester
      */
-    public static ArrayList<File> listeDossier(){
-         //TODO : remplir et utiliser Explorateur Scénario pour customiser
+    public static ArrayList<File> listeDossier(ExplorateurConfiguration explorateurConfiguration){
+         //TODO : remplir et utiliser Explorateur Configuration pour customiser
         return null;
     }
 
@@ -125,8 +126,8 @@ public class Scenario implements Runnable{
      * fonction qui s'occupe de tout ce qu'il
      * y à a faire une fois les tests résolues
      */
-    public static void postprocess(){
-        //TODO : remplir et utiliser Explorateur Scénario pour customiser
+    public static void postprocess(ExplorateurConfiguration explorateurConfiguration){
+        //TODO : remplir et utiliser Explorateur Configuration pour customiser
     }
     
 }
