@@ -59,40 +59,49 @@
   margin: 1.5rem 0;
   border-collapse: collapse;
   font-size: 0.95rem;
-}
-
-.javadoc-embedded .javadoc-grid {
-  display: grid;
-  gap: 0;
   border: 1px solid var(--lightgray);
   border-radius: 5px;
   overflow: hidden;
-  margin: 1rem 0;
 }
 
-.javadoc-embedded .javadoc-grid.three-column-summary {
-  grid-template-columns: minmax(200px, 1fr) minmax(150px, auto) 2fr;
-}
-
-.javadoc-embedded .javadoc-grid.two-column-summary {
-  grid-template-columns: minmax(200px, 1fr) 2fr;
-}
-
-.javadoc-embedded .javadoc-header {
+.javadoc-embedded .javadoc-table thead {
   background-color: var(--highlight);
+}
+
+.javadoc-embedded .javadoc-table th {
   font-weight: 600;
   padding: 0.75rem;
+  text-align: left;
   border-bottom: 2px solid var(--lightgray);
+  border-right: 1px solid var(--lightgray);
 }
 
-.javadoc-embedded .javadoc-cell {
+.javadoc-embedded .javadoc-table th:last-child {
+  border-right: none;
+}
+
+.javadoc-embedded .javadoc-table td {
   padding: 0.75rem;
   border-bottom: 1px solid var(--lightgray);
+  border-right: 1px solid var(--lightgray);
   vertical-align: top;
 }
 
-.javadoc-embedded .javadoc-cell:last-child {
+.javadoc-embedded .javadoc-table td:last-child {
+  border-right: none;
+}
+
+.javadoc-embedded .javadoc-table tbody tr:last-child td {
   border-bottom: none;
+}
+
+.javadoc-embedded .javadoc-table tbody tr:nth-child(even) {
+  background-color: var(--lightgray);
+  opacity: 0.3;
+}
+
+.javadoc-embedded .javadoc-table tbody tr:hover {
+  background-color: var(--highlight);
 }
 
 /* Section styling */
@@ -229,15 +238,18 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .javadoc-embedded .javadoc-grid {
-    grid-template-columns: 1fr;
+  .javadoc-embedded .javadoc-table {
+    font-size: 0.85rem;
   }
   
-  .javadoc-embedded .javadoc-header:not(:first-child) {
-    display: none;
+  .javadoc-embedded .javadoc-table th,
+  .javadoc-embedded .javadoc-table td {
+    padding: 0.5rem;
   }
   
+  /* Make tables scrollable on mobile */
   .javadoc-embedded {
     padding: 1rem;
+    overflow-x: auto;
   }
 }

@@ -66,7 +66,7 @@ Cela va intégrer la documentation de la classe `Scenario` du package `configura
 
 ## Configuration
 
-Le plugin est configuré dans [quartz.config.ts](quartz.config.ts) avec les options suivantes :
+Le plugin est configuré dans `quartz.config.ts` avec les options suivantes :
 
 - `javadocDir`: Répertoire où se trouvent les fichiers Javadoc HTML (`static/javadoc`)
 - `inlineHtml`: Si `true`, intègre le HTML directement ; si `false`, crée juste un lien
