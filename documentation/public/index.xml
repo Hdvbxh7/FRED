@@ -9,62 +9,62 @@
     <title>Découverte</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/D%C3%A9couverte</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/D%C3%A9couverte</guid>
-    <description>Bonjour.</description>
-    <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
+    <description>F.R.E.D.</description>
+    <pubDate>Thu, 12 Mar 2026 10:10:54 GMT</pubDate>
   </item><item>
     <title>Utiliser Javadoc dans la Documentation</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/Javadoc</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/Javadoc</guid>
     <description>Comment intégrer Javadoc dans vos pages FRED utilise un plugin Quartz personnalisé qui permet d’intégrer automatiquement la documentation Javadoc directement dans les pages ...</description>
-    <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
+    <pubDate>Thu, 12 Mar 2026 10:10:54 GMT</pubDate>
   </item><item>
     <title>Ada</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Languages/Ada</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Languages/Ada</guid>
     <description> ERROR Cet article n’est pas fini.</description>
-    <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
+    <pubDate>Thu, 12 Mar 2026 10:10:54 GMT</pubDate>
   </item><item>
     <title>Java</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Languages/Java</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Languages/Java</guid>
     <description> ERROR Cet article n’est pas fini.</description>
-    <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
+    <pubDate>Thu, 12 Mar 2026 10:10:54 GMT</pubDate>
   </item><item>
     <title>Documentation de F.R.E.D</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/</guid>
     <description>F.R.E.D (Framework de Review d’Exercices en Direct) est une librairie Java qui fournit un accès facile aux outils de tests utilisés pour passer en revue le code d’étudiants ...</description>
-    <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
+    <pubDate>Thu, 12 Mar 2026 10:10:54 GMT</pubDate>
   </item><item>
-    <title>Aggregateur.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/Aggregateur.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/Aggregateur.java</guid>
-    <description>Cette classe agrège les résultats de plusieurs évaluateurs et génère un rapport de synthèse. Elle collecte les résultats de tests (réussis/échoués), calcule un score global, et produit deux versions du rapport : une détaillée pour les professeurs et une simplifiée pour les élèves, sauvegardées dans des fichiers séparés.</description>
-    <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
+    <title>Superviseur.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/Superviseur.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/Superviseur.java</guid>
+    <description>Cette classe est le point d’entrée principal de FRED. Elle récupère la liste des dossiers à tester via l’explorateur configuré dans Scenario, puis lance l’évaluation de chaque dossier en parallèle à l’aide de threads virtuels, permettant ainsi de tester plusieurs projets étudiants simultanément de manière efficace.</description>
+    <pubDate>Thu, 12 Mar 2026 10:10:54 GMT</pubDate>
   </item><item>
-    <title>Evaluateur.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/Evaluateur.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/Evaluateur.java</guid>
-    <description>Cette classe abstraite définit l’interface commune pour tous les types d’évaluateurs du système. Elle utilise TAP (Test Anything Protocol) pour standardiser le format des résultats de tests et fournit les méthodes de base pour évaluer du code, stocker les résultats et convertir les sorties en format TAP.</description>
-    <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
+    <title>Test.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/Tests/Test.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/Tests/Test.java</guid>
+    <description>Cette classe simple sert de fichier de test ou d’exemple pour vérifier le bon fonctionnement du système d’évaluation. Elle contient une méthode basique qui permet de tester les différents évaluateurs du projet.</description>
+    <pubDate>Thu, 12 Mar 2026 10:10:54 GMT</pubDate>
   </item><item>
-    <title>EvaluateurBoiteNoire.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsBoiteNoire/EvaluateurBoiteNoire.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsBoiteNoire/EvaluateurBoiteNoire.java</guid>
-    <description>Cette classe hérite d’Evaluateur et est destinée à implémenter des tests en boîte noire, c’est-à-dire des tests qui vérifient le comportement d’un programme sans accéder à sa structure ...</description>
-    <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
+    <title>Scenario.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/configuration/Scenario.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/configuration/Scenario.java</guid>
+    <description>Cette classe configure et orchestre l’exécution des scénarios de tests sur les dossiers étudiants. Elle définit les paramètres globaux comme la date limite d’évaluation, le type d’explorateur à utiliser (Git, Simple ou Scénario), et le chemin du projet à tester.</description>
+    <pubDate>Thu, 12 Mar 2026 10:10:54 GMT</pubDate>
   </item><item>
-    <title>EvaluateurCompilation.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilation.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilation.java</guid>
-    <description>Cette classe abstraite hérite d’Evaluateur et sert de base pour tous les évaluateurs de compilation, comme EvaluateurCompilationJava et EvaluateurCompilationAda ...</description>
-    <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
+    <title>Utiles.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/configuration/Utiles.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/configuration/Utiles.java</guid>
+    <description>Cette classe fournit des fonctions utilitaires statiques pour manipuler les fichiers et les processus. Elle permet notamment de copier des fichiers, de lire le contenu d’un fichier sous forme de chaîne de caractères, d’afficher les sorties de processus externes, et de supprimer des répertoires de manière récursive.</description>
+    <pubDate>Thu, 12 Mar 2026 10:10:54 GMT</pubDate>
   </item><item>
-    <title>EvaluateurCompilationAda.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilationAda.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilationAda.java</guid>
-    <description>Cette classe hérite d’EvaluateurCompilation et évalue la compilation de fichiers Ada. Elle invoque le compilateur Ada (gnatmake) pour compiler les fichiers source et leurs dépendances, puis analyse les messages d’erreur pour déterminer si la compilation a réussi ou échoué.</description>
-    <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
+    <title>DossFilter.java</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/DossFilter.java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibExplorateurs/DossFilter.java</guid>
+    <description>Cette classe implémente FileFilter et sert à filtrer les dossiers par nom lors de l’exploration du système de fichiers. Elle est utilisée par ExplorateurSimple pour identifier les dossiers correspondant à un nom spécifique parmi un ensemble de fichiers et répertoires.</description>
+    <pubDate>Thu, 12 Mar 2026 10:10:54 GMT</pubDate>
   </item>
     </channel>
   </rss>
