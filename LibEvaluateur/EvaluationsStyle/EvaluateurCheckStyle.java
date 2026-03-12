@@ -231,7 +231,7 @@ public class EvaluateurCheckStyle extends EvaluateurStyle {
     /**
      * Fonction utilitaire pour ne conserver que la partie la plus utile d'une ligne d'erreur du retour de checkstyle.
      * 
-     * @param String La ligne concernée.
+     * @param line La ligne concernée.
      * @return la ligne raccourcies un maximum.
      */
     private String nettoyageLigneErreur(String line) {
@@ -246,7 +246,7 @@ public class EvaluateurCheckStyle extends EvaluateurStyle {
     /**
      * Fonction utilitaire lire le fichier xml de configuration et trouver le nom de toutes les différentes verifications.
      * 
-     * @param File Le fichier xml de configuration.
+     * @param xmlConfiguration Le fichier xml de configuration.
      * @return Une liste de string composée du nom de chaques verifications.
      */
     private static List<String> parserNomsVerifications(File xmlConfiguration) throws FileNotFoundException{
@@ -270,7 +270,7 @@ public class EvaluateurCheckStyle extends EvaluateurStyle {
     /**
      * fonction utilitaire pour raccourcir le code de parserNomsVerifications.
      * 
-     * @param String une ligne d'un xml de configuration de checkstyle de la forme "<module name=\"[nom]\">.
+     * @param line une ligne d'un xml de configuration de checkstyle de la forme "<module name=\"[nom]\">.
      * @return la string [nom]
      */
     private static String parseNomModule(String ligne) {
