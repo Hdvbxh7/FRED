@@ -49,7 +49,7 @@ import com.puppycrawl.tools.checkstyle.api.Configuration;
  * <p><strong>Exemple d'utilisation :</strong></p>
  * <pre><code>
  * List&lt;File&gt; files = List.of(new File("src/Main.java"));
- * EvaluateurCheckStyle eval = new EvaluateurCheckStyle(new ArrayList<>(files));
+ * EvaluateurCheckStyle eval = new EvaluateurCheckStyle(new ArrayList<File>(files));
  * eval.evaluer();
  * System.out.println(eval.getResultat());
  * </code></pre>
