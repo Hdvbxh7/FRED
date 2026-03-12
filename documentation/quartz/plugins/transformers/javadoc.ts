@@ -1,5 +1,5 @@
 import { QuartzTransformerPlugin } from "../types"
-import { Root } from "mdast"
+import { Root as MdastRoot, Html } from "mdast"
 import { visit } from "unist-util-visit"
 import path from "path"
 import fs from "fs"
@@ -18,6 +18,12 @@ const defaultOptions: Options = {
   javadocDir: "static/javadoc",
   inlineHtml: true,
   javadocBaseUrl: "/static/javadoc",
+}
+
+interface TocEntry {
+  depth: number
+  text: string
+  slug: string
 }
 
 /**
@@ -57,7 +63,7 @@ export const Javadoc: QuartzTransformerPlugin<Partial<Options>> = (userOpts) => 
         if (javadocHtml && opts.inlineHtml) {
           // Extract just the main content from the Javadoc HTML
           const content = extractJavadocContent(javadocHtml, className)
-          return `\n\n<div class="javadoc-embedded">\n\n${content}\n\n</div>\n\n`
+          return `\n\n<div class="javadoc-embedded">${content}</div>\n\n`
         } else if (javadocHtml) {
           // Create a link to the Javadoc
           const javadocPath = getJavadocPath(className)
@@ -67,6 +73,48 @@ export const Javadoc: QuartzTransformerPlugin<Partial<Options>> = (userOpts) => 
           return `<div class="javadoc-error">⚠️ Documentation Javadoc non trouvée pour <code>${className}</code></div>`
         }
       })
+    },
+    markdownPlugins() {
+      return [
+        () => {
+          return async (tree: MdastRoot, file) => {
+            // Collect ALL HTML nodes containing javadoc content
+            let allJavadocHtml = ''
+            
+            visit(tree, "html", (node: Html) => {
+              if (node.value) {
+                // Collect any HTML that looks like javadoc content
+                if (node.value.includes('javadoc-embedded') ||
+                    node.value.includes('class-description') ||
+                    node.value.includes('field-summary') ||
+                    node.value.includes('constructor-summary') ||
+                    node.value.includes('method-summary') ||
+                    node.value.includes('field-detail') ||
+                    node.value.includes('constructor-detail') ||
+                    node.value.includes('method-detail')) {
+                  allJavadocHtml += '\n' + node.value
+                }
+              }
+            })
+            
+            // Extract headings from all collected HTML
+            if (allJavadocHtml) {
+              const headings = extractHeadingsFromHtml(allJavadocHtml)
+              
+              // If we found javadoc headings but TOC doesn't exist, create it
+              if (headings.length > 0) {
+                if (!file.data.toc) {
+                  file.data.toc = []
+                  file.data.collapseToc = false
+                }
+                
+                // Add headings to TOC
+                (file.data.toc as TocEntry[]).push(...headings)
+              }
+            }
+          }
+        },
+      ]
     },
   }
 }
@@ -202,10 +250,8 @@ function extractJavadocContent(html: string, className: string): string {
     .replace(/<div class="top-nav"[^>]*>[\s\S]*?<\/div>/gi, "")
     // Remove empty divs that might break layout
     .replace(/<div class="inheritance"[^>]*>[\s\S]*?<\/div>/gi, "")
-    // Clean up button elements used for tabs
-    .replace(/<button[^>]*>[\s\S]*?<\/button>/gi, "")
-    // Remove role and aria attributes that aren't needed
-    .replace(/\s*(role|aria-[a-z\-]+|tabindex|onkeydown|onclick)="[^"]*"/gi, "")
+    // NOTE: Keep button elements for tabs - they're needed for interactive functionality
+    // NOTE: Keep role, aria, onclick, and onkeydown attributes for tab functionality
     // Clean up excessive whitespace
     .replace(/\n\s*\n\s*\n/g, "\n\n")
     .trim()
@@ -333,4 +379,55 @@ function convertDivTablesToHtmlTables(content: string): string {
   }
   
   return result
+}
+
+/**
+ * Extracts heading information from HTML string for TOC
+ */
+function extractHeadingsFromHtml(html: string): TocEntry[] {
+  const headings: TocEntry[] = []
+
+  // Match H1 (the main class heading)
+  const h1Regex = /<h1[^>]*>(.*?)<\/h1>/gis
+  let h1Match = h1Regex.exec(html)
+  
+  if (h1Match) {
+    let text = h1Match[1]
+      .replace(/<[^>]+>/g, '')
+      .trim()
+    
+    const slug = text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '')
+    
+    if (text) {
+      headings.push({
+        depth: 1,
+        text,
+        slug,
+      })
+    }
+  }
+
+  // Extract all H2 tags and try to find their associated section IDs
+  const h2Regex = /<h2[^>]*>(.*?)<\/h2>/gis
+  let h2Match
+  
+  while ((h2Match = h2Regex.exec(html)) !== null) {
+    let text = h2Match[1]
+      .replace(/<[^>]+>/g, '')
+      .trim()
+    
+    if (text) {
+      // Generate slug from the text itself (matching what Quartz will do)
+      // This ensures the slug matches the ID that Quartz adds to the H2 tag
+      let slug = text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '')
+      
+      headings.push({
+        depth: 2,
+        text,
+        slug,
+      })
+    }
+  }
+
+  return headings
 }

@@ -35,21 +35,25 @@ Cela va intégrer la documentation de la classe `Scenario` du package `configura
 #### Exemples concrets
 
 - Pour le Superviseur principal :
+  
   ```markdown
   {{javadoc:Superviseur}}
   ```
 
 - Pour la classe Scenario de configuration :
+  
   ```markdown
   {{javadoc:configuration.Scenario}}
   ```
 
 - Pour un évaluateur :
+  
   ```markdown
   {{javadoc:LibEvaluateur.Evaluateur}}
   ```
 
 - Pour un explorateur :
+  
   ```markdown
   {{javadoc:LibExplorateurs.Explorateur}}
   ```
