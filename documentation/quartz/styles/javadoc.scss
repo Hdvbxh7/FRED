@@ -1,0 +1,357 @@
+/* Javadoc embedded styling */
+.javadoc-embedded {
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    background-color: var(--light);
+
+    /* Ensure proper text rendering */
+    line-height: 1.6;
+    color: var(--darkgray);
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        color: var(--dark);
+        margin-top: 1.5rem;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.3rem;
+    }
+
+    h4 {
+        font-size: 1.1rem;
+    }
+
+    code {
+        background-color: black;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-family: var(--codeFont);
+        font-size: 0.9em;
+    }
+
+    pre {
+        background-color: var(--highlight);
+        padding: 1rem;
+        border-radius: 5px;
+        overflow-x: auto;
+    }
+
+    /* Javadoc table styling */
+    .javadoc-table {
+        width: 100%;
+        margin: 1.5rem 0;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+        border: 1px solid var(--lightgray);
+        border-radius: 5px;
+        overflow: hidden;
+
+        thead {
+            background-color: var(--highlight);
+        }
+
+        th {
+            font-weight: 600;
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 2px solid var(--lightgray);
+            border-right: 1px solid var(--lightgray);
+
+            &:last-child {
+                border-right: none;
+            }
+        }
+
+        td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--lightgray);
+            border-right: 1px solid var(--lightgray);
+            vertical-align: top;
+
+            &:last-child {
+                border-right: none;
+            }
+        }
+
+        tbody {
+            tr:last-child td {
+                border-bottom: none;
+            }
+
+            tr:nth-child(even) {
+                background-color: var(--lightgray);
+                opacity: 0.3;
+            }
+
+            tr:hover {
+                background-color: var(--highlight);
+            }
+        }
+    }
+
+    /* Section styling */
+    section {
+        margin: 2rem 0;
+    }
+
+    .summary,
+    .details {
+        margin: 2rem 0;
+    }
+
+    ul.summary-list,
+    ul.details-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .caption {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+
+    /* Member signature styling */
+    .member-signature {
+        background-color: var(--highlight);
+        padding: 0.75rem;
+        border-radius: 5px;
+        font-family: var(--codeFont);
+        margin: 1rem 0;
+        overflow-x: auto;
+    }
+
+    .modifiers {
+        color: var(--secondary);
+        font-weight: 600;
+    }
+
+    .return-type,
+    .parameters {
+        color: var(--darkgray);
+    }
+
+    /* Links */
+    a {
+        color: var(--secondary);
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &.external-link::after {
+            content: " ↗";
+            font-size: 0.8em;
+        }
+    }
+
+    /* Type signature */
+    .type-signature {
+        font-family: var(--codeFont);
+        font-size: 1rem;
+        margin: 1rem 0;
+    }
+
+    /* Inherited methods list */
+    .inherited-list {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        background-color: var(--highlight);
+        border-radius: 5px;
+
+        h3 {
+            font-size: 1rem;
+            margin-top: 0;
+            border-bottom: none;
+        }
+    }
+
+    /* Details sections */
+    .detail {
+        margin: 2rem 0;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--lightgray);
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    /* Clean up some Javadoc-specific classes */
+    .deprecationBlock,
+    .deprecatedLabel {
+        background-color: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 0.5rem;
+        margin: 0.5rem 0;
+    }
+
+    /* Summary table with tabs */
+    .summary-table,
+    #method-summary-table .tabpanel {
+        >div {
+            &[class*="-summary-table-tab"] {
+                display: none;
+            }
+
+            &.active-table-tab {
+                display: table-row;
+            }
+        }
+    }
+
+    /* Handle div-based tables from Javadoc */
+    .summary-table {
+        display: block;
+
+        >div {
+            display: block;
+
+            &.table-header {
+                font-weight: 600;
+                background-color: var(--highlight);
+                padding: 0.75rem;
+            }
+
+            &.col-first,
+            &.col-second,
+            &.col-last,
+            &.col-constructor-name {
+                padding: 0.75rem;
+                border-bottom: 1px solid var(--lightgray);
+            }
+
+            &.even-row-color {
+                background-color: var(--lightgray);
+                opacity: 0.3;
+            }
+
+            &.odd-row-color {
+                background-color: transparent;
+            }
+        }
+    }
+
+}
+
+.caption {
+    /* Field, constructor, methods */
+    background-color: var(--light);
+    border: 1px solid var(--lightgray);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--darkgray);
+    transition: all 0.2s ease;
+    border-radius: 5px;
+    margin-right: 2px;
+    display: inline-block;
+
+    span {
+        font-family: var(--codeFont);
+        font-weight: 600;
+    }
+}
+
+/* Tab styling for method tables */
+.table-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--lightgray);
+    padding: 0;
+
+    button {
+        background-color: var(--light);
+        border: 1px solid var(--lightgray);
+        border-bottom: none;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        font-size: 0.9rem;
+        color: var(--darkgray);
+        transition: all 0.2s ease;
+        border-radius: 5px 5px 0 0;
+        margin-right: 2px;
+
+        &:hover {
+            background-color: var(--highlight);
+        }
+
+        &.active-table-tab {
+            background-color: var(--bg);
+            color: var(--secondary);
+            font-weight: 600;
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        &:focus {
+            outline: 2px solid var(--secondary);
+            outline-offset: -2px;
+        }
+    }
+}
+
+/* Error message styling */
+.javadoc-error {
+    padding: 1rem;
+    background-color: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 5px;
+    color: #856404;
+    margin: 1rem 0;
+
+    code {
+        background-color: rgba(0, 0, 0, 0.1);
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+    }
+}
+
+/* Dark mode adjustments */
+[saved-theme="dark"] {
+    .javadoc-embedded {
+        background-color: var(--light);
+        color: var(--darkgray);
+
+        .deprecationBlock,
+        .deprecatedLabel {
+            background-color: #3d3419;
+            border-color: #b8860b;
+        }
+    }
+
+    .javadoc-error {
+        background-color: #3d3419;
+        border-color: #b8860b;
+        color: #ffc107;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .javadoc-embedded {
+        padding: 1rem;
+        overflow-x: auto;
+
+        .javadoc-table {
+            font-size: 0.85rem;
+
+            th,
+            td {
+                padding: 0.5rem;
+            }
+        }
+    }
+}
