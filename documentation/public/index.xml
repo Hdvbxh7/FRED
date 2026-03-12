@@ -6,6 +6,12 @@
       <description>Les dernières 10 notes on F.R.E.D</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>Architecture.excalidraw</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture.excalidraw</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture.excalidraw</guid>
+    <description>⚠ Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ⚠ You can decompress Drawing data with the command palette: ‘Decompress current Excalidraw file’.</description>
+    <pubDate>Thu, 12 Mar 2026 17:28:09 GMT</pubDate>
+  </item><item>
     <title>Contribuer à la documentation</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/Contribuer-%C3%A0-la-documentation</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/Contribuer-%C3%A0-la-documentation</guid>
@@ -58,12 +64,6 @@
     <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsBoiteNoire/EvaluateurBoiteNoire.java</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsBoiteNoire/EvaluateurBoiteNoire.java</guid>
     <description>Cette classe hérite d’Evaluateur et est destinée à implémenter des tests en boîte noire, c’est-à-dire des tests qui vérifient le comportement d’un programme sans accéder à sa structure ...</description>
-    <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
-  </item><item>
-    <title>EvaluateurCompilation.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilation.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilation.java</guid>
-    <description>Cette classe abstraite hérite d’Evaluateur et sert de base pour tous les évaluateurs de compilation, comme EvaluateurCompilationJava et EvaluateurCompilationAda ...</description>
     <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
   </item>
     </channel>
