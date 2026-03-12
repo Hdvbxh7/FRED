@@ -49,7 +49,7 @@ import com.puppycrawl.tools.checkstyle.api.Configuration;
  * <p><strong>Exemple d'utilisation :</strong></p>
  * <pre><code>
  * List&lt;File&gt; files = List.of(new File("src/Main.java"));
- * EvaluateurCheckStyle eval = new EvaluateurCheckStyle(new ArrayList<File>(files));
+ * EvaluateurCheckStyle eval = new EvaluateurCheckStyle(new ArrayList\<\>(files));
  * eval.evaluer();
  * System.out.println(eval.getResultat());
  * </code></pre>
@@ -270,7 +270,7 @@ public class EvaluateurCheckStyle extends EvaluateurStyle {
     /**
      * fonction utilitaire pour raccourcir le code de parserNomsVerifications.
      * 
-     * @param line une ligne d'un xml de configuration de checkstyle de la forme "<module name=\"[nom]\">.
+     * @param line une ligne d'un xml de configuration de checkstyle de la forme "\<module name=\"[nom]\"\>.
      * @return la string [nom]
      */
     private static String parseNomModule(String ligne) {
