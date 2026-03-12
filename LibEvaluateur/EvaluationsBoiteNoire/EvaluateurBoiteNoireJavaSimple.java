@@ -145,7 +145,7 @@ public class EvaluateurBoiteNoireJavaSimple extends EvaluateurBoiteNoire {
                 } else {
                     resComp = new TestResult(StatusValues.NOT_OK, i + 1);
                     if (!sameOutput) {
-                        resComp.setDescription("Différences avec le retour attendu trouvées :");
+                        resComp.setDescription(" : Différence avec le retour attendu constatée.");
                         List<String> rapportDiff = lignesDiffs(outputTest, outputRef);
                         TestSet ensDiff = new TestSet();
                         ensDiff.setPlan(new Plan(rapportDiff.size()));
@@ -156,7 +156,7 @@ public class EvaluateurBoiteNoireJavaSimple extends EvaluateurBoiteNoire {
                         }
                         resComp.setSubtest(ensDiff);
                     } else if (!sameError) {
-                        resComp.setDescription("Différences avec l'erreur attendu trouvées :");
+                        resComp.setDescription(" : Différence avec le retour d' erreur attendu constatée.");
                         List<String> rapportDiff = lignesDiffs(errorTest, errorRef);
                         TestSet ensDiff = new TestSet();
                         ensDiff.setPlan(new Plan(rapportDiff.size()));

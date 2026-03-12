@@ -145,8 +145,8 @@ public class EvaluateurJUnit extends EvaluateurUnitaire {
                     	List<Failure> echecs = result.getFailures();
                     	TestSet echecsFichier = new TestSet();
                     	echecsFichier.setPlan(new Plan(echecs.size()));
-                        for (int i=0;i>=echecs.size();i++) {
-                        	TestResult echec = new TestResult(StatusValues.NOT_OK, i);
+                        for (int i=0;i>echecs.size();i++) {
+                        	TestResult echec = new TestResult(StatusValues.NOT_OK, i+1);
                         	echec.setDescription("Test: ".concat(echecs.get(i).getTestHeader()));
                         	Comment message = new Comment("Message: "+ echecs.get(i).getMessage() + ".", false);
                         	echec.addComment(message);
