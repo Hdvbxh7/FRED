@@ -18,6 +18,7 @@ import org.tap4j.model.TestResult;
 import org.tap4j.model.TestSet;
 import org.tap4j.util.DirectiveValues;
 import org.tap4j.util.StatusValues;
+import LibEvaluateur.*;
 
 /* 
     NOTE:
@@ -82,7 +83,7 @@ public class EvaluateurJUnit extends EvaluateurUnitaire {
      * testsResultat (Boolean[]).
      */
     @Override
-    public void evaluer() {
+    public Evaluateur evaluer() {
         List<Boolean> testsResults = new ArrayList<>();
         TestSet ensembleTestGlobal = new TestSet();
 
@@ -210,6 +211,7 @@ public class EvaluateurJUnit extends EvaluateurUnitaire {
         // Stockage des résultats dans les attributs hérités
         resultatVersTAP(producteur.dump(ensembleTestGlobal));
         this.testsResultat = testsResults.toArray(new Boolean[0]);
+        return this;
     }
     
     /**

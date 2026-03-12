@@ -75,6 +75,14 @@ public class Aggregateur {
         // Write both files
         File professeurFile = new File(resultats.getAbsolutePath(), "Resultats_professeur.txt");
         File eleveFile = new File(resultats.getAbsolutePath(), "Resultat_eleve.txt");
+        System.out.println(resultats.getAbsolutePath());
+        try {
+            professeurFile.createNewFile();
+            eleveFile.createNewFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         
         try {
             java.nio.file.Files.write(professeurFile.toPath(), outputStringProfesseurs.getBytes());
@@ -89,37 +97,6 @@ public class Aggregateur {
         }
     }
 
-    public static void main(String[] args) {
 
-        try {
-            File aTester = new File("Tests/Test.java");
-            File aTester2 = new File("BacATest/chiffre_significatif.adb");
-
-            Aggregateur aggreg = new Aggregateur(new File("Tests/"));
-
-            EvaluateurMemoire eval1 = new EvaluateurValgrindBinaire(aTester);
-
-            EvaluateurCompilation eval2 = new EvaluateurCompilationAda(aTester2);
-
-            eval1.setNomEvaluateur("FeurTest");
-
-            eval2.setNomEvaluateur("Feur2Test");
-
-            aggreg.add(eval1);
-
-            aggreg.add(eval2);
-
-            eval1.evaluer();
-
-            eval2.evaluer();
-
-            aggreg.aggreger();
-
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
     
 }

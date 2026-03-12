@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import LibEvaluateur.*;
 
 import org.tap4j.model.Comment;
 import org.tap4j.model.Directive;
@@ -63,7 +64,7 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
      *
      * @throws Exception si les exécutables sont manquants ou invalides
      */
-    public void evaluer() throws Exception {
+    public Evaluateur evaluer() throws Exception {
 
         if (fichiers.size() < 2) {
             throw new Exception("At least two files required: test executable and reference executable");
@@ -166,7 +167,7 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
     					List<String> rapportDiff = lignesDiffs(outputTest, outputRef);
     					TestSet ensDiff = new TestSet();
     					ensDiff.setPlan(new Plan(rapportDiff.size()));
-    					for (int j = 0;j <= rapportDiff.size();j++) {
+    					for (int j = 0;j < rapportDiff.size();j++) {
     						TestResult diffLigne = new TestResult(StatusValues.NOT_OK, j+1);
     						diffLigne.setDescription(rapportDiff.get(j));
     						ensDiff.addTestResult(diffLigne);
@@ -177,7 +178,7 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
     					List<String> rapportDiff = lignesDiffs(errorTest, errorRef);
     					TestSet ensDiff = new TestSet();
     					ensDiff.setPlan(new Plan(rapportDiff.size()));
-    					for (int j = 0;j <= rapportDiff.size();j++) {
+    					for (int j = 0;j < rapportDiff.size();j++) {
     						TestResult diffLigne = new TestResult(StatusValues.NOT_OK, j+1);
     						diffLigne.setDescription(rapportDiff.get(j));
     						ensDiff.addTestResult(diffLigne);
@@ -191,6 +192,7 @@ public class EvaluateurBoiteNoireAdaSimple extends EvaluateurBoiteNoire {
 			testBoiteNoire.addTestResult(resComp);
         }
         this.resultatVersTAP(producteur.dump(testBoiteNoire));
+        return this;
     }
 
     /**

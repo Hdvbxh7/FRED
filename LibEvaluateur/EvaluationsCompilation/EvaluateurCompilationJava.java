@@ -1,15 +1,17 @@
 package LibEvaluateur.EvaluationsCompilation;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.tools.*;
-
+import LibEvaluateur.*;
 import org.tap4j.model.TestResult;
 import org.tap4j.model.TestSet;
 import org.tap4j.util.DirectiveValues;
@@ -75,12 +77,16 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
 			}
 		else if (derniereLigne(SortieTest).contains("warning")) {
 			presErr = new TestResult( StatusValues.OK, 1 );
+            presErr.setDescription("pas d'erreur de compilation");
 	        presAvrt = new TestResult( StatusValues.NOT_OK, 2);
 	        testsResultat[0] = true;
 	        testsResultat[1] = false;
 		} else {
 			presErr = new TestResult( StatusValues.OK, 1 );
+            presErr.setDescription("pas d'erreur de compilation");
 			presAvrt = new TestResult( StatusValues.OK, 2);
+            presAvrt.setDescription("pas d'avertissement");
+
 	        testsResultat[0] = true;
 	        testsResultat[1] = true;
 		}
@@ -96,7 +102,7 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
      *
      * @throws Exception si une erreur survient lors de l'évaluation
      */
-    public void evaluer() throws Exception {
+    public Evaluateur evaluer() throws Exception {
 
         StringWriter sw = new StringWriter();
         BufferedWriter out = new BufferedWriter(sw);
@@ -118,6 +124,7 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
         
         String resultatsBruts = sw.toString();
         resultatVersTAP(resultatsBruts);
+        return this;
 
     }
 
@@ -129,32 +136,61 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
      * @param file fichier Java à compiler
      * @param cp classpath à utiliser pour la compilation (peut être {@code null})
      */
-    private static void ourJCompiler(BufferedWriter out,String file,String cp){
+    private void ourJCompiler(BufferedWriter out, String file, String cp) {
         ByteArrayOutputStream cout = new ByteArrayOutputStream();
         ByteArrayOutputStream cerr = new ByteArrayOutputStream();
-
-        // Create Tests directory if it doesn't exist
-        File testsDir = new File("Tests");
-        if (!testsDir.exists()) {
-            testsDir.mkdir();
+    
+        // Create Compiled_Code directory if it doesn't exist
+        File compiledDir = new File("Compiled_Code");
+        if (!compiledDir.exists()) {
+            compiledDir.mkdir();
         }
-
+    
         JavaCompiler javac = ToolProvider.getSystemJavaCompiler();
-        if(cp!=null){
-            System.out.println(cp.toString());
-            javac.run(null, cout, cerr,"-d","Compiled_Code","-Xlint","-cp",cp, file);
-        }else{
-            javac.run(null, cout, cerr,"-d","Compiled_Code","-Xlint", file);
-        }
-
-        try{
+    
+        try {
+            if (cp != null) {
+                javac.run(null, cout, cerr, "-d", compiledDir.getAbsolutePath(), "-Xlint", "-cp", cp, file);
+            } else {
+                javac.run(null, cout, cerr, "-d", compiledDir.getAbsolutePath(), "-Xlint", file);
+            }
+        
+            // Determine package structure from source file
+            String packageName = "";
+            try (BufferedReader reader = new BufferedReader(new java.io.FileReader(file))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    line = line.trim();
+                    if (line.startsWith("package ")) {
+                        // e.g., package BacATest.TP02;
+                        packageName = line.substring(8, line.indexOf(";")).trim();
+                        break;
+                    }
+                }
+            }
+        
+            // Extract class name from file
+            String className = new File(file).getName().replace(".java", "");
+        
+            // Build the full path: Compiled_Code + package folders + class name
+            File fullPath;
+            if (packageName.isEmpty()) {
+                fullPath = new File(compiledDir, className);
+            } else {
+                fullPath = new File(compiledDir, packageName.replace(".", File.separator) + File.separator + className);
+            }
+        
+            // Save the path for execution
+            this.dossiercompilé = fullPath.getAbsolutePath();
+        
+            // Write compilation output
             out.write(cout.toString());
             out.write(cerr.toString());
-        }catch(Exception e){
-            System.out.println("erreur"+e);
+        
+        } catch (IOException e) {
+            System.out.println("Erreur de compilation : " + e);
         }
     }
-
     
     /**
      * Retourne la dernière ligne d'un texte.
@@ -176,15 +212,6 @@ public class EvaluateurCompilationJava extends EvaluateurCompilation {
         return text.substring(index + 1);
     }
 
-    public static void main(String[] args) {
-        EvaluateurCompilationJava a = new EvaluateurCompilationJava(new File("BacATest/TestV.java"));
 
-        try {
-            a.evaluer();
-            System.out.println(a.resultat);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
     
 }

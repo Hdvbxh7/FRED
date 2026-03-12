@@ -35,8 +35,9 @@ public abstract class Evaluateur {
 		return this.nomEvaluateur;
 	}
 
-	public void setNomEvaluateur(String nomEvaluateur) {
+	public Evaluateur setNomEvaluateur(String nomEvaluateur) {
 		this.nomEvaluateur = nomEvaluateur;
+		return this;
 	}
 	
 	protected void skipResultatVersTAP(String raison) {
@@ -52,5 +53,5 @@ public abstract class Evaluateur {
 
 	protected abstract void resultatVersTAP(String SortieTest);
 
-	public abstract void evaluer() throws Exception;
+	public abstract Evaluateur evaluer() throws Exception;
 }

@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
+import LibEvaluateur.*;
 
 import org.tap4j.model.Plan;
 import org.tap4j.model.TestResult;
@@ -89,7 +90,7 @@ public class EvaluateurValgrindBinaire extends EvaluateurMemoire {
     /**
      * Exécute Valgrind sur le fichier binaire spécifié et capture sa sortie.
      */
-    public void evaluer() throws Exception {
+    public Evaluateur evaluer() throws Exception {
     
         File binary = fichiers.get(0);
     
@@ -117,6 +118,7 @@ public class EvaluateurValgrindBinaire extends EvaluateurMemoire {
         }
     
         resultatVersTAP(outputBuilder.toString());
+        return this;
     }
 
     /**
