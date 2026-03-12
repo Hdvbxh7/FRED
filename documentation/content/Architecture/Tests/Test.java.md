@@ -1,1 +1,3 @@
 Cette classe simple sert de fichier de test ou d'exemple pour vérifier le bon fonctionnement du système d'évaluation. Elle contient une méthode basique qui permet de tester les différents évaluateurs du projet.
+
+{{javadoc:Tests.Test}}

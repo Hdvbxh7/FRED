@@ -19,7 +19,7 @@ Le projet ce doit d'être open source et documenté au mieux, aussi bien pour le
 
 
 ## Comment utiliser FRED ?
-Veuillez consulter la catégorie "[[Comment utiliser FRED ?]]"
+Veuillez consulter la catégorie "[[Comment utiliser FRED ?]]", et notamment la page [[Découverte]] pour avoir une présentation de l'outil.
 
 ---
 Cette documentation est construite avec une [version modifiée](https://github.com/MoutonSuite/obsidian-quartz-mouton) de [Quartz](https://quartz.jzhao.xyz/)

@@ -6,11 +6,29 @@
       <description>Les dernières 10 notes on F.R.E.D</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>Architecture.excalidraw</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture.excalidraw</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture.excalidraw</guid>
+    <description>⚠ Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ⚠ You can decompress Drawing data with the command palette: ‘Decompress current Excalidraw file’.</description>
+    <pubDate>Thu, 12 Mar 2026 17:28:09 GMT</pubDate>
+  </item><item>
+    <title>Contribuer à la documentation</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/Contribuer-%C3%A0-la-documentation</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/Contribuer-%C3%A0-la-documentation</guid>
+    <description>Cette documentation est générée avec Quartz, un générateur de site statique qui transforme des fichiers Markdown en pages web. Les fichiers sources se trouvent dans le dossier documentation/content/.</description>
+    <pubDate>Thu, 12 Mar 2026 16:38:23 GMT</pubDate>
+  </item><item>
     <title>Découverte</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/D%C3%A9couverte</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/D%C3%A9couverte</guid>
-    <description>Bonjour.</description>
-    <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
+    <description>F.R.E.D (Framework de Review d’Exercices en Direct) est un outil d’évaluation automatique de projets étudiants en Java. Il permet de tester et noter automatiquement le code soumis par les étudiants en exécutant différents types de vérifications.</description>
+    <pubDate>Thu, 12 Mar 2026 12:46:17 GMT</pubDate>
+  </item><item>
+    <title>Documentation de F.R.E.D</title>
+    <link>https://https:/github.com/Hdvbxh7/FRED/</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/</guid>
+    <description>F.R.E.D (Framework de Review d’Exercices en Direct) est une librairie Java qui fournit un accès facile aux outils de tests utilisés pour passer en revue le code d’étudiants ...</description>
+    <pubDate>Thu, 12 Mar 2026 12:46:17 GMT</pubDate>
   </item><item>
     <title>Utiliser Javadoc dans la Documentation</title>
     <link>https://https:/github.com/Hdvbxh7/FRED/Comment-utiliser-FRED-/Javadoc</link>
@@ -19,21 +37,15 @@
     <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
   </item><item>
     <title>Ada</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Languages/Ada</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Languages/Ada</guid>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Langages/Ada</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Langages/Ada</guid>
     <description> ERROR Cet article n’est pas fini.</description>
     <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
   </item><item>
     <title>Java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Languages/Java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Languages/Java</guid>
+    <link>https://https:/github.com/Hdvbxh7/FRED/Langages/Java</link>
+    <guid>https://https:/github.com/Hdvbxh7/FRED/Langages/Java</guid>
     <description> ERROR Cet article n’est pas fini.</description>
-    <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
-  </item><item>
-    <title>Documentation de F.R.E.D</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/</guid>
-    <description>F.R.E.D (Framework de Review d’Exercices en Direct) est une librairie Java qui fournit un accès facile aux outils de tests utilisés pour passer en revue le code d’étudiants ...</description>
     <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
   </item><item>
     <title>Aggregateur.java</title>
@@ -52,18 +64,6 @@
     <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsBoiteNoire/EvaluateurBoiteNoire.java</link>
     <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsBoiteNoire/EvaluateurBoiteNoire.java</guid>
     <description>Cette classe hérite d’Evaluateur et est destinée à implémenter des tests en boîte noire, c’est-à-dire des tests qui vérifient le comportement d’un programme sans accéder à sa structure ...</description>
-    <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
-  </item><item>
-    <title>EvaluateurCompilation.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilation.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilation.java</guid>
-    <description>Cette classe abstraite hérite d’Evaluateur et sert de base pour tous les évaluateurs de compilation, comme EvaluateurCompilationJava et EvaluateurCompilationAda ...</description>
-    <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
-  </item><item>
-    <title>EvaluateurCompilationAda.java</title>
-    <link>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilationAda.java</link>
-    <guid>https://https:/github.com/Hdvbxh7/FRED/Architecture/LibEvaluateur/EvaluationsCompilation/EvaluateurCompilationAda.java</guid>
-    <description>Cette classe hérite d’EvaluateurCompilation et évalue la compilation de fichiers Ada. Elle invoque le compilateur Ada (gnatmake) pour compiler les fichiers source et leurs dépendances, puis analyse les messages d’erreur pour déterminer si la compilation a réussi ou échoué.</description>
     <pubDate>Mon, 09 Mar 2026 17:27:57 GMT</pubDate>
   </item>
     </channel>

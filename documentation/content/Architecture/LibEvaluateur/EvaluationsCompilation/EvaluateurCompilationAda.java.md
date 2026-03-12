@@ -1,1 +1,3 @@
 Cette classe hérite d'[[EvaluateurCompilation.java|EvaluateurCompilation]] et évalue la compilation de fichiers [[Ada]]. Elle invoque le compilateur Ada (gnatmake) pour compiler les fichiers source et leurs dépendances, puis analyse les messages d'erreur pour déterminer si la compilation a réussi ou échoué.
+
+{{javadoc:LibEvaluateur.EvaluationsCompilation.EvaluateurCompilationAda}}

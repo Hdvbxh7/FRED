@@ -1,1 +1,3 @@
 Cette classe abstraite définit l'interface commune pour tous les types d'évaluateurs du système. Elle utilise TAP (Test Anything Protocol) pour standardiser le format des résultats de tests et fournit les méthodes de base pour évaluer du code, stocker les résultats et convertir les sorties en format TAP. Les classes dérivées implémentent des types d'évaluation spécifiques comme la compilation, les tests unitaires, l'analyse mémoire ou le style de code.
+
+{{javadoc:LibEvaluateur.Evaluateur}}

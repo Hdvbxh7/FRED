@@ -1,1 +1,3 @@
 Cette classe abstraite définit l'interface pour tous les types d'explorateurs qui identifient et gèrent les dossiers à tester. Les classes dérivées comme [[ExplorateurGit.java|ExplorateurGit]], [[ExplorateurScenario.java|ExplorateurScenario]] et [[ExplorateurSimple.java|ExplorateurSimple]] implémentent différentes stratégies pour collecter les dossiers étudiants et effectuer un traitement post-évaluation.
+
+{{javadoc:LibExplorateurs.Explorateur}}

@@ -1,1 +1,2 @@
 Cette classe agrège les résultats de plusieurs [[Evaluateur.java|évaluateurs]] et génère un rapport de synthèse. Elle collecte les résultats de tests (réussis/échoués), calcule un score global, et produit deux versions du rapport : une détaillée pour les professeurs et une simplifiée pour les élèves, sauvegardées dans des fichiers séparés.
+{{javadoc:LibEvaluateur.Aggregateur}}
