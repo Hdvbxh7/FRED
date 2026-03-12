@@ -1,10 +1,17 @@
 package configuration;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import LibExplorateurs.*;
 import LibEvaluateur.*;
+import LibEvaluateur.EvaluationsBoiteNoire.*;
+import LibEvaluateur.EvaluationsCompilation.*;
+import LibEvaluateur.EvaluationsMemoire.*;
+import LibEvaluateur.EvaluationsStyle.*;
+import LibEvaluateur.EvaluationsUnitaire.*;
+
 
 public class Configuration implements Runnable{
 
@@ -51,39 +58,38 @@ public class Configuration implements Runnable{
             Aggregateur aggregateur = new Aggregateur(dossierResultat);
             
             // Préparation des références de fichiers
-            File pointJava = new File(dossierEtudiant, "src/Point.java");
-            File pointTestClass = new File(dossierEtudiant, "bin/PointTest.class");
+            File pointJava = new File(dossierEtudiant, "Point.java");
+            File pointTestClass = new File(dossierEtudiant, "PointTest.class");
             
             // Test 1 : Compilation
-            LibEvaluateur.EvaluationsCompilation.EvaluateurCompilationJava evalCompilation = 
-                new LibEvaluateur.EvaluationsCompilation.EvaluateurCompilationJava(pointJava);
-            evalCompilation.setNomEvaluateur("Compilation");
-            aggregateur.add(evalCompilation);
-            evalCompilation.evaluer();
+            EvaluateurCompilationJava evalCompilation = new EvaluateurCompilationJava(pointJava);
+            aggregateur.add(evalCompilation.setNomEvaluateur("Compilation").evaluer());
             
             // Si la compilation réussit (pas d'erreurs), on lance les autres tests
-            Boolean[] resultatComp = evalCompilation.getTestsResultat();
-            if (resultatComp != null && resultatComp.length > 0 && resultatComp[0]) {
+            if (evalCompilation.getTestsResultat()[0]) {
+
+                //Test 3 : Tests Boite Noire
                 
-                // Test 2 : Checkstyle
-                // java.util.ArrayList<File> fichiers = new java.util.ArrayList<>();
-                // fichiers.add(pointJava);
-                // LibEvaluateur.EvaluationsStyle.CheckStyle evalStyle = 
-                //     new LibEvaluateur.EvaluationsStyle.CheckStyle(fichiers);
-                // evalStyle.setNomEvaluateur("Style (Checkstyle)");
-                // aggregateur.add(evalStyle);
-                // evalStyle.evaluer();
+                ArrayList<String> arguments = new ArrayList<String>(Arrays.asList("5 3", "8 19"));
+                File pointJuste = new File("BacATest/TP02_Correction/PointV.class");
+                System.out.println(evalCompilation.getDossiercompilé());
+                ArrayList<File> binaires = new ArrayList<File>(Arrays.asList(new File("BacATest/TP02/Point.class"), pointJuste));
+                EvaluateurBoiteNoire evalBoiteNoire = new EvaluateurBoiteNoireJavaSimple(binaires, arguments);
+                aggregateur.add(evalBoiteNoire.setNomEvaluateur("Evaluation Boite Noire").evaluer());
+                
+                //Test 2 : Checkstyle
+                java.util.ArrayList<File> fichiers = new java.util.ArrayList<>();
+                fichiers.add(pointJava);
+                EvaluateurCheckStyle evalStyle = new EvaluateurCheckStyle(fichiers, new File("BacATest/checkstyle_pas_cringe.xml"));
+                aggregateur.add(evalStyle.setNomEvaluateur("Style (Checkstyle)").evaluer());
                 
                 // Test 3 : Tests unitaires JUnit
                 java.util.ArrayList<File> testsFiles = new java.util.ArrayList<>();
                 testsFiles.add(pointTestClass);
-                LibEvaluateur.EvaluationsUnitaire.EvaluateurJUnit evalJUnit = 
-                    new LibEvaluateur.EvaluationsUnitaire.EvaluateurJUnit(testsFiles);
-                evalJUnit.setNomEvaluateur("Tests unitaires (JUnit)");
-                aggregateur.add(evalJUnit);
-                evalJUnit.evaluer();
+                EvaluateurJUnit evalJUnit = new EvaluateurJUnit(testsFiles);
+                aggregateur.add(evalJUnit.setNomEvaluateur("Tests unitaires (JUnit)").evaluer());
             }
-            
+
             // Agrégation des résultats
             aggregateur.aggreger();
             

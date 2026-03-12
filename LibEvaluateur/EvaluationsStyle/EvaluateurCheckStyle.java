@@ -15,6 +15,7 @@ import org.tap4j.model.TestResult;
 import org.tap4j.model.TestSet;
 import org.tap4j.util.DirectiveValues;
 import org.tap4j.util.StatusValues;
+import LibEvaluateur.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -178,7 +179,7 @@ public class EvaluateurCheckStyle extends EvaluateurStyle {
      * {@code System.out} et l'état interne peut indiquer un échec.
      * </p>
      */
-    public void evaluer(){
+    public Evaluateur evaluer(){
         //création du checker
         Checker verifieur = new Checker();
         verifieur.setModuleClassLoader(Checker.class.getClassLoader());
@@ -226,6 +227,7 @@ public class EvaluateurCheckStyle extends EvaluateurStyle {
 
         //transformation du résultat en TAP
         resultatVersTAP(resultat);
+        return this;
     }
 
     /**

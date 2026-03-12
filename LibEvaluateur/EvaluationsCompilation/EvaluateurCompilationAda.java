@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import LibEvaluateur.*;
 
 import org.tap4j.model.Directive;
 import org.tap4j.model.Plan;
@@ -66,6 +67,8 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
 		TestResult presAvrt;
 		if (SortieTest.isEmpty()){
 			presErr = new TestResult( StatusValues.OK, 1 );
+            presErr.setDescription("pas d'erreur de compilation");
+
 			presAvrt = new TestResult( StatusValues.OK, 2);
 	        testsResultat[0] = true;
 	        testsResultat[1] = true;
@@ -80,7 +83,9 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
             testsResultat[1] = false;
 		} else {
 			presErr = new TestResult( StatusValues.OK, 1 );
+            presErr.setDescription("pas d'erreur de compilation");
 	        presAvrt = new TestResult( StatusValues.NOT_OK, 2);
+            presAvrt.setDescription("pas d'avertissement");
 	        testsResultat[0] = true;
 	        testsResultat[1] = false;
 		}
@@ -95,7 +100,7 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
      *
      * @throws Exception si une erreur survient pendant l'évaluation
      */
-    public void evaluer() throws Exception {
+    public Evaluateur evaluer() throws Exception {
         StringWriter sw = new StringWriter();
         BufferedWriter out = new BufferedWriter(sw);
 
@@ -104,6 +109,7 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
         
         String resultatsBruts = sw.toString();
         resultatVersTAP(resultatsBruts);
+        return this;
     }
 
     /**
@@ -112,12 +118,14 @@ public class EvaluateurCompilationAda extends EvaluateurCompilation {
      * @param out flux dans lequel écrire les messages du compilateur
      * @param file chemin du fichier Ada à compiler
      */
-    private static void compileAda(BufferedWriter out, String file) {
+    private void compileAda(BufferedWriter out, String file) {
         try {
-            File outputDir = new File("LibEvaluateur/EvaluationsCompilation/Compiled_Code");
+            File outputDir = new File("Compiled_Code");
             if (!outputDir.exists()) {
                 outputDir.mkdirs();
             }
+
+            this.dossiercompilé = outputDir.getAbsolutePath();
 
             ProcessBuilder pb = new ProcessBuilder(
                 "gnatmake",
