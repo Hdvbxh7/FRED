@@ -16,8 +16,7 @@ import configuration.Utiles;
  */
 public class ExplorateurGit extends Explorateur{
 
-    /**Liste de Threads */
-    public ArrayList<Thread> tList;
+
     /**liste des AppelsGits */
     public ArrayList<AppelGit> gitsEleve;
     /** Lock utilisé pour le multithreading */
