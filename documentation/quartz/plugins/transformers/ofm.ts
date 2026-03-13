@@ -258,6 +258,11 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
                       type: "html",
                       value: `<audio src="${url}" controls></audio>`,
                     }
+                  } else if ([".excalidraw"].includes(ext)) {
+                    return {
+                      type: "html",
+                      value: `<iframe src="${url}.html" class="excalidraw" style="width: 100%; height: 600px; border: 1px solid var(--gray); border-radius: 4px;"></iframe>`,
+                    }
                   } else if ([".pdf"].includes(ext)) {
                     return {
                       type: "html",
