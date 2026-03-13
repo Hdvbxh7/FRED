@@ -10,6 +10,8 @@ Le processus se déroule en trois étapes :
 2. **Évaluation** : Des [[Evaluateur.java|évaluateurs]] exécutent différents types de tests sur chaque projet selon un [[Scénario.java|scénario]] configuré par le professeur
 3. **Agrégation** : L'[[Aggregateur.java|agrégateur]] compile tous les résultats dans un rapport final
 
+![[Architecture.excalidraw.png]]
+
 ## Types d'évaluations disponibles
 
 FRED propose les catégories d'évaluations suivantes, chacune avec des évaluateurs spécifiques :
