@@ -28,14 +28,14 @@ public abstract class Explorateur {
     }
 
     //methode
-    public abstract ArrayList<File> listeDossier();
+    public abstract ArrayList<File> preTraitement();
 
     public File getResultatDepuisDossierTeste(File dossier){
         int indice = dossiersATester.indexOf(dossier);
         return nomResultat.get(indice);
     }
 
-    public abstract void postprocess();
+    public abstract void postTraitement();
 
     /**
      * On créer l'ensemble de thread

@@ -15,7 +15,7 @@ public class Superviseur {
     public static void main(String[] args) {
 
         //récupére les dossiers
-        dossierATester = Configuration.explorateur.listeDossier();
+        dossierATester = Configuration.explorateur.preTraitement();
 
         //lance le scénario sur chacun en multi threading
         for(File doss : dossierATester){
@@ -31,7 +31,7 @@ public class Superviseur {
         }
 
         //On fait le post processing(la fonction peut ne rien faire)
-        Configuration.explorateur.postprocess();
+        Configuration.explorateur.postTraitement();
 
     }
 }

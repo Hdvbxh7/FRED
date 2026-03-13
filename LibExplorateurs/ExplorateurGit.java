@@ -120,7 +120,7 @@ public class ExplorateurGit extends Explorateur{
     /**
      * renvoi la liste des dossiers à tester
      */
-    public ArrayList<File> listeDossier(){
+    public ArrayList<File> preTraitement(){
         //création du dossier qui contient le repo
         if (!localDir.exists()) {
             localDir.mkdirs();
@@ -154,7 +154,7 @@ public class ExplorateurGit extends Explorateur{
         return dossiersATester;
     }
 
-    public void postprocess(){
+    public void postTraitement(){
         for(AppelGit gitEleve : gitsEleve){
             //ajoute le test au dossier Git
             File aPush = ajoutTest(gitEleve.getStudentRepo(),gitEleve.getIdentifiant());

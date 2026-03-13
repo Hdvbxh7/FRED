@@ -11,11 +11,11 @@ import configuration.Configuration;
 public class ExplorateurConfiguration extends Explorateur{
     
     //methode
-    public ArrayList<File> listeDossier(){
+    public ArrayList<File> preTraitement(){
         return Configuration.listeDossier(this);
     }
 
-    public void postprocess(){
+    public void postTraitement(){
         Configuration.postprocess(this);
     }
 }

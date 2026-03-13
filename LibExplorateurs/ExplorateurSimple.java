@@ -13,7 +13,7 @@ public class ExplorateurSimple extends Explorateur{
     }
     
     //methode
-    public ArrayList<File> listeDossier(){
+    public ArrayList<File> preTraitement(){
         File[] dossierEleves = dossierSource.listFiles(new DossFilter());
         dossiersATester = new ArrayList<>();
         for(File dossier : dossierEleves){
@@ -23,7 +23,7 @@ public class ExplorateurSimple extends Explorateur{
         return dossiersATester;
     }
 
-    public void postprocess(){
+    public void postTraitement(){
 
     }
 }
